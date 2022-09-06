@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, CommandInteraction } from "discord.js";
+import { SlashCommandBuilder, ChatInputCommandInteraction } from "discord.js";
 import Bot from "../../../structures/bot";
 import Command from "../../../structures/command";
 
@@ -13,7 +13,7 @@ class Ping extends Command {
         this.developer = true;
     }
 
-    public async execute(interaction: CommandInteraction, client: Bot) {
+    public async execute(interaction: ChatInputCommandInteraction, client: Bot) {
         const msg = await interaction.reply({
             content: '🏓 | pong!',
             fetchReply: true,

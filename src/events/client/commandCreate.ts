@@ -27,9 +27,9 @@ export default class CommandCreate implements Event {
                     await command.execute(interaction as CommandInteraction, this.client);
                 } catch (e) {
                     logger.error(e);
-                    await interaction.editReply({
+                    await interaction.followUp({
                         content: '❌ | error executing this command',
-                        //ephemeral: true,
+                        ephemeral: true,
                     });
                 }
             } else {
@@ -38,9 +38,9 @@ export default class CommandCreate implements Event {
                     await command.execute(interaction as CommandInteraction, this.client);
                 } catch (e) {
                     logger.error(e);
-                    await interaction.editReply({
+                    await interaction.followUp({
                         content: '❌ | error executing this command',
-                        //ephemeral: true,
+                        ephemeral: true,
                     });
                 }
             }
@@ -56,9 +56,9 @@ export default class CommandCreate implements Event {
                 await command.execute(interaction as CommandInteraction, this.client);
             } catch (e) {
                 logger.error(e);
-                await interaction.editReply({
+                await interaction.followUp({
                     content: '❌ | error executing this command',
-                    //ephemeral: true,
+                    ephemeral: true,
                 });
             }
         }

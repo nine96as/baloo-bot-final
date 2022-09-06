@@ -21,12 +21,12 @@ export default class ModalCreate implements Event {
 
             // if modal exists, tries to carry out "execute" function
             try {
-                await interaction.deferReply({ ephemeral: true });
                 await modal.execute(interaction as ModalSubmitInteraction, this.client);
             } catch (e) {
                 logger.error(e);
-                await interaction.editReply({
+                await interaction.reply({
                     content: '❌ | error executing this modal',
+                    ephemeral: true,
                 });
             }
         }

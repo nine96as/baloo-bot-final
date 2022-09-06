@@ -21,12 +21,12 @@ export default class SelectMenuCreate implements Event {
     
             // if menu exists, tries to carry out "execute" function
             try {
-                await interaction.deferReply({ ephemeral: true });
                 await menu.execute(interaction as SelectMenuInteraction, this.client);
             } catch (e) {
                 logger.error(e);
-                await interaction.editReply({
+                await interaction.reply({
                     content: '❌ | error executing this menu',
+                    ephemeral: true,
                 });
             }
         }

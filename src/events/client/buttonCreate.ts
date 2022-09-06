@@ -27,7 +27,6 @@ export default class ButtonCreate implements Event {
                 logger.error(e);
                 await interaction.editReply({
                     content: '❌ | error executing this button',
-                    //ephemeral: true,
                 });
             }
         }
