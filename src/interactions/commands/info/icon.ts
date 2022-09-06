@@ -23,7 +23,7 @@ class Icon extends Command {
                 name: guild.name,
                 iconURL: guild.iconURL() || undefined,
             })
-            .setImage(guild.iconURL({ size: 2048 }));
+            .setImage(guild.iconURL({ size: 4096 }));
 
             await interaction.reply({
                 embeds: [embed],

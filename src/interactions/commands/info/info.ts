@@ -42,7 +42,7 @@ class Info extends Command {
                     })
                     .setTimestamp()
                     .setThumbnail(
-                        member.displayAvatarURL(),
+                        member.user.avatarURL({ size: 4096 }),
                     )
                     .addFields(
                         {
@@ -91,7 +91,7 @@ class Info extends Command {
                         name: guild.name,
                         iconURL: guild.iconURL() || undefined,
                     })
-                    .setThumbnail(guild.iconURL({ size: 2048 }))
+                    .setThumbnail(guild.iconURL({ size: 4096 }))
                     .setFooter({
                         text: `ID: ${guild.id}`,
                     })

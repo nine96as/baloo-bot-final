@@ -19,20 +19,22 @@ class Avatar extends Command {
     }
 
     public async execute(interaction: ChatInputCommandInteraction, client: Bot) {
-        const member =
-        interaction.options.getUser('target') || interaction.user;
-
-        const embed = new EmbedBuilder()
-            .setColor('Random')
-            .setAuthor({
-                iconURL: member.displayAvatarURL(),
-                name: member.tag,
-            })
-            .setImage(member.avatarURL({ size: 2048 }));
-
-        await interaction.reply({
-            embeds: [embed],
-        });
+        if (interaction.inCachedGuild()) {
+            const member =
+            interaction.options.getMember('target') || interaction.member;
+    
+            const embed = new EmbedBuilder()
+                .setColor('Random')
+                .setAuthor({
+                    iconURL: member.user.displayAvatarURL(),
+                    name: member.user.tag,
+                })
+                .setImage(member.user.avatarURL({ size: 4096 }));
+    
+            await interaction.reply({
+                embeds: [embed],
+            });
+        }
     }
 }
 

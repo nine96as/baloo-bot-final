@@ -38,7 +38,7 @@ class Banner extends Command {
                         iconURL: member.user.displayAvatarURL(),
                         name: member.user.tag,
                     })
-                    .setImage(member.user.bannerURL({ size: 2048 }) || null);
+                    .setImage(member.user.bannerURL({ size: 4096 }) || null);
 
                 member.user.bannerURL()
                     ? await interaction.reply({
@@ -56,7 +56,7 @@ class Banner extends Command {
                     iconURL: guild.iconURL() || undefined,
                     name: guild.name,
                 })
-                .setImage(guild.bannerURL({ size: 2048 }));
+                .setImage(guild.bannerURL({ size: 4096 }));
     
             guild.bannerURL()
                 ? await interaction.reply({
