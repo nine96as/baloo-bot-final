@@ -26,24 +26,26 @@ class Banner extends Command {
 
     public async execute(interaction: ChatInputCommandInteraction, client: Bot) {
         if (interaction.options.getSubcommand() === 'user') {
-            const member =
-                interaction.options.getUser('target') || interaction.user;
+            if (interaction.inCachedGuild()) {
+                const member =
+                interaction.options.getMember('target') || interaction.member;
 
-            await member.fetch(true);
+                await member.user.fetch(true);
 
-            const embed = new EmbedBuilder()
-                .setColor('Random')
-                .setAuthor({
-                    iconURL: member.displayAvatarURL(),
-                    name: member.tag,
-                })
-                .setImage(member.bannerURL({ size: 2048 }) || null);
-
-            member.bannerURL()
-                ? await interaction.reply({
-                        embeds: [embed],
+                const embed = new EmbedBuilder()
+                    .setColor('Random')
+                    .setAuthor({
+                        iconURL: member.user.displayAvatarURL(),
+                        name: member.user.tag,
                     })
-                : interaction.reply("❌ | this user doesn't have a banner");
+                    .setImage(member.user.bannerURL({ size: 2048 }) || null);
+
+                member.user.bannerURL()
+                    ? await interaction.reply({
+                            embeds: [embed],
+                        })
+                    : interaction.reply("❌ | this user doesn't have a banner");
+            }
         } else if (interaction.options.getSubcommand() === 'server') {
             if (interaction.inCachedGuild()) {
                 const guild = interaction.guild;
