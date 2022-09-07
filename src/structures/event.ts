@@ -9,7 +9,11 @@ export default interface Event {
 }
 
 export enum CustomEvents {
-  SongRequest = "songRequest",
+  BotDisconnect = "botDisconnect",
+  ChannelEmpty = "channelEmpty",
+  ConnectionError = "connectionError",
+  QueueEnd = "queueEnd",
+  TrackStart = "trackStart",
 }
 
 
