@@ -1,14 +1,17 @@
-import { ModalBuilder, ModalSubmitInteraction } from "discord.js";
-import Bot from "./bot";
+import { ModalBuilder, ModalSubmitInteraction } from 'discord.js';
+import Bot from './bot';
 
 export default abstract class Modal {
-    data: ModalBuilder;
-    name: string;
+  data: ModalBuilder;
+  name: string;
 
-    constructor(name: string, data: ModalBuilder) {
-        this.data = data;
-        this.name = name;
-    }
+  constructor(name: string, data: ModalBuilder) {
+    this.data = data;
+    this.name = name;
+  }
 
-    public abstract execute(interaction: ModalSubmitInteraction, client: Bot): any;
+  public abstract execute(
+    interaction: ModalSubmitInteraction,
+    client: Bot
+  ): any;
 }
