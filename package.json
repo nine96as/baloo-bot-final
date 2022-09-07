@@ -8,12 +8,8 @@
     "lint": "eslint --fix .",
     "start": "node ./lib/index.js",
     "start:dev": "nodemon ./src/index.ts | pino-pretty",
+    "pre-commit": "npm run format && npm run lint",
     "build": "tsc"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pnpm run format && pnpm run lint"
-    }
   },
   "keywords": [],
   "author": "",
