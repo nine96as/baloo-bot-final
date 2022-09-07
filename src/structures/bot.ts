@@ -1,4 +1,5 @@
 import { Client, GatewayIntentBits } from "discord.js";
+import { Player } from "discord-player";
 import handleCommands from '../utils/handlers/commands';
 import handleEvents from '../utils/handlers/events';
 import handleButtons from '../utils/handlers/buttons';
@@ -10,7 +11,13 @@ export default class Bot extends Client {
     buttons = handleButtons();
     menus = handleMenus();
     modals = handleModals();
-    
+    player = new Player(this, {
+        ytdlOptions: {
+            quality: 'highestaudio',
+            highWaterMark: 1 << 25,
+        },
+    });
+
     constructor(token: string) {
         super({
             intents: [
