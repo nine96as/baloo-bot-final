@@ -9,14 +9,14 @@ import { join } from 'path';
 import logger from '../functions/logger';
 import getFiles from '../functions/getFiles';
 import Command from '../../structures/command';
-var AsciiTable = require('ascii-table');
+const AsciiTable = require('ascii-table');
 
 const { clientId, developerGuildId, token } = process.env;
 
 const table = new AsciiTable().setHeading('command', 'status');
 
-let commandsArray: RESTPostAPIApplicationCommandsJSONBody[] = [];
-let developerArray: RESTPostAPIApplicationCommandsJSONBody[] = [];
+const commandsArray: RESTPostAPIApplicationCommandsJSONBody[] = [];
+const developerArray: RESTPostAPIApplicationCommandsJSONBody[] = [];
 
 export default (): Collection<string, Command> => {
   const collection: Collection<string, Command> = new Collection();

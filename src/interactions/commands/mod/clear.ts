@@ -46,7 +46,7 @@ class Clear extends Command {
       } else {
         if (target) {
           let i = 0;
-          let filtered: Message<boolean>[] = [];
+          const filtered: Message<boolean>[] = [];
           messages!.forEach((m: Message) => {
             if (m.author.id === target.id && amount > i) {
               filtered.push(m);

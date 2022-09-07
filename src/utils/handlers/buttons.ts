@@ -3,7 +3,7 @@ import { join } from 'path';
 import logger from '../functions/logger';
 import getFiles from '../functions/getFiles';
 import Button from '../../structures/button';
-var AsciiTable = require('ascii-table');
+const AsciiTable = require('ascii-table');
 
 const table = new AsciiTable().setHeading('button', 'status');
 
