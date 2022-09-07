@@ -3,7 +3,7 @@ import logger from '../functions/logger';
 import getFiles from '../functions/getFiles';
 import Bot from '../../structures/bot';
 import Event from '../../structures/event';
-var AsciiTable = require('ascii-table');
+const AsciiTable = require('ascii-table');
 
 const table = new AsciiTable().setHeading('event', 'status');
 

@@ -3,7 +3,7 @@ import { join } from 'path';
 import logger from '../functions/logger';
 import getFiles from '../functions/getFiles';
 import Modal from '../../structures/modal';
-var AsciiTable = require('ascii-table');
+const AsciiTable = require('ascii-table');
 
 const table = new AsciiTable().setHeading('modal', 'status');
 
