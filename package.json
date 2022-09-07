@@ -5,15 +5,14 @@
   "main": "./lib/index.js",
   "scripts": {
     "format": "prettier --write .",
-    "lint:check": "eslint .",
-    "lint:fix": "eslint --fix .",
+    "lint": "eslint --fix .",
     "start": "node ./lib/index.js",
     "start:dev": "nodemon ./src/index.ts | pino-pretty",
     "build": "tsc"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run format && npm run lint:fix"
+      "pre-commit": "pnpm run format && pnpm run lint"
     }
   },
   "keywords": [],
