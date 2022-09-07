@@ -1,5 +1,5 @@
-import { Events } from "discord.js";
-import Bot from "./bot";
+import { Events } from 'discord.js';
+import Bot from './bot';
 
 export default interface Event {
   client: Bot;
@@ -9,11 +9,9 @@ export default interface Event {
 }
 
 export enum CustomEvents {
-  BotDisconnect = "botDisconnect",
-  ChannelEmpty = "channelEmpty",
-  ConnectionError = "connectionError",
-  QueueEnd = "queueEnd",
-  TrackStart = "trackStart",
+  BotDisconnect = 'botDisconnect',
+  ChannelEmpty = 'channelEmpty',
+  ConnectionError = 'connectionError',
+  QueueEnd = 'queueEnd',
+  TrackStart = 'trackStart'
 }
-
-
