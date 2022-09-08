@@ -25,7 +25,7 @@ export default class ButtonCreate implements Event {
         await button.execute(interaction as ButtonInteraction, this.client);
       } catch (e) {
         logger.error(e);
-        await interaction.editReply({
+        await interaction.followUp({
           content: '❌ | error executing this button'
         });
       }

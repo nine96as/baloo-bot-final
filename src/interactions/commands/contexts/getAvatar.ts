@@ -28,7 +28,7 @@ class GetAvatar extends Command {
         iconURL: member.displayAvatarURL(),
         name: member.tag
       })
-      .setImage(member.avatarURL({ size: 2048 }));
+      .setImage(member.avatarURL({ size: 4096 }));
 
     await interaction.reply({
       embeds: [embed]
