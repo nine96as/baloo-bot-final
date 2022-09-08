@@ -52,15 +52,30 @@ export default class CommandCreate implements Event {
       // exits early if command doesn't exist
       if (!command) return;
 
-      // if command exists, tries to carry out "execute" function
-      try {
-        await command.execute(interaction as CommandInteraction, this.client);
-      } catch (e) {
-        logger.error(e);
-        await interaction.followUp({
-          content: '❌ | error executing this command',
-          ephemeral: true
-        });
+      // translate command needs to be deferred
+      if (interaction.commandName === 'translate') {
+        // if command exists, tries to carry out "execute" function
+        try {
+          await interaction.deferReply();
+          await command.execute(interaction as CommandInteraction, this.client);
+        } catch (e) {
+          logger.error(e);
+          await interaction.followUp({
+            content: '❌ | error executing this command',
+            ephemeral: true
+          });
+        }
+      } else {
+        // if command exists, tries to carry out "execute" function
+        try {
+          await command.execute(interaction as CommandInteraction, this.client);
+        } catch (e) {
+          logger.error(e);
+          await interaction.followUp({
+            content: '❌ | error executing this command',
+            ephemeral: true
+          });
+        }
       }
     }
   };
