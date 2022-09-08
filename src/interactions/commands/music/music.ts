@@ -3,7 +3,6 @@ import {
   ChatInputCommandInteraction,
   ActionRowBuilder,
   ButtonBuilder,
-  ButtonStyle,
   EmbedBuilder
 } from 'discord.js';
 import { QueryType, QueueRepeatMode } from 'discord-player';
@@ -14,7 +13,7 @@ import skip from '../../components/buttons/music/skip';
 import loop from '../../components/buttons/music/loop';
 import shuffle from '../../components/buttons/music/shuffle';
 import stop from '../../components/buttons/music/stop';
-import pauseplay from '../../components/buttons/music/pauseplay';
+import pausePlay from '../../components/buttons/music/pausePlay';
 
 class Music extends Command {
   constructor() {
@@ -162,7 +161,7 @@ class Music extends Command {
             .setColor('Random')
             .setTitle(
               `▶️ | new ${result.playlist ? 'playlist' : 'song'} ` +
-                `added to queue`
+              `added to queue`
             );
 
           // checks if result is a single track or a playlist
@@ -263,9 +262,8 @@ class Music extends Command {
           const tracks = queue.tracks
             .slice(pageStart, pageEnd)
             .map((track, i) => {
-              return `**${pageStart + i + 1}.** \`[${track.duration}]\` [${
-                track.title
-              }](${track.url})`;
+              return `**${pageStart + i + 1}.** \`[${track.duration}]\` [${track.title
+                }](${track.url})`;
             })
             .join('\n');
 
@@ -274,11 +272,11 @@ class Music extends Command {
             .setTitle(`queue for ${interaction.guild.name}`)
             .setDescription(
               `**🎶 | now playing**\n` +
-                (currentTrack
-                  ? `\`[${currentTrack.duration}]\`` +
-                    ` [${currentTrack.title}](${currentTrack.url})`
-                  : 'none') +
-                `\n\n**🗒️ | queue**\n${tracks}`
+              (currentTrack
+                ? `\`[${currentTrack.duration}]\`` +
+                ` [${currentTrack.title}](${currentTrack.url})`
+                : 'none') +
+              `\n\n**🗒️ | queue**\n${tracks}`
             )
             .setFooter({
               text: `page ${page + 1} of ${totalPages}`
@@ -321,7 +319,7 @@ class Music extends Command {
             .setTitle(`⏭️ | song skipped`)
             .setDescription(
               `**[${queue.nowPlaying().title}]` +
-                `(${queue.nowPlaying().url})**`
+              `(${queue.nowPlaying().url})**`
             )
             .setThumbnail(queue.nowPlaying().thumbnail);
 
@@ -487,7 +485,7 @@ class Music extends Command {
 
           const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
             rewind.data,
-            pauseplay.data,
+            pausePlay.data,
             skip.data,
             loop.data,
             stop.data
