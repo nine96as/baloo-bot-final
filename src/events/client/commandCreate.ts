@@ -20,7 +20,10 @@ export default class CommandCreate implements Event {
       if (!command) return;
 
       // music command needs to be deferred
-      if (interaction.commandName === 'music') {
+      if (
+        interaction.commandName === 'music' ||
+        interaction.commandName === 'activities'
+      ) {
         // if command exists, tries to carry out "execute" function
         try {
           await interaction.deferReply();
