@@ -50,41 +50,41 @@ class Activities extends Command {
         case '1':
           app.createTogetherCode(vc.id, 'poker').then((invite) =>
             interaction.followUp({
-              content: `click **[here](${invite.code})** to join the activity`
+              content: `[click here to join the activity](${invite.code})`
             })
           );
           break;
         case '2':
           app.createTogetherCode(vc.id, 'betrayal').then((invite) =>
             interaction.followUp({
-              content: `click **[here](${invite.code})** to join the activity`
+              content: `[click here to join the activity](${invite.code})`
             })
           );
           break;
         case '3':
-          app.createTogetherCode(vc.id, 'fishington').then((invite) =>
+          app.createTogetherCode(vc.id, 'fishing').then((invite) =>
             interaction.followUp({
-              content: `click **[here](${invite.code})** to join the activity`
+              content: `[click here to join the activity](${invite.code})`
             })
           );
           break;
         case '4':
           app.createTogetherCode(vc.id, 'youtube').then((invite) =>
             interaction.followUp({
-              content: `click **[here](${invite.code})** to join the activity`
+              content: `[click here to join the activity](${invite.code})`
             })
           );
           break;
         case '5':
           app.createTogetherCode(vc.id, 'land').then((invite) =>
             interaction.followUp({
-              content: `click **[here](${invite.code})** to join the activity`
+              content: `[click here to join the activity](${invite.code})`
             })
           );
         case '6':
           app.createTogetherCode(vc.id, 'doodlecrew').then((invite) =>
             interaction.followUp({
-              content: `click **[here](${invite.code})** to join the activity`
+              content: `[click here to join the activity](${invite.code})`
             })
           );
           break;
