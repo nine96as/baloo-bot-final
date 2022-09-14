@@ -2,6 +2,7 @@ import { Events, Interaction, ButtonInteraction } from 'discord.js';
 import logger from '../../utils/functions/logger';
 import Bot from '../../structures/bot';
 import Event from '../../structures/event';
+import { ErrorEmbed } from '../../structures/embed';
 
 export default class ButtonCreate implements Event {
   client: Bot;
@@ -26,7 +27,7 @@ export default class ButtonCreate implements Event {
       } catch (e) {
         logger.error(e);
         await interaction.followUp({
-          content: '❌ | error executing this button'
+          embeds: [new ErrorEmbed('error executing this command')]
         });
       }
     }

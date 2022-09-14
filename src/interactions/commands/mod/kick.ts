@@ -6,8 +6,8 @@ import {
 } from 'discord.js';
 import Bot from '../../../structures/bot';
 import Command from '../../../structures/command';
+import { ErrorEmbed, SuccessEmbed } from '../../../structures/embed';
 import logger from '../../../utils/functions/logger';
-import wait from 'node:timers/promises';
 
 class Kick extends Command {
   constructor() {
@@ -33,28 +33,46 @@ class Kick extends Command {
 
   public async execute(interaction: ChatInputCommandInteraction, client: Bot) {
     if (interaction.inCachedGuild()) {
-      const member = interaction.options.getMember('target');
-      const reason =
-        interaction.options.getString('reason') || 'no reason given';
+      const { options, user, guild } = interaction;
+      
+      const member = options.getMember('target');
+      const reason = options.getString('reason') || 'no reason given';
 
-      if (!member) return interaction.reply('invalid member');
+      if (!member) return interaction.reply({
+        embeds: [new ErrorEmbed('invalidMember')],
+        ephemeral: true
+      })
+
+      if (member.user.equals(user)) return interaction.reply({
+        embeds: [new ErrorEmbed('cantKickSelf')],
+        ephemeral: true
+      })
+
+      if (!member.kickable) return interaction.reply({ 
+        embeds: [new ErrorEmbed('missingPermissions')],
+        ephemeral: true
+      })
+
+      if (interaction.member.roles.highest.position <= member?.roles.highest.position &&
+        user.id !== guild.ownerId) return interaction.reply({
+          embeds: [new ErrorEmbed('superiorMember')],
+          ephemeral: true
+      })
 
       try {
-        await interaction.guild.members.kick(member, reason);
-        const embed = new EmbedBuilder()
-          .setTitle(`🚨 | ${member.user.tag} has been kicked.`)
-          .setColor('Random')
-          .setDescription(`**reason**: ${reason}`)
-          .setTimestamp();
-        return interaction.reply({ embeds: [embed] });
+        await member.kick(reason);
+        return await interaction.reply({ 
+          embeds: [new SuccessEmbed(`***${member.user.tag} was kicked***`)] 
+        });
       } catch (e) {
         if (e) {
           logger.error(e);
-          return interaction.reply(`❌ | failed to kick ${member.user.tag}`);
+          return interaction.reply({
+            embeds: [new ErrorEmbed(`kickError`)],
+            ephemeral: true 
+          });
         }
       }
-      await wait.setTimeout(10000);
-      await interaction.deleteReply();
     }
   }
 }
