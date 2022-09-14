@@ -7,6 +7,7 @@ import {
 } from 'discord.js';
 import Bot from '../../../structures/bot';
 import Command from '../../../structures/command';
+import { SuccessEmbed, ErrorEmbed } from '../../../structures/embed';
 import logger from '../../../utils/functions/logger';
 import wait from 'node:timers/promises';
 
@@ -22,6 +23,8 @@ class Clear extends Command {
           option
             .setName('amount')
             .setDescription('amount of messages to clear')
+            .setMinValue(1)
+            .setMaxValue(100)
             .setRequired(true)
         )
         .addUserOption((option) =>
@@ -39,45 +42,41 @@ class Clear extends Command {
       const target = interaction.options.getMember('target');
       const messages = await channel?.messages.fetch();
 
-      if (amount! > 100) {
-        interaction.reply(
-          '❌ | you cannot clear more than 100 messages at once.'
-        );
-      } else {
-        if (target) {
-          let i = 0;
-          const filtered: Message<boolean>[] = [];
-          messages!.forEach((m: Message) => {
-            if (m.author.id === target.id && amount > i) {
-              filtered.push(m);
-              i++;
-            }
-          });
+      if (target) {
+        let i = 0;
+        const filtered: Message<boolean>[] = [];
+        messages!.forEach((m: Message) => {
+          if (m.author.id === target.id && amount > i) {
+            filtered.push(m);
+            i++;
+          }
+        });
 
-          try {
-            await channel?.bulkDelete(filtered, true).then((messages) => {
-              interaction.reply(
-                `🚨 | cleared ${messages.size} message(s) from ${target}.`
-              );
+        try {
+          await channel?.bulkDelete(filtered, true).then((messages) => {
+            interaction.reply({
+              embeds: [new SuccessEmbed(`***cleared ${messages.size} message(s) from ${target}***`)]
             });
-          } catch (e) {
-            logger.error(e);
-            interaction.reply(
-              '❌ | there was an error while attempting to delete the messages.'
-            );
-          }
-        } else {
-          try {
-            await channel?.bulkDelete(amount!, true);
-            interaction.reply(
-              `🚨 | cleared ${amount} message(s) from this channel.`
-            );
-          } catch (e) {
-            logger.error(e);
-            interaction.reply(
-              '❌ | there was an error while attempting to delete the messages.'
-            );
-          }
+          });
+        } catch (e) {
+          logger.error(e);
+          interaction.reply({
+            embeds: [new ErrorEmbed('messageDeleteError')],
+            ephemeral: true
+          })
+        }
+      } else {
+        try {
+          await channel?.bulkDelete(amount, true);
+          interaction.reply({
+            embeds: [new SuccessEmbed(`***cleared ${amount} message(s) from channel***`)]
+          });
+        } catch (e) {
+          logger.error(e);
+          interaction.reply({
+            embeds: [new ErrorEmbed('messageDeleteError')],
+            ephemeral: true
+          })
         }
       }
       await wait.setTimeout(10000);

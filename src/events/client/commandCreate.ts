@@ -2,6 +2,7 @@ import { Events, Interaction, CommandInteraction } from 'discord.js';
 import logger from '../../utils/functions/logger';
 import Bot from '../../structures/bot';
 import Event from '../../structures/event';
+import { ErrorEmbed } from '../../structures/embed';
 
 export default class CommandCreate implements Event {
   client: Bot;
@@ -19,7 +20,7 @@ export default class CommandCreate implements Event {
       // exits early if command doesn't exist
       if (!command) return;
 
-      // music command needs to be deferred
+      // music and activity commands need to be deferred
       if (
         interaction.commandName === 'music' ||
         interaction.commandName === 'activities'
@@ -31,7 +32,7 @@ export default class CommandCreate implements Event {
         } catch (e) {
           logger.error(e);
           await interaction.followUp({
-            content: '❌ | error executing this command',
+            embeds: [new ErrorEmbed('error executing this command')],
             ephemeral: true
           });
         }
@@ -42,7 +43,7 @@ export default class CommandCreate implements Event {
         } catch (e) {
           logger.error(e);
           await interaction.followUp({
-            content: '❌ | error executing this command',
+            embeds: [new ErrorEmbed('error executing this command')],
             ephemeral: true
           });
         }
@@ -64,7 +65,7 @@ export default class CommandCreate implements Event {
         } catch (e) {
           logger.error(e);
           await interaction.followUp({
-            content: '❌ | error executing this command',
+            embeds: [new ErrorEmbed('error executing this command')],
             ephemeral: true
           });
         }
@@ -75,7 +76,7 @@ export default class CommandCreate implements Event {
         } catch (e) {
           logger.error(e);
           await interaction.followUp({
-            content: '❌ | error executing this command',
+            embeds: [new ErrorEmbed('error executing this command')],
             ephemeral: true
           });
         }

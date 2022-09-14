@@ -7,7 +7,7 @@ import {
 import Bot from '../../../structures/bot';
 import Command from '../../../structures/command';
 import logger from '../../../utils/functions/logger';
-import wait from 'node:timers/promises';
+import { ErrorEmbed, SuccessEmbed } from '../../../structures/embed';
 
 class Ban extends Command {
   constructor() {
@@ -24,8 +24,15 @@ class Ban extends Command {
         .addStringOption((option) =>
           option.setName('reason').setDescription('reason for punishment')
         )
+        .addIntegerOption((option) =>
+          option
+            .setName('clean-days')
+            .setDescription('number of days to delete msgs for (0-7)')
+            .setMinValue(0)
+            .setMaxValue(7)
+        )
         .setDefaultMemberPermissions(
-          PermissionFlagsBits.KickMembers | PermissionFlagsBits.BanMembers
+          PermissionFlagsBits.BanMembers
         )
         .toJSON()
     );
@@ -33,30 +40,50 @@ class Ban extends Command {
 
   public async execute(interaction: ChatInputCommandInteraction, client: Bot) {
     if (interaction.inCachedGuild()) {
-      const member = interaction.options.getMember('target');
-      const reason =
-        interaction.options.getString('reason') || 'no reason given';
+      const { options, user, guild } = interaction;
+      
+      const member = options.getMember('target');
+      const reason = options.getString('reason') || 'no reason given';
+      const cleanDays = Number(options.getInteger('clean-days'));
 
-      if (!member) return interaction.reply('invalid member');
+      if (!member) return interaction.reply({
+        embeds: [new ErrorEmbed('invalidMember')],
+        ephemeral: true
+      })
+      
+      if (member.user.equals(user)) return interaction.reply({
+        embeds: [new ErrorEmbed('cantBanSelf')],
+        ephemeral: true
+      })
+
+      if (!member.bannable) return interaction.reply({ 
+        embeds: [new ErrorEmbed('missingPermissions')],
+        ephemeral: true
+      })
+
+      if (interaction.member.roles.highest.position <= member?.roles.highest.position &&
+        user.id !== guild.ownerId) return interaction.reply({
+          embeds: [new ErrorEmbed('superiorMember')],
+          ephemeral: true
+      })
 
       try {
-        await interaction.guild.bans.create(member, {
-          reason
+        await member.ban({
+          reason: reason,
+          deleteMessageDays: cleanDays
         });
-        const embed = new EmbedBuilder()
-          .setTitle(`🚨 | ${member.user.tag} has been banned.`)
-          .setColor('Random')
-          .setDescription(`**reason**: ${reason}`)
-          .setTimestamp();
-        return interaction.reply({ embeds: [embed] });
+        return await interaction.reply({ 
+          embeds: [new SuccessEmbed(`***${member.user.tag} was banned***`)] 
+        });
       } catch (e) {
         if (e) {
           logger.error(e);
-          return interaction.reply(`❌ | failed to ban ${member.user.tag}`);
+          return interaction.reply({
+            embeds: [new ErrorEmbed(`banError`)],
+            ephemeral: true 
+          });
         }
       }
-      await wait.setTimeout(10000);
-      await interaction.deleteReply();
     }
   }
 }

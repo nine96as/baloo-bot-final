@@ -2,6 +2,7 @@ import { Events, Message } from 'discord.js';
 import logger from '../../utils/functions/logger';
 import Bot from '../../structures/bot';
 import Event from '../../structures/event';
+import { ErrorEmbed } from '../../structures/embed';
 
 export default class Error implements Event {
   client: Bot;
@@ -13,6 +14,7 @@ export default class Error implements Event {
   }
 
   execute = async (m: Message) => {
+    [new ErrorEmbed('error')]
     logger.error(m);
   };
 }

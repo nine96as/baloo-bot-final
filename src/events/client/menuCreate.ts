@@ -2,6 +2,7 @@ import { Events, Interaction, SelectMenuInteraction } from 'discord.js';
 import logger from '../../utils/functions/logger';
 import Bot from '../../structures/bot';
 import Event from '../../structures/event';
+import { ErrorEmbed } from '../../structures/embed';
 
 export default class SelectMenuCreate implements Event {
   client: Bot;
@@ -25,7 +26,7 @@ export default class SelectMenuCreate implements Event {
       } catch (e) {
         logger.error(e);
         await interaction.reply({
-          content: '❌ | error executing this menu',
+          embeds: [new ErrorEmbed('error executing this command')],
           ephemeral: true
         });
       }

@@ -1,12 +1,13 @@
 import {
   SlashCommandBuilder,
   ChatInputCommandInteraction,
-  EmbedBuilder,
   time,
   ChannelType
 } from 'discord.js';
 import Bot from '../../../structures/bot';
 import Command from '../../../structures/command';
+import { Embed } from '../../../structures/embed';
+import emojis from '../../../utils/assets/emojis';
 
 class Info extends Command {
   constructor() {
@@ -27,6 +28,17 @@ class Info extends Command {
             .setName('server')
             .setDescription('🔬 info about the server')
         )
+        .addSubcommand((subcommand) =>
+          subcommand
+            .setName('emoji')
+            .setDescription('🔬 info about an emoji')
+            .addStringOption((option) =>
+                option
+                  .setName('target')
+                  .setDescription('the emoji')
+                  .setRequired(true)
+            )
+        )
         .toJSON()
     );
     this.developer = true;
@@ -38,13 +50,20 @@ class Info extends Command {
         const member =
           interaction.options.getMember('target') || interaction.member;
 
-        const embed = new EmbedBuilder()
+        const badges = [];
+        if (member.user.id === interaction.guild.ownerId) badges.push('owner');
+        if (member.permissions.has('ModerateMembers')) badges.push('mod');
+        if (member.premiumSince) badges.push('booster');
+        if (member.user.bot) badges.push('bot');
+
+        const embed = new Embed()
           .setColor('Random')
           .setAuthor({
             iconURL: member.user.displayAvatarURL(),
             name: member.user.tag
           })
-          .setDescription(`${member}`)
+          // @ts-ignore
+          .setDescription(`${member} ${badges.map((b) => emojis.badge[b]).join(' ')}`)
           .setFooter({
             text: `ID: ${member.user.id}`
           })
@@ -75,8 +94,9 @@ class Info extends Command {
             {
               name: `permissions (${member.permissions.toArray().length})`,
               value: `${
-                member.permissions
-                  .toArray()
+                member.permissions.toArray().includes('Administrator') ?
+                  'Administrator' :
+                  member.permissions.toArray()
                   .map((p) => p)
                   .join(', ')
                   .replace('_', ' ') || 'none'
@@ -91,7 +111,7 @@ class Info extends Command {
       if (interaction.inCachedGuild()) {
         const guild = interaction.guild;
 
-        const embed = new EmbedBuilder()
+        const embed = new Embed()
           .setColor('Random')
           .setAuthor({
             name: guild.name,
