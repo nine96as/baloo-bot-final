@@ -1,6 +1,8 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
 import Bot from '../../../structures/bot';
 import Command from '../../../structures/command';
+import { Embed } from '../../../structures/embed';
+import emojis from '../../../utils/assets/emojis';
 
 const sides = [
   { name: 'd4', value: 4 },
@@ -32,14 +34,18 @@ class Dice extends Command {
         )
         .toJSON()
     );
-    this.developer = true;
   }
 
   public async execute(interaction: ChatInputCommandInteraction, client: Bot) {
     const side = interaction.options.getNumber('sides');
     const min = 1;
     const max = sides.find((s) => side === s.value)?.value || 6;
-    interaction.reply(`🎲 | rolled ${Math.floor(Math.random() * max) + min}!`);
+    interaction.reply({
+      embeds: [
+        new Embed()
+          .setDescription(`${emojis.dice} ***rolled ${Math.floor(Math.random() * max) + min}!***`)
+      ]
+    });
   }
 }
 

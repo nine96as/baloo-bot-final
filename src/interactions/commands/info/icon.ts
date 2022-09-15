@@ -1,10 +1,10 @@
 import {
   SlashCommandBuilder,
-  ChatInputCommandInteraction,
-  EmbedBuilder
+  ChatInputCommandInteraction
 } from 'discord.js';
 import Bot from '../../../structures/bot';
 import Command from '../../../structures/command';
+import { Embed } from '../../../structures/embed';
 
 class Icon extends Command {
   constructor() {
@@ -19,18 +19,18 @@ class Icon extends Command {
 
   public async execute(interaction: ChatInputCommandInteraction, client: Bot) {
     if (interaction.inCachedGuild()) {
-      const guild = interaction.guild;
-
-      const embed = new EmbedBuilder()
-        .setColor('Random')
-        .setAuthor({
-          name: guild.name,
-          iconURL: guild.iconURL() || undefined
-        })
-        .setImage(guild.iconURL({ size: 4096 }));
+      const { guild } = interaction;
 
       await interaction.reply({
-        embeds: [embed]
+        embeds: [
+          new Embed()
+          .setColor('Random')
+          .setAuthor({
+            name: guild.name,
+            iconURL: guild.iconURL() || undefined
+          })
+          .setImage(guild.iconURL({ size: 4096 }))
+        ]
       });
     }
   }

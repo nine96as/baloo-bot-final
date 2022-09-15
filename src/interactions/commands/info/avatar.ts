@@ -1,17 +1,17 @@
 import {
   SlashCommandBuilder,
-  ChatInputCommandInteraction,
-  EmbedBuilder
+  ChatInputCommandInteraction
 } from 'discord.js';
 import Bot from '../../../structures/bot';
 import Command from '../../../structures/command';
+import { Embed } from '../../../structures/embed';
 
 class Avatar extends Command {
   constructor() {
     super(
       new SlashCommandBuilder()
         .setName('avatar')
-        .setDescription("🔬 get a user's avatar")
+        .setDescription('🔬 get a user\'s\ avatar')
         .addUserOption((option) =>
           option
             .setName('target')
@@ -19,24 +19,24 @@ class Avatar extends Command {
         )
         .toJSON()
     );
-    this.developer = true;
   }
 
   public async execute(interaction: ChatInputCommandInteraction, client: Bot) {
     if (interaction.inCachedGuild()) {
-      const member =
-        interaction.options.getMember('target') || interaction.member;
+      const { options } = interaction;
 
-      const embed = new EmbedBuilder()
-        .setColor('Random')
-        .setAuthor({
-          iconURL: member.user.displayAvatarURL(),
-          name: member.user.tag
-        })
-        .setImage(member.user.avatarURL({ size: 4096 }));
+      const member = options.getMember('target') || interaction.member;
 
       await interaction.reply({
-        embeds: [embed]
+        embeds: [
+          new Embed()
+            .setColor('Random')
+            .setAuthor({
+              iconURL: member.user.displayAvatarURL(),
+              name: member.user.tag
+            })
+            .setImage(member.user.avatarURL({ size: 4096 }))
+        ]
       });
     }
   }

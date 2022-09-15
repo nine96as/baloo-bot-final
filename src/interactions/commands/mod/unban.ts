@@ -39,7 +39,7 @@ class Unban extends Command {
 
             if (!/\d{18,19}/.test(id)) {
                 return interaction.reply({
-                    embeds: [new ErrorEmbed('invalidId')],
+                    embeds: [new ErrorEmbed('***invalidId***')],
                     ephemeral: true
                 })
             }
@@ -47,7 +47,7 @@ class Unban extends Command {
             await guild.bans.fetch();
             if (!guild.bans.cache.some((ban) => ban.user.id === id)) {
                 return await interaction.reply({
-                    embeds: [new ErrorEmbed('notBanned')],
+                    embeds: [new ErrorEmbed('***notBanned***')],
                     ephemeral: true
                 })
             }
@@ -61,7 +61,7 @@ class Unban extends Command {
                 if (e) {
                     logger.error(e);
                     return interaction.reply({ 
-                        embeds: [new ErrorEmbed('unbanError')],
+                        embeds: [new ErrorEmbed('***unbanError***')],
                         ephemeral: true
                     });
                 }

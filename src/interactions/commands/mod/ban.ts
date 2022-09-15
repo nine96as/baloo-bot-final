@@ -30,9 +30,7 @@ class Ban extends Command {
             .setMinValue(0)
             .setMaxValue(7)
         )
-        .setDefaultMemberPermissions(
-          PermissionFlagsBits.BanMembers
-        )
+        .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers)
         .toJSON()
     );
   }
@@ -46,23 +44,23 @@ class Ban extends Command {
       const cleanDays = Number(options.getInteger('clean-days'));
 
       if (!member) return interaction.reply({
-        embeds: [new ErrorEmbed('invalidMember')],
+        embeds: [new ErrorEmbed('***invalidMember***')],
         ephemeral: true
       })
       
       if (member.user.equals(user)) return interaction.reply({
-        embeds: [new ErrorEmbed('cantBanSelf')],
+        embeds: [new ErrorEmbed('***cantBanSelf***')],
         ephemeral: true
       })
 
       if (!member.bannable) return interaction.reply({ 
-        embeds: [new ErrorEmbed('missingPermissions')],
+        embeds: [new ErrorEmbed('***missingPermissions***')],
         ephemeral: true
       })
 
       if (interaction.member.roles.highest.position <= member?.roles.highest.position &&
         user.id !== guild.ownerId) return interaction.reply({
-          embeds: [new ErrorEmbed('superiorMember')],
+          embeds: [new ErrorEmbed('***superiorMember***')],
           ephemeral: true
       })
 
@@ -78,7 +76,7 @@ class Ban extends Command {
         if (e) {
           logger.error(e);
           return interaction.reply({
-            embeds: [new ErrorEmbed(`banError`)],
+            embeds: [new ErrorEmbed(`***banError***`)],
             ephemeral: true 
           });
         }

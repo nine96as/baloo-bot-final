@@ -1,12 +1,13 @@
 import {
   ApplicationCommandType,
   UserContextMenuCommandInteraction,
-  ContextMenuCommandBuilder,
-  EmbedBuilder
+  ContextMenuCommandBuilder
 } from 'discord.js';
 import Bot from '../../../structures/bot';
 import Command from '../../../structures/command';
 import translate from '@iamtraction/google-translate';
+import { Embed } from '../../../structures/embed';
+import emojis from '../../../utils/assets/emojis';
 
 class Translate extends Command {
   constructor() {
@@ -29,16 +30,16 @@ class Translate extends Command {
 
       const translatedMsg = await translate(rawMsg!, { to: 'en' });
 
-      const embed = new EmbedBuilder()
-        .setColor('Random')
-        .setTitle('translate')
-        .addFields([
-          { name: 'raw', value: '```' + rawMsg + '```' },
-          { name: 'translated', value: '```' + translatedMsg.text + '```' }
-        ]);
-
       return interaction.followUp({
-        embeds: [embed]
+        embeds: [
+          new Embed()
+            .setColor('Random')
+            .setTitle(`${emojis.translate} translate`)
+            .addFields([
+              { name: 'raw', value: '```' + rawMsg + '```' },
+              { name: 'translated', value: '```' + translatedMsg.text + '```' }
+            ])
+        ]
       });
     }
   }

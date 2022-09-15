@@ -1,6 +1,8 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
 import Bot from '../../../structures/bot';
 import Command from '../../../structures/command';
+import { Embed } from '../../../structures/embed';
+import emojis from '../../../utils/assets/emojis';
 
 class Math extends Command {
   constructor() {
@@ -112,34 +114,63 @@ class Math extends Command {
         )
         .toJSON()
     );
-    this.developer = true;
   }
 
   public async execute(interaction: ChatInputCommandInteraction, client: Bot) {
     if (interaction.options.getSubcommand() === 'add') {
       const num1 = interaction.options.getNumber('num1');
       const num2 = interaction.options.getNumber('num2');
-      await interaction.reply(`${num1} + ${num2} = ${num1! + num2!}`);
+      interaction.reply({
+        embeds: [
+          new Embed()
+            .setDescription(`${emojis.math} ***${num1} + ${num2} = ${num1! + num2!}***`)
+        ]
+      });
     } else if (interaction.options.getSubcommand() === 'sub') {
       const num1 = interaction.options.getNumber('num1');
       const num2 = interaction.options.getNumber('num2');
-      await interaction.reply(`${num1} - ${num2} = ${num1! - num2!}`);
+      interaction.reply({
+        embeds: [
+          new Embed()
+            .setDescription(`${emojis.math} ***${num1} - ${num2} = ${num1! - num2!}***`)
+        ]
+      });
     } else if (interaction.options.getSubcommand() === 'mul') {
       const num1 = interaction.options.getNumber('num1');
       const num2 = interaction.options.getNumber('num2');
-      await interaction.reply(`${num1} * ${num2} = ${num1! * num2!}`);
+      interaction.reply({
+        embeds: [
+          new Embed()
+            .setDescription(`${emojis.math} ***${num1} * ${num2} = ${num1! * num2!}***`)
+        ]
+      });
     } else if (interaction.options.getSubcommand() === 'div') {
       const num1 = interaction.options.getNumber('num1');
       const num2 = interaction.options.getNumber('num2');
-      await interaction.reply(`${num1} / ${num2} = ${num1! / num2!}`);
+      interaction.reply({
+        embeds: [
+          new Embed()
+            .setDescription(`${emojis.math} ***${num1} / ${num2} = ${num1! / num2!}***`)
+        ]
+      });
     } else if (interaction.options.getSubcommand() === 'mod') {
       const num1 = interaction.options.getNumber('num1');
       const num2 = interaction.options.getNumber('num2');
-      await interaction.reply(`${num1} mod ${num2} = ${num1! % num2!}`);
+      interaction.reply({
+        embeds: [
+          new Embed()
+            .setDescription(`${emojis.dice} ***${num1} mod ${num2} = ${num1! % num2!}***`)
+        ]
+      });
     } else if (interaction.options.getSubcommand() === 'pow') {
       const num1 = interaction.options.getNumber('num1');
       const num2 = interaction.options.getNumber('num2');
-      await interaction.reply(`${num1} ^ ${num2} = ${num1! ** num2!}`);
+      interaction.reply({
+        embeds: [
+          new Embed()
+            .setDescription(`${emojis.dice} ***${num1} ^ ${num2} = ${num1! ** num2!}***`)
+        ]
+      });
     }
   }
 }

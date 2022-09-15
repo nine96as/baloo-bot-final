@@ -26,7 +26,7 @@ export default class ModalCreate implements Event {
       } catch (e) {
         logger.error(e);
         await interaction.reply({
-          embeds: [new ErrorEmbed('error executing this command')],
+          embeds: [new ErrorEmbed('***modalExecuteError***')],
           ephemeral: true
         });
       }

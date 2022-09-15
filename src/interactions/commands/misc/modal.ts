@@ -11,7 +11,6 @@ class Modal extends Command {
         .setDescription('📑 returns a modal')
         .toJSON()
     );
-    this.developer = true;
   }
 
   public async execute(interaction: ChatInputCommandInteraction, client: Bot) {

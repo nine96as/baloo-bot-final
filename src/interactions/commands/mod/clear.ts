@@ -61,7 +61,7 @@ class Clear extends Command {
         } catch (e) {
           logger.error(e);
           interaction.reply({
-            embeds: [new ErrorEmbed('messageDeleteError')],
+            embeds: [new ErrorEmbed('***messageDeleteError***')],
             ephemeral: true
           })
         }
@@ -74,7 +74,7 @@ class Clear extends Command {
         } catch (e) {
           logger.error(e);
           interaction.reply({
-            embeds: [new ErrorEmbed('messageDeleteError')],
+            embeds: [new ErrorEmbed('***messageDeleteError***')],
             ephemeral: true
           })
         }

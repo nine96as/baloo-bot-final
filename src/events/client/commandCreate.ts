@@ -32,7 +32,7 @@ export default class CommandCreate implements Event {
         } catch (e) {
           logger.error(e);
           await interaction.followUp({
-            embeds: [new ErrorEmbed('error executing this command')],
+            embeds: [new ErrorEmbed('***commandExecuteError***')],
             ephemeral: true
           });
         }
@@ -43,7 +43,7 @@ export default class CommandCreate implements Event {
         } catch (e) {
           logger.error(e);
           await interaction.followUp({
-            embeds: [new ErrorEmbed('error executing this command')],
+            embeds: [new ErrorEmbed('***commandExecuteError***')],
             ephemeral: true
           });
         }
@@ -65,7 +65,7 @@ export default class CommandCreate implements Event {
         } catch (e) {
           logger.error(e);
           await interaction.followUp({
-            embeds: [new ErrorEmbed('error executing this command')],
+            embeds: [new ErrorEmbed('***contextExecuteError***')],
             ephemeral: true
           });
         }
@@ -76,7 +76,7 @@ export default class CommandCreate implements Event {
         } catch (e) {
           logger.error(e);
           await interaction.followUp({
-            embeds: [new ErrorEmbed('error executing this command')],
+            embeds: [new ErrorEmbed('***contextExecuteError***')],
             ephemeral: true
           });
         }

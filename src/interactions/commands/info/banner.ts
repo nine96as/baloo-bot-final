@@ -1,10 +1,10 @@
 import {
   SlashCommandBuilder,
-  ChatInputCommandInteraction,
-  EmbedBuilder
+  ChatInputCommandInteraction
 } from 'discord.js';
 import Bot from '../../../structures/bot';
 import Command from '../../../structures/command';
+import { Embed, ErrorEmbed } from '../../../structures/embed';
 
 class Banner extends Command {
   constructor() {
@@ -31,42 +31,49 @@ class Banner extends Command {
   public async execute(interaction: ChatInputCommandInteraction, client: Bot) {
     if (interaction.options.getSubcommand() === 'user') {
       if (interaction.inCachedGuild()) {
-        const member =
-          interaction.options.getMember('target') || interaction.member;
+        const { options } = interaction;
+
+        const member = options.getMember('target') || interaction.member;
 
         await member.user.fetch(true);
 
-        const embed = new EmbedBuilder()
-          .setColor('Random')
-          .setAuthor({
-            iconURL: member.user.displayAvatarURL(),
-            name: member.user.tag
-          })
-          .setImage(member.user.bannerURL({ size: 4096 }) || null);
-
         member.user.bannerURL()
-          ? await interaction.reply({
-              embeds: [embed]
+          ? interaction.reply({
+              embeds: [
+                new Embed()
+                  .setColor('Random')
+                  .setAuthor({
+                    iconURL: member.user.displayAvatarURL(),
+                    name: member.user.tag
+                  })
+                  .setImage(member.user.bannerURL({ size: 4096 }) || null)
+              ]
             })
-          : interaction.reply("❌ | this user doesn't have a banner");
+          : interaction.reply({
+            embeds: [new ErrorEmbed('***noBanner***')],
+            ephemeral: true
+          });
       }
     } else if (interaction.options.getSubcommand() === 'server') {
       if (interaction.inCachedGuild()) {
-        const guild = interaction.guild;
-
-        const embed = new EmbedBuilder()
-          .setColor('Random')
-          .setAuthor({
-            iconURL: guild.iconURL() || undefined,
-            name: guild.name
-          })
-          .setImage(guild.bannerURL({ size: 4096 }));
+        const { guild } = interaction;
 
         guild.bannerURL()
-          ? await interaction.reply({
-              embeds: [embed]
+          ? interaction.reply({
+              embeds: [
+                new Embed()
+                  .setColor('Random')
+                  .setAuthor({
+                    iconURL: guild.iconURL() || undefined,
+                    name: guild.name
+                  })
+                  .setImage(guild.bannerURL({ size: 4096 }))
+              ]
             })
-          : interaction.reply("❌ | this server doesn't have a banner");
+          : interaction.reply({
+            embeds: [new ErrorEmbed('***noBanner***')],
+            ephemeral: true
+          });
       }
     }
   }
