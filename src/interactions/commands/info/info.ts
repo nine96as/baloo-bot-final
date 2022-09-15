@@ -47,11 +47,12 @@ class Info extends Command {
   public async execute(interaction: ChatInputCommandInteraction, client: Bot) {
     if (interaction.options.getSubcommand() === 'user') {
       if (interaction.inCachedGuild()) {
+        const { options, guild } = interaction;
         const member =
-          interaction.options.getMember('target') || interaction.member;
+          options.getMember('target') || interaction.member;
 
         const badges = [];
-        if (member.user.id === interaction.guild.ownerId) badges.push('owner');
+        if (member.user.id === guild.ownerId) badges.push('owner');
         if (member.permissions.has('ModerateMembers')) badges.push('mod');
         if (member.premiumSince) badges.push('booster');
         if (member.user.bot) badges.push('bot');
@@ -109,7 +110,7 @@ class Info extends Command {
       }
     } else if (interaction.options.getSubcommand() === 'server') {
       if (interaction.inCachedGuild()) {
-        const guild = interaction.guild;
+        const { guild } = interaction;
 
         const embed = new Embed()
           .setColor('Random')
