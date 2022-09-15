@@ -1,8 +1,7 @@
 import {
   SlashCommandBuilder,
   ChatInputCommandInteraction,
-  PermissionFlagsBits,
-  EmbedBuilder
+  PermissionFlagsBits
 } from 'discord.js';
 import Bot from '../../../structures/bot';
 import Command from '../../../structures/command';

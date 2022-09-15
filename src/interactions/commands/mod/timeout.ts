@@ -1,13 +1,12 @@
 import {
   SlashCommandBuilder,
   ChatInputCommandInteraction,
-  PermissionFlagsBits,
-  EmbedBuilder
+  PermissionFlagsBits
 } from 'discord.js';
 import Bot from '../../../structures/bot';
 import Command from '../../../structures/command';
 import logger from '../../../utils/functions/logger';
-import wait from 'node:timers/promises';
+import { ErrorEmbed, SuccessEmbed } from '../../../structures/embed';
 
 const durations = [
   { name: '60 seconds', value: 60 * 1000 },
@@ -56,33 +55,48 @@ class Timeout extends Command {
 
   public async execute(interaction: ChatInputCommandInteraction, client: Bot) {
     if (interaction.inCachedGuild()) {
-      const member = interaction.options.getMember('target');
-      const duration = interaction.options.getNumber('duration');
-      const reason =
-        interaction.options.getString('reason') || 'no reason given';
+      const { options, user, guild } = interaction;
 
-      if (!member) return interaction.reply('invalid member');
+      const member = options.getMember('target');
+      const duration = options.getNumber('duration');
+      const reason = options.getString('reason') || 'no reason given';
+
+      if (!member) return interaction.reply({
+        embeds: [new ErrorEmbed('invalidMember')],
+        ephemeral: true
+      })
+
+      if (member.user.equals(user)) return interaction.reply({
+        embeds: [new ErrorEmbed('cantKickSelf')],
+        ephemeral: true
+      })
+
+      if (!member.moderatable) return interaction.reply({ 
+        embeds: [new ErrorEmbed('missingPermissions')],
+        ephemeral: true
+      })
+
+      if (interaction.member.roles.highest.position <= member?.roles.highest.position &&
+        user.id !== guild.ownerId) return interaction.reply({
+          embeds: [new ErrorEmbed('superiorMember')],
+          ephemeral: true
+      })
 
       try {
         await member.timeout(duration, reason);
-        const embed = new EmbedBuilder()
-          .setTitle(`⏱️ | ${member.user.tag} has been timed out.`)
-          .setColor('Random')
-          .setDescription(
-            `**duration**: ${
-              durations.find((d) => duration === d.value)?.name
-            }\n` + `**reason**: ${reason}`
-          )
-          .setTimestamp();
-        return interaction.reply({ embeds: [embed] });
+        //duration = durations.find((d) => duration === d.value)?.name
+        return interaction.reply({
+          embeds: [new SuccessEmbed(`***${member.user.tag} was timed out***`)] 
+        });
       } catch (e) {
         if (e) {
           logger.error(e);
-          return interaction.reply(`❌ | failed to timeout ${member.user.tag}`);
+          return interaction.reply({
+            embeds: [new ErrorEmbed('timeoutError')],
+            ephemeral: true
+          });
         }
       }
-      await wait.setTimeout(10000);
-      await interaction.deleteReply();
     }
   }
 }

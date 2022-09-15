@@ -2,8 +2,7 @@ import {
   SlashCommandBuilder,
   ChatInputCommandInteraction,
   PermissionFlagsBits,
-  Message,
-  TextChannel
+  Message
 } from 'discord.js';
 import Bot from '../../../structures/bot';
 import Command from '../../../structures/command';
@@ -37,9 +36,10 @@ class Clear extends Command {
 
   public async execute(interaction: ChatInputCommandInteraction, client: Bot) {
     if (interaction.inCachedGuild()) {
-      const amount = interaction.options.getNumber('amount')!;
-      const channel = interaction.channel;
-      const target = interaction.options.getMember('target');
+      const { options, channel } = interaction;
+      
+      const amount = options.getNumber('amount')!;
+      const target = options.getMember('target');
       const messages = await channel?.messages.fetch();
 
       if (target) {
