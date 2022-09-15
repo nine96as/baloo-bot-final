@@ -12,7 +12,6 @@ class Ping extends Command {
         .setDescription('🏓 sends a ping request!')
         .toJSON()
     );
-    this.developer = true;
   }
 
   public async execute(interaction: ChatInputCommandInteraction, client: Bot) {

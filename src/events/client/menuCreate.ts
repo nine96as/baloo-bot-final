@@ -26,7 +26,7 @@ export default class SelectMenuCreate implements Event {
       } catch (e) {
         logger.error(e);
         await interaction.reply({
-          embeds: [new ErrorEmbed('error executing this command')],
+          embeds: [new ErrorEmbed('***menuExecuteError***')],
           ephemeral: true
         });
       }

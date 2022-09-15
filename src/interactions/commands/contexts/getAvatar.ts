@@ -1,11 +1,11 @@
 import {
   ApplicationCommandType,
   UserContextMenuCommandInteraction,
-  ContextMenuCommandBuilder,
-  EmbedBuilder
+  ContextMenuCommandBuilder
 } from 'discord.js';
 import Bot from '../../../structures/bot';
 import Command from '../../../structures/command';
+import { Embed } from '../../../structures/embed';
 
 class GetAvatar extends Command {
   constructor() {
@@ -22,16 +22,16 @@ class GetAvatar extends Command {
   ) {
     const member = interaction.targetUser;
 
-    const embed = new EmbedBuilder()
-      .setColor('Random')
-      .setAuthor({
-        iconURL: member.displayAvatarURL(),
-        name: member.tag
-      })
-      .setImage(member.avatarURL({ size: 4096 }));
-
     await interaction.reply({
-      embeds: [embed]
+      embeds: [
+        new Embed()
+          .setColor('Random')
+          .setAuthor({
+            iconURL: member.displayAvatarURL(),
+            name: member.tag
+          })
+          .setImage(member.avatarURL({ size: 4096 }))
+      ]
     });
   }
 }

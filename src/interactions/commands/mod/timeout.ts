@@ -62,23 +62,23 @@ class Timeout extends Command {
       const reason = options.getString('reason') || 'no reason given';
 
       if (!member) return interaction.reply({
-        embeds: [new ErrorEmbed('invalidMember')],
+        embeds: [new ErrorEmbed('***invalidMember***')],
         ephemeral: true
       })
 
       if (member.user.equals(user)) return interaction.reply({
-        embeds: [new ErrorEmbed('cantKickSelf')],
+        embeds: [new ErrorEmbed('***cantKickSelf***')],
         ephemeral: true
       })
 
       if (!member.moderatable) return interaction.reply({ 
-        embeds: [new ErrorEmbed('missingPermissions')],
+        embeds: [new ErrorEmbed('***missingPermissions***')],
         ephemeral: true
       })
 
       if (interaction.member.roles.highest.position <= member?.roles.highest.position &&
         user.id !== guild.ownerId) return interaction.reply({
-          embeds: [new ErrorEmbed('superiorMember')],
+          embeds: [new ErrorEmbed('***superiorMember***')],
           ephemeral: true
       })
 
@@ -92,7 +92,7 @@ class Timeout extends Command {
         if (e) {
           logger.error(e);
           return interaction.reply({
-            embeds: [new ErrorEmbed('timeoutError')],
+            embeds: [new ErrorEmbed('***timeoutError***')],
             ephemeral: true
           });
         }

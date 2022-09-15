@@ -28,17 +28,6 @@ class Info extends Command {
             .setName('server')
             .setDescription('🔬 info about the server')
         )
-        .addSubcommand((subcommand) =>
-          subcommand
-            .setName('emoji')
-            .setDescription('🔬 info about an emoji')
-            .addStringOption((option) =>
-                option
-                  .setName('target')
-                  .setDescription('the emoji')
-                  .setRequired(true)
-            )
-        )
         .toJSON()
     );
     this.developer = true;
@@ -48,8 +37,8 @@ class Info extends Command {
     if (interaction.options.getSubcommand() === 'user') {
       if (interaction.inCachedGuild()) {
         const { options, guild } = interaction;
-        const member =
-          options.getMember('target') || interaction.member;
+
+        const member = options.getMember('target') || interaction.member;
 
         const badges = [];
         if (member.user.id === guild.ownerId) badges.push('owner');
@@ -57,116 +46,117 @@ class Info extends Command {
         if (member.premiumSince) badges.push('booster');
         if (member.user.bot) badges.push('bot');
 
-        const embed = new Embed()
-          .setColor('Random')
-          .setAuthor({
-            iconURL: member.user.displayAvatarURL(),
-            name: member.user.tag
-          })
-          // @ts-ignore
-          .setDescription(`${member} ${badges.map((b) => emojis.badge[b]).join(' ')}`)
-          .setFooter({
-            text: `ID: ${member.user.id}`
-          })
-          .setTimestamp()
-          .setThumbnail(member.user.avatarURL({ size: 4096 }))
-          .addFields(
-            {
-              name: 'joined',
-              value:
-                `${time(member.joinedAt!)} ` +
-                `(${time(member.joinedAt!, 'R')})`
-            },
-            {
-              name: 'registered',
-              value:
-                `${time(member.user.createdAt)} ` +
-                `(${time(member.user.createdAt, 'R')})`
-            },
-            {
-              name: `roles (${member.roles.cache.size - 1})`,
-              value: `${
-                member.roles.cache
-                  .map((r) => r)
-                  .join(' ')
-                  .replace('@everyone', '') || 'none'
-              }`
-            },
-            {
-              name: `permissions (${member.permissions.toArray().length})`,
-              value: `${
-                member.permissions.toArray().includes('Administrator') ?
-                  'Administrator' :
-                  member.permissions.toArray()
-                  .map((p) => p)
-                  .join(', ')
-                  .replace('_', ' ') || 'none'
-              }`
-            }
-          );
         await interaction.reply({
-          embeds: [embed]
+          embeds: [
+            new Embed()
+              .setColor('Random')
+              .setAuthor({
+                iconURL: member.user.displayAvatarURL(),
+                name: member.user.tag
+              })
+              // @ts-ignore
+              .setDescription(`${member} ${badges.map((b) => emojis.badge[b]).join(' ')}`)
+              .setFooter({
+                text: `ID: ${member.user.id}`
+              })
+              .setTimestamp()
+              .setThumbnail(member.user.avatarURL({ size: 4096 }))
+              .addFields(
+                {
+                  name: 'joined',
+                  value:
+                    `${time(member.joinedAt!)} ` +
+                    `(${time(member.joinedAt!, 'R')})`
+                },
+                {
+                  name: 'registered',
+                  value:
+                    `${time(member.user.createdAt)} ` +
+                    `(${time(member.user.createdAt, 'R')})`
+                },
+                {
+                  name: `roles (${member.roles.cache.size - 1})`,
+                  value: `${
+                    member.roles.cache
+                      .map((r) => r)
+                      .join(' ')
+                      .replace('@everyone', '') || 'none'
+                  }`
+                },
+                {
+                  name: `permissions (${member.permissions.toArray().length})`,
+                  value: `${
+                    member.permissions.toArray().includes('Administrator') ?
+                      'Administrator' :
+                      member.permissions.toArray()
+                      .map((p) => p)
+                      .join(', ')
+                      .replace('_', ' ') || 'none'
+                  }`
+                }
+              )
+          ]
         });
       }
     } else if (interaction.options.getSubcommand() === 'server') {
       if (interaction.inCachedGuild()) {
         const { guild } = interaction;
 
-        const embed = new Embed()
-          .setColor('Random')
-          .setAuthor({
-            name: guild.name,
-            iconURL: guild.iconURL() || undefined
-          })
-          .setThumbnail(guild.iconURL({ size: 4096 }))
-          .setFooter({
-            text: `ID: ${guild.id}`
-          })
-          .setTimestamp()
-          .addFields(
-            { name: 'owner', value: `<@${guild.ownerId}>` },
-            {
-              name: 'total members',
-              value: `${guild.memberCount}`,
-              inline: true
-            },
-            {
-              name: 'total roles',
-              value: `${guild.roles.cache.size}`,
-              inline: true
-            },
-            { name: '\u200B', value: '\u200B' },
-            {
-              name: 'text channels',
-              value: `${
-                guild.channels.cache.filter(
-                  (c) => c.type === ChannelType.GuildText
-                ).size
-              }`,
-              inline: true
-            },
-            {
-              name: 'voice channels',
-              value: `${
-                guild.channels.cache.filter(
-                  (c) => c.type === ChannelType.GuildVoice
-                ).size
-              }`,
-              inline: true
-            },
-            {
-              name: 'role list',
-              value: `${guild.roles.cache.map((r) => r).join(' ') || 'none'}`
-            },
-            {
-              name: 'created at',
-              value:
-                `${time(guild.createdAt)} ` + `(${time(guild.createdAt, 'R')})`
-            }
-          );
-
         await interaction.reply({
-          embeds: [embed]
+          embeds: [
+            new Embed()
+              .setColor('Random')
+              .setAuthor({
+                name: guild.name,
+                iconURL: guild.iconURL() || undefined
+              })
+              .setThumbnail(guild.iconURL({ size: 4096 }))
+              .setFooter({
+                text: `ID: ${guild.id}`
+              })
+              .setTimestamp()
+              .addFields(
+                { name: 'owner', value: `<@${guild.ownerId}>` },
+                {
+                  name: 'total members',
+                  value: `${guild.memberCount}`,
+                  inline: true
+                },
+                {
+                  name: 'total roles',
+                  value: `${guild.roles.cache.size}`,
+                  inline: true
+                },
+                { name: '\u200B', value: '\u200B' },
+                {
+                  name: 'text channels',
+                  value: `${
+                    guild.channels.cache.filter(
+                      (c) => c.type === ChannelType.GuildText
+                    ).size
+                  }`,
+                  inline: true
+                },
+                {
+                  name: 'voice channels',
+                  value: `${
+                    guild.channels.cache.filter(
+                      (c) => c.type === ChannelType.GuildVoice
+                    ).size
+                  }`,
+                  inline: true
+                },
+                {
+                  name: 'role list',
+                  value: `${guild.roles.cache.map((r) => r).join(' ') || 'none'}`
+                },
+                {
+                  name: 'created at',
+                  value:
+                    `${time(guild.createdAt)} ` + `(${time(guild.createdAt, 'R')})`
+                }
+              )
+          ]
         });
       }
     }

@@ -27,7 +27,7 @@ export default class ButtonCreate implements Event {
       } catch (e) {
         logger.error(e);
         await interaction.followUp({
-          embeds: [new ErrorEmbed('error executing this command')]
+          embeds: [new ErrorEmbed('***buttonExecuteError***')]
         });
       }
     }

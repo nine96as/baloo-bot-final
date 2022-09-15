@@ -7,6 +7,7 @@ import {
   CacheType
 } from 'discord.js';
 import Bot from '../../../structures/bot';
+import { Embed } from '../../../structures/embed';
 import Modal from '../../../structures/modal';
 
 const textInput = new TextInputBuilder()
@@ -34,7 +35,11 @@ class FavColour extends Modal {
   ) {
     const favColour = interaction.fields.getTextInputValue('favColourInput');
     return await interaction.reply({
-      content: `your fav colour is ${favColour}`,
+
+      embeds: [
+        new Embed()
+          .setDescription(`🎨 ***fav colour = ${favColour}***`)
+      ],
       ephemeral: true
     });
   }
