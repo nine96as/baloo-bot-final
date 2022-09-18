@@ -9,7 +9,7 @@ export const event: Event = {
   async execute(client: Bot, interaction: Interaction) {
     if (interaction.isSelectMenu()) {
       // checks if menu exists in menus collection
-      const menu = client.menus.get(interaction.customId);
+      const menu = client.selects.get(interaction.customId);
 
       // exits early if menu doesn't exist
       if (!menu) return;
