@@ -2,161 +2,153 @@ import {
   SlashCommandBuilder,
   ChatInputCommandInteraction,
   ActionRowBuilder,
-  ButtonBuilder
+  ButtonBuilder,
+  ButtonStyle
 } from 'discord.js';
 import { QueryType, QueueRepeatMode } from 'discord-player';
-import Bot from '../../../structures/bot';
-import Command from '../../../structures/command';
-import rewind from '../../components/buttons/music/rewind';
-import skip from '../../components/buttons/music/skip';
-import loop from '../../components/buttons/music/loop';
-import shuffle from '../../components/buttons/music/shuffle';
-import stop from '../../components/buttons/music/stop';
-import pausePlay from '../../components/buttons/music/pausePlay';
+import { Bot } from '../../../structures/bot';
+import { Command } from '../../../structures/command';
 import { Embed, ErrorEmbed, SuccessEmbed } from '../../../structures/embed';
 import emojis from '../../../utils/assets/emojis';
 const ms = require('ms');
 
-class Music extends Command {
-  constructor() {
-    super(
-      new SlashCommandBuilder()
-        .setName('music')
-        .setDescription('🎶 carry out various music operations')
-        .addSubcommand((subcommand) =>
-          subcommand
-            .setName('play')
-            .setDescription('⏯️ plays a song/playlist')
-            .addStringOption((option) =>
-              option
-                .setName('song')
-                .setDescription('the song to play')
-                .setRequired(true)
+export const command: Command = {
+  data: new SlashCommandBuilder()
+    .setName('music')
+    .setDescription('🎶 carry out various music operations')
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName('play')
+        .setDescription('⏯️ plays a song/playlist')
+        .addStringOption((option) =>
+          option
+            .setName('song')
+            .setDescription('the song to play')
+            .setRequired(true)
+        )
+    )
+    .addSubcommand((subcommand) =>
+      subcommand.setName('pause').setDescription('⏸️ pauses music')
+    )
+    .addSubcommand((subcommand) =>
+      subcommand.setName('resume').setDescription('⏯️ resumes music')
+    )
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName('queue')
+        .setDescription('📄 displays song queue')
+        .addNumberOption((option) =>
+          option
+            .setName('page')
+            .setDescription('page number of queue')
+            .setMinValue(1)
+        )
+    )
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName('seek')
+        .setDescription('⏩ goes to specified timestamp of track')
+        .addStringOption((option) =>
+          option
+            .setName('time')
+            .setDescription('timestamp to skip to')
+            .setRequired(true)
+        )
+    )
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName('remove')
+        .setDescription('🗑️ removes song from queue')
+        .addIntegerOption((option) =>
+          option
+            .setName('song')
+            .setDescription('position of song to remove')
+            .setMinValue(1)
+            .setRequired(true)
+        )
+    )
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName('move')
+        .setDescription(
+          '🛒 moves song to a different position in the queue'
+        )
+        .addIntegerOption((option) =>
+          option
+            .setName('oldpos')
+            .setDescription('position of song to move')
+            .setMinValue(1)
+            .setRequired(true)
+        )
+        .addIntegerOption((option) =>
+          option
+            .setName('newpos')
+            .setDescription('new position of song')
+            .setMinValue(1)
+            .setRequired(true)
+        )
+    )
+    .addSubcommand((subcommand) =>
+      subcommand.setName('skip').setDescription('⏭️ skips current song')
+    )
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName('rewind')
+        .setDescription('⏮️ rewinds to previous song')
+    )
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName('stop')
+        .setDescription('⏹️ stops all music and clears queue')
+    )
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName('volume')
+        .setDescription('🔊 check or set volume')
+        .addIntegerOption((option) =>
+          option
+            .setName('level')
+            .setDescription('volume level to be set')
+            .setMinValue(1)
+            .setMaxValue(100)
+        )
+    )
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName('loop')
+        .setDescription('🔁 set loop modes')
+        .addStringOption((option) =>
+          option
+            .setName('mode')
+            .setDescription('loop mode to be set')
+            .addChoices(
+              { name: 'off', value: 'off' },
+              { name: 'queue', value: 'queue' },
+              { name: 'track', value: 'track' }
             )
+            .setRequired(true)
         )
-        .addSubcommand((subcommand) =>
-          subcommand.setName('pause').setDescription('⏸️ pauses music')
-        )
-        .addSubcommand((subcommand) =>
-          subcommand.setName('resume').setDescription('⏯️ resumes music')
-        )
-        .addSubcommand((subcommand) =>
-          subcommand
-            .setName('queue')
-            .setDescription('📄 displays song queue')
-            .addNumberOption((option) =>
-              option
-                .setName('page')
-                .setDescription('page number of queue')
-                .setMinValue(1)
-            )
-        )
-        .addSubcommand((subcommand) =>
-          subcommand
-            .setName('seek')
-            .setDescription('⏩ goes to specified timestamp of track')
-            .addStringOption((option) =>
-              option
-                .setName('time')
-                .setDescription('timestamp to skip to')
-                .setRequired(true)
-              )
-        )
-        .addSubcommand((subcommand) =>
-          subcommand
-            .setName('remove')
-            .setDescription('🗑️ removes song from queue')
-            .addIntegerOption((option) =>
-              option
-                .setName('song')
-                .setDescription('position of song to remove')
-                .setMinValue(1)
-                .setRequired(true)
-              )
-        )
-        .addSubcommand((subcommand) =>
-          subcommand
-            .setName('move')
-            .setDescription('🛒 moves song to a different position in the queue')
-            .addIntegerOption((option) =>
-              option
-                .setName('oldpos')
-                .setDescription('position of song to move')
-                .setMinValue(1)
-                .setRequired(true)
-              )
-            .addIntegerOption((option) =>
-              option
-                .setName('newpos')
-                .setDescription('new position of song')
-                .setMinValue(1)
-                .setRequired(true)
-              )
-        )
-        .addSubcommand((subcommand) =>
-          subcommand.setName('skip').setDescription('⏭️ skips current song')
-        )
-        .addSubcommand((subcommand) =>
-          subcommand
-            .setName('rewind')
-            .setDescription('⏮️ rewinds to previous song')
-        )
-        .addSubcommand((subcommand) =>
-          subcommand
-            .setName('stop')
-            .setDescription('⏹️ stops all music and clears queue')
-        )
-        .addSubcommand((subcommand) =>
-          subcommand
-            .setName('volume')
-            .setDescription('🔊 check or set volume')
-            .addIntegerOption((option) =>
-              option
-                .setName('level')
-                .setDescription('volume level to be set')
-                .setMinValue(1)
-                .setMaxValue(100)
-            )
-        )
-        .addSubcommand((subcommand) =>
-          subcommand
-            .setName('loop')
-            .setDescription('🔁 set loop modes')
-            .addStringOption((option) =>
-              option
-                .setName('mode')
-                .setDescription('loop mode to be set')
-                .addChoices(
-                  { name: 'off', value: 'off' },
-                  { name: 'queue', value: 'queue' },
-                  { name: 'track', value: 'track' }
-                )
-                .setRequired(true)
-            )
-        )
-        .addSubcommand((subcommand) =>
-          subcommand
-            .setName('shuffle')
-            .setDescription('🔀 shuffles current queue')
-        )
-        .addSubcommand((subcommand) =>
-          subcommand
-            .setName('nowplaying')
-            .setDescription('🎶 displays info about currently playing song')
-        )
-        .addSubcommand((subcommand) =>
-          subcommand.setName('clearqueue').setDescription('🧼 clears queue')
-        )
-        .addSubcommand((subcommand) =>
-          subcommand
-            .setName('lyrics')
-            .setDescription('📜 fetch lyrics of currently playing song')
-        )
-        .toJSON()
-    );
-  }
+    )
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName('shuffle')
+        .setDescription('🔀 shuffles current queue')
+    )
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName('nowplaying')
+        .setDescription('🎶 displays info about currently playing song')
+    )
+    .addSubcommand((subcommand) =>
+      subcommand.setName('clearqueue').setDescription('🧼 clears queue')
+    )
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName('lyrics')
+        .setDescription('📜 fetch lyrics of currently playing song')
+    ),
 
-  public async execute(interaction: ChatInputCommandInteraction, client: Bot) {
+  async execute(interaction: ChatInputCommandInteraction, client: Bot) {
     if (interaction.inCachedGuild()) {
       if (interaction.options.getSubcommand() === 'play') {
         const { options, member, channel, guild, user } = interaction;
@@ -207,9 +199,13 @@ class Music extends Command {
           ? queue.addTracks(result.tracks)
           : queue.addTrack(result.tracks[0]);
 
-        await interaction.followUp({ embeds: [
-          new SuccessEmbed(`***${result.playlist ? 'playlist' : 'song'} added to queue***`)
-        ] });
+        await interaction.followUp({
+          embeds: [
+            new SuccessEmbed(
+              `***${result.playlist ? 'playlist' : 'song'} added to queue***`
+            )
+          ]
+        });
 
         if (!queue.playing) await queue.play();
       } else if (interaction.options.getSubcommand() === 'pause') {
@@ -329,14 +325,28 @@ class Music extends Command {
               .setThumbnail(currentTrack.thumbnail)
           ],
           components: [
-            new ActionRowBuilder<ButtonBuilder>()
-              .addComponents(
-                rewind.data,
-                skip.data,
-                loop.data,
-                shuffle.data,
-                stop.data
-              )
+            new ActionRowBuilder<ButtonBuilder>().addComponents(
+              new ButtonBuilder()
+                .setCustomId('rewind')
+                .setLabel('⏮️')
+                .setStyle(ButtonStyle.Secondary),
+              new ButtonBuilder()
+                .setCustomId('skip')
+                .setLabel('⏭️')
+                .setStyle(ButtonStyle.Secondary),
+              new ButtonBuilder()
+                .setCustomId('loop')
+                .setLabel('🔁')
+                .setStyle(ButtonStyle.Secondary),
+              new ButtonBuilder()
+                .setCustomId('shuffle')
+                .setLabel('🔀')
+                .setStyle(ButtonStyle.Secondary),
+              new ButtonBuilder()
+                .setCustomId('stop')
+                .setLabel('⏹️')
+                .setStyle(ButtonStyle.Danger)
+            )
           ]
         });
       } else if (interaction.options.getSubcommand() === 'skip') {
@@ -362,7 +372,9 @@ class Music extends Command {
 
         queue.skip();
 
-        return await interaction.followUp({ embeds: [new SuccessEmbed(`***song skipped***`)] });
+        return await interaction.followUp({
+          embeds: [new SuccessEmbed(`***song skipped***`)]
+        });
       } else if (interaction.options.getSubcommand() === 'stop') {
         const { member, guildId } = interaction;
 
@@ -386,7 +398,9 @@ class Music extends Command {
 
         queue.destroy();
 
-        return await interaction.followUp({ embeds: [new SuccessEmbed('***music stopped***')] });
+        return await interaction.followUp({
+          embeds: [new SuccessEmbed('***music stopped***')]
+        });
       } else if (interaction.options.getSubcommand() === 'volume') {
         const { member, guildId, options } = interaction;
 
@@ -413,8 +427,9 @@ class Music extends Command {
         if (!volume) {
           return interaction.followUp({
             embeds: [
-              new Embed()
-                .setDescription(`${emojis.music.volume} ***volume = ${queue.volume}***`)
+              new Embed().setDescription(
+                `${emojis.music.volume} ***volume = ${queue.volume}***`
+              )
             ]
           });
         }
@@ -539,14 +554,28 @@ class Music extends Command {
               )
           ],
           components: [
-            new ActionRowBuilder<ButtonBuilder>()
-              .addComponents(
-                rewind.data,
-                pausePlay.data,
-                skip.data,
-                loop.data,
-                stop.data
-              )
+            new ActionRowBuilder<ButtonBuilder>().addComponents(
+              new ButtonBuilder()
+                .setCustomId('rewind')
+                .setLabel('⏮️')
+                .setStyle(ButtonStyle.Secondary),
+              new ButtonBuilder()
+                .setCustomId('pausePlay')
+                .setLabel('⏯️')
+                .setStyle(ButtonStyle.Secondary),
+              new ButtonBuilder()
+                .setCustomId('skip')
+                .setLabel('⏭️')
+                .setStyle(ButtonStyle.Secondary),
+              new ButtonBuilder()
+                .setCustomId('loop')
+                .setLabel('🔁')
+                .setStyle(ButtonStyle.Secondary),
+              new ButtonBuilder()
+                .setCustomId('stop')
+                .setLabel('⏹️')
+                .setStyle(ButtonStyle.Danger)
+            )
           ]
         });
       } else if (interaction.options.getSubcommand() === 'clearqueue') {
@@ -645,7 +674,7 @@ class Music extends Command {
         }
       } else if (interaction.options.getSubcommand() === 'remove') {
         const { member, guildId, options } = interaction;
-        
+
         // checks if user is in a voice channel
         if (!member.voice.channel) {
           return interaction.followUp({
@@ -678,10 +707,10 @@ class Music extends Command {
 
         return interaction.followUp({
           embeds: [new SuccessEmbed('***removed track!***')]
-        })
+        });
       } else if (interaction.options.getSubcommand() === 'move') {
         const { member, guildId, options } = interaction;
-        
+
         // checks if user is in a voice channel
         if (!member.voice.channel) {
           return interaction.followUp({
@@ -716,10 +745,10 @@ class Music extends Command {
 
         return interaction.followUp({
           embeds: [new SuccessEmbed(`***moved track to pos \`${newPos}\`***`)]
-        })
+        });
       } else if (interaction.options.getSubcommand() === 'seek') {
         const { member, guildId, options } = interaction;
-        
+
         // checks if user is in a voice channel
         if (!member.voice.channel) {
           return interaction.followUp({
@@ -752,10 +781,8 @@ class Music extends Command {
 
         return await interaction.followUp({
           embeds: [new SuccessEmbed(`***seeking to \`${time}\`***`)]
-        })
+        });
       }
     }
   }
 }
-
-export default new Music();

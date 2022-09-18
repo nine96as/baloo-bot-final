@@ -2,7 +2,7 @@ import { Collection } from 'discord.js';
 import { join } from 'path';
 import logger from '../functions/logger';
 import getFiles from '../functions/getFiles';
-import Button from '../../structures/button';
+import { Button } from '../../structures/button';
 const AsciiTable = require('ascii-table');
 
 const table = new AsciiTable().setHeading('button', 'status');
@@ -14,14 +14,14 @@ export default (): Collection<string, Button> => {
   );
 
   files.forEach((filePath) => {
-    const button: Button = require(filePath).default;
-    if (button === undefined || button.data === undefined) {
+    const button: Button = require(filePath);
+    if (button === undefined || button.customId === undefined) {
       logger.error(
         `file at path ${filePath} seems to be incorrectly be exporting a button.`
       );
     } else {
-      collection.set(button.name, button);
-      table.addRow(button.name, 'on');
+      collection.set(button.customId, button);
+      table.addRow(button.customId, 'on');
     }
   });
 

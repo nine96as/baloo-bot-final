@@ -1,37 +1,38 @@
-import { ButtonInteraction, ButtonBuilder, ButtonStyle } from 'discord.js';
-import Bot from '../../../../structures/bot';
-import Button from '../../../../structures/button';
+import { ButtonInteraction } from 'discord.js';
+import { Bot } from '../../../../structures/bot';
+import { Button } from '../../../../structures/button';
+import { ErrorEmbed, SuccessEmbed } from '../../../../structures/embed';
 
-class Shuffle extends Button {
-  constructor() {
-    super(
-      'shuffle',
-      new ButtonBuilder()
-        .setCustomId('shuffle')
-        .setLabel('🔀')
-        .setStyle(ButtonStyle.Secondary)
-    );
-  }
-
-  public async execute(interaction: ButtonInteraction, client: Bot) {
+export const button: Button = {
+  customId: 'shuffle',
+  async execute(interaction: ButtonInteraction, client: Bot) {
     if (interaction.inCachedGuild()) {
-      // checks if user is in a voice channel
-      if (!interaction.member.voice.channel) {
-        return interaction.editReply('❌ | please join a voice channel first!');
-      }
+      const { member, guildId } = interaction;
 
-      const queue = client.player.getQueue(interaction.guildId);
+        // checks if user is in a voice channel
+        if (!member.voice.channel) {
+          return interaction.followUp({
+            embeds: [new ErrorEmbed('***notInVC***')],
+            ephemeral: true
+          });
+        }
 
-      // checks if queue is empty
-      if (!queue) {
-        return interaction.editReply('❌ | there are no songs in the queue');
-      }
+        const queue = client.player.getQueue(guildId);
 
-      queue.shuffle();
+        // checks if queue is empty
+        if (!queue) {
+          return interaction.followUp({
+            embeds: [new ErrorEmbed('***queueEmpty***')],
+            ephemeral: true
+          });
+        }
 
-      await interaction.editReply('🔀 | queue has been shuffled!');
+        queue.shuffle();
+
+        return interaction.followUp({
+          embeds: [new SuccessEmbed(`***queue shuffled!***`)]
+        });
     }
   }
 }
 
-export default new Shuffle();

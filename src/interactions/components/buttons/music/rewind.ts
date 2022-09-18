@@ -1,19 +1,10 @@
-import { ButtonInteraction, ButtonBuilder, ButtonStyle } from 'discord.js';
-import Bot from '../../../../structures/bot';
-import Button from '../../../../structures/button';
+import { ButtonInteraction } from 'discord.js';
+import { Bot } from '../../../../structures/bot';
+import { Button } from '../../../../structures/button';
 
-class Rewind extends Button {
-  constructor() {
-    super(
-      'rewind',
-      new ButtonBuilder()
-        .setCustomId('rewind')
-        .setLabel('⏮️')
-        .setStyle(ButtonStyle.Secondary)
-    );
-  }
-
-  public async execute(interaction: ButtonInteraction, client: Bot) {
+export const button: Button = {
+  customId: 'rewind',
+  async execute(interaction: ButtonInteraction, client: Bot) {
     if (interaction.inCachedGuild()) {
       // checks if user is in a voice channel
       if (!interaction.member.voice.channel) {
@@ -37,4 +28,3 @@ class Rewind extends Button {
   }
 }
 
-export default new Rewind();

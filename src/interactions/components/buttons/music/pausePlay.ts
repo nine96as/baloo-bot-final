@@ -1,32 +1,30 @@
-import { ButtonInteraction, ButtonBuilder, ButtonStyle } from 'discord.js';
-import Bot from '../../../../structures/bot';
-import Button from '../../../../structures/button';
+import { ButtonInteraction } from 'discord.js';
+import { Bot } from '../../../../structures/bot';
+import { Button } from '../../../../structures/button';
+import { ErrorEmbed, SuccessEmbed } from '../../../../structures/embed';
 
-class PausePlay extends Button {
-  constructor() {
-    super(
-      'pausePlay',
-      new ButtonBuilder()
-        .setCustomId('pausePlay')
-        .setLabel('⏯️')
-        .setStyle(ButtonStyle.Secondary)
-    );
-  }
-
-  public async execute(interaction: ButtonInteraction, client: Bot) {
+export const button: Button = {
+  customId: 'pausePlay',
+  async execute(interaction: ButtonInteraction, client: Bot) {
     if (interaction.inCachedGuild()) {
+      const { member, guildId } = interaction;
+
       // checks if user is in a voice channel
-      if (!interaction.member.voice.channel) {
-        return interaction.editReply('❌ | please join a voice channel first!');
+      if (!member.voice.channel) {
+        return interaction.followUp({
+          embeds: [new ErrorEmbed('***notInVC***')],
+          ephemeral: true
+        });
       }
 
-      const queue = client.player.getQueue(interaction.guildId);
+      const queue = client.player.getQueue(guildId);
 
       // checks if there is anything playing
       if (!queue || !queue.playing) {
-        return interaction.editReply(
-          '❌ | no music is being played in this guild'
-        );
+        return interaction.followUp({
+          embeds: [new ErrorEmbed('***nothingPlaying***')],
+          ephemeral: true
+        });
       }
 
       // variable x used to validate whether pause can be carried out
@@ -35,11 +33,16 @@ class PausePlay extends Button {
       // if it fails, then set to play
       if (!x) queue.setPaused(false);
 
-      return interaction.editReply(
-        x ? '⏸️ | music has been paused!' : '▶️ | music has been resumed!'
-      );
+      if (x) {
+        return interaction.followUp({
+          embeds: [new SuccessEmbed('***music paused!***')]
+        });
+      } else {
+        return interaction.followUp({
+          embeds: [new SuccessEmbed('***music resumed!***')]
+        });
+      }
     }
   }
 }
 
-export default new PausePlay();

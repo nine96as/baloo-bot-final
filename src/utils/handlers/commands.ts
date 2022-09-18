@@ -1,29 +1,24 @@
 import 'dotenv/config';
-import {
-  Collection,
-  REST,
-  RESTPostAPIApplicationCommandsJSONBody,
-  Routes
-} from 'discord.js';
+import { Collection, REST, Routes } from 'discord.js';
 import { join } from 'path';
 import logger from '../functions/logger';
 import getFiles from '../functions/getFiles';
-import Command from '../../structures/command';
+import { Command } from '../../structures/command';
 const AsciiTable = require('ascii-table');
 
 const { clientId, developerGuildId, token } = process.env;
 
 const table = new AsciiTable().setHeading('command', 'status');
 
-const commandsArray: RESTPostAPIApplicationCommandsJSONBody[] = [];
-const developerArray: RESTPostAPIApplicationCommandsJSONBody[] = [];
+const commandArray: JSON[] = [];
+const developerArray: JSON[] = [];
 
 export default (): Collection<string, Command> => {
   const collection: Collection<string, Command> = new Collection();
   const files = getFiles(join(__dirname, '../../interactions/commands'));
 
   files.forEach((filePath) => {
-    const command: Command = require(filePath).default;
+    const { command } = require(filePath);
     if (command === undefined || command.data === undefined) {
       logger.error(
         `file at path ${filePath} seems to incorrectly be exporting a command.`
@@ -31,9 +26,9 @@ export default (): Collection<string, Command> => {
     } else {
       collection.set(command.data.name, command);
       if (command.developer) {
-        developerArray.push(command.data);
+        developerArray.push(command.data.toJSON());
       } else {
-        commandsArray.push(command.data);
+        commandArray.push(command.data.toJSON());
       }
 
       table.addRow(command.data.name, 'on');
@@ -49,7 +44,7 @@ export default (): Collection<string, Command> => {
 
   //loading of global commands
   rest.put(Routes.applicationCommands(clientId!), {
-    body: commandsArray
+    body: commandArray
   });
 
   logger.info(`\n${table.toString()}`);

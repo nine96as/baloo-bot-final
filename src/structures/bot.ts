@@ -7,7 +7,7 @@ import handleButtons from '../utils/handlers/buttons';
 import handleMenus from '../utils/handlers/menus';
 import handleModals from '../utils/handlers/modals';
 
-export default class Bot extends Client {
+export class Bot extends Client {
   commands = handleCommands();
   buttons = handleButtons();
   menus = handleMenus();

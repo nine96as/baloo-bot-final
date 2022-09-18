@@ -1,14 +1,14 @@
-import { SelectMenuInteraction, SelectMenuBuilder } from 'discord.js';
-import Bot from './bot';
+import { Bot } from './bot';
+import {
+  SelectMenuInteraction,
+  InteractionResponse,
+  Message
+} from 'discord.js';
 
-export default abstract class SelectMenu {
-  data: SelectMenuBuilder;
-  name: string;
-
-  constructor(name: string, data: SelectMenuBuilder) {
-    this.data = data;
-    this.name = name;
-  }
-
-  public abstract execute(interaction: SelectMenuInteraction, client: Bot): any;
+export interface SelectMenu {
+  customId: string;
+  execute(
+    interaction: SelectMenuInteraction,
+    client: Bot
+  ): Promise<InteractionResponse<boolean> | Message<boolean> | void>;
 }

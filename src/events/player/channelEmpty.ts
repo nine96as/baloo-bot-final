@@ -1,25 +1,17 @@
+import { Queue } from 'discord-player';
 import { Message } from 'discord.js';
-import Bot from '../../structures/bot';
-import Event, { CustomEvents } from '../../structures/event';
+import { Bot } from '../../structures/bot';
+import { Event } from '../../structures/event';
 
-export default class ChannelEmpty implements Event {
-  client: Bot;
-  name = CustomEvents.ChannelEmpty;
-  once = true;
-
-  constructor(client: Bot) {
-    this.client = client;
-  }
-
-  execute = async (queue: {
-    metadata: {
-      channel: { send: (arg0: string) => Promise<Message<boolean>> };
-    };
-  }) => {
+export const event: Event = {
+  name: 'channelEmpty',
+  once: true,
+  execute(_client: Bot, queue: Queue) {
+    // @ts-ignore
     queue.metadata.channel
-      .send('❌ | nobody is in the voice channel, leaving...')
-      .then((msg) => {
+      .send('❌ nobody is in the voice channel, leaving...')
+      .then((msg: Message) => {
         setTimeout(() => msg.delete(), 5000);
       });
-  };
+  }
 }
