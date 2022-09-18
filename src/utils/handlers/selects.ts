@@ -5,7 +5,7 @@ import getFiles from '../functions/getFiles';
 import { SelectMenu } from '../../structures/select';
 const AsciiTable = require('ascii-table');
 
-const table = new AsciiTable().setHeading('menu', 'status');
+const table = new AsciiTable().setHeading('select', 'status');
 
 export default (): Collection<string, SelectMenu> => {
   const collection: Collection<string, SelectMenu> = new Collection();
@@ -14,14 +14,14 @@ export default (): Collection<string, SelectMenu> => {
   );
 
   files.forEach((filePath) => {
-    const { menu } = require(filePath);
-    if (menu === undefined || menu.customId === undefined) {
+    const { select } = require(filePath);
+    if (select === undefined || select.customId === undefined) {
       logger.error(
         `file at path ${filePath} seems to be incorrectly be exporting a select menu.`
       );
     } else {
-      collection.set(menu.customId.toString(), menu);
-      table.addRow(menu.customId, 'on');
+      collection.set(select.customId, select);
+      table.addRow(select.customId, 'on');
     }
   });
 
