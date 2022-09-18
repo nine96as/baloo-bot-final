@@ -6,4 +6,3 @@ export interface Event {
   once?: boolean;
   execute(client: Bot, ...args: unknown[]): void | Promise<void>;
 }
-

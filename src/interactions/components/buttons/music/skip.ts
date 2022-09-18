@@ -34,5 +34,4 @@ export const button: Button = {
       });
     }
   }
-}
-
+};

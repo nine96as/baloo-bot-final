@@ -70,9 +70,7 @@ export const command: Command = {
     .addSubcommand((subcommand) =>
       subcommand
         .setName('move')
-        .setDescription(
-          '🛒 moves song to a different position in the queue'
-        )
+        .setDescription('🛒 moves song to a different position in the queue')
         .addIntegerOption((option) =>
           option
             .setName('oldpos')
@@ -92,9 +90,7 @@ export const command: Command = {
       subcommand.setName('skip').setDescription('⏭️ skips current song')
     )
     .addSubcommand((subcommand) =>
-      subcommand
-        .setName('rewind')
-        .setDescription('⏮️ rewinds to previous song')
+      subcommand.setName('rewind').setDescription('⏮️ rewinds to previous song')
     )
     .addSubcommand((subcommand) =>
       subcommand
@@ -130,9 +126,7 @@ export const command: Command = {
         )
     )
     .addSubcommand((subcommand) =>
-      subcommand
-        .setName('shuffle')
-        .setDescription('🔀 shuffles current queue')
+      subcommand.setName('shuffle').setDescription('🔀 shuffles current queue')
     )
     .addSubcommand((subcommand) =>
       subcommand
@@ -785,4 +779,4 @@ export const command: Command = {
       }
     }
   }
-}
+};

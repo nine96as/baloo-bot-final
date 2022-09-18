@@ -9,4 +9,4 @@ export const event: Event = {
   execute(_client: Bot, m: Message) {
     logger.warn(m);
   }
-}
+};
