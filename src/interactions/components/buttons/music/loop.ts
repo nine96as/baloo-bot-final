@@ -1,33 +1,31 @@
 import { QueueRepeatMode } from 'discord-player';
-import { ButtonInteraction, ButtonBuilder, ButtonStyle } from 'discord.js';
-import Bot from '../../../../structures/bot';
-import Button from '../../../../structures/button';
+import { ButtonInteraction } from 'discord.js';
+import { Bot } from '../../../../structures/bot';
+import { Button } from '../../../../structures/button';
+import { ErrorEmbed, SuccessEmbed } from '../../../../structures/embed';
 
-class Loop extends Button {
-  constructor() {
-    super(
-      'loop',
-      new ButtonBuilder()
-        .setCustomId('loop')
-        .setLabel('🔁')
-        .setStyle(ButtonStyle.Secondary)
-    );
-  }
-
-  public async execute(interaction: ButtonInteraction, client: Bot) {
+export const button: Button = {
+  customId: 'loop',
+  async execute(interaction: ButtonInteraction, client: Bot) {
     if (interaction.inCachedGuild()) {
+      const { member, guildId } = interaction;
+
       // checks if user is in a voice channel
-      if (!interaction.member.voice.channel) {
-        return interaction.editReply('❌ | please join a voice channel first!');
+      if (!member.voice.channel) {
+        return interaction.followUp({
+          embeds: [new ErrorEmbed('***notInVC***')],
+          ephemeral: true
+        });
       }
 
-      const queue = client.player.getQueue(interaction.guildId);
+      const queue = client.player.getQueue(guildId);
 
       // checks if there is anything playing
       if (!queue || !queue.playing) {
-        return interaction.editReply(
-          '❌ | no music is being played in this guild'
-        );
+        return interaction.followUp({
+          embeds: [new ErrorEmbed('***nothingPlaying***')],
+          ephemeral: true
+        });
       }
 
       const modes = ['off', 'track', 'queue'];
@@ -41,9 +39,9 @@ class Loop extends Button {
         queue.setRepeatMode(QueueRepeatMode.OFF);
       }
 
-      return interaction.editReply(`🔁 | looping ${modes[queue.repeatMode]}!`);
+      return interaction.followUp({
+        embeds: [new SuccessEmbed(`***looping ${modes[queue.repeatMode]}!***`)]
+      });
     }
   }
 }
-
-export default new Loop();

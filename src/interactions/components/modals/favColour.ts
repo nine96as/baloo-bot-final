@@ -1,48 +1,19 @@
-import {
-  ModalSubmitInteraction,
-  ModalBuilder,
-  ActionRowBuilder,
-  TextInputBuilder,
-  TextInputStyle,
-  CacheType
-} from 'discord.js';
-import Bot from '../../../structures/bot';
+import { ModalSubmitInteraction } from 'discord.js';
 import { Embed } from '../../../structures/embed';
-import Modal from '../../../structures/modal';
+import { Modal } from '../../../structures/modal';
 
-const textInput = new TextInputBuilder()
-  .setCustomId('favColourInput')
-  .setLabel('what is your fav colour?')
-  .setRequired(true)
-  .setStyle(TextInputStyle.Short);
+export const modal: Modal = {
+  customId: 'favColour',
+  async execute(interaction: ModalSubmitInteraction) {
+    const { fields } = interaction;
 
-const row = new ActionRowBuilder<TextInputBuilder>().addComponents(textInput);
+    const favColour = fields.getTextInputValue('favColourInput');
 
-class FavColour extends Modal {
-  constructor() {
-    super(
-      'favColour',
-      new ModalBuilder()
-        .setCustomId('favColour')
-        .setTitle('fav colour?')
-        .addComponents(row)
-    );
-  }
-
-  public async execute(
-    interaction: ModalSubmitInteraction<CacheType>,
-    client: Bot
-  ) {
-    const favColour = interaction.fields.getTextInputValue('favColourInput');
-    return await interaction.reply({
-
+    return interaction.reply({
       embeds: [
-        new Embed()
-          .setDescription(`🎨 ***fav colour = ${favColour}***`)
+        new Embed().setDescription(`🎨 ***fav colour = ${favColour}***`)
       ],
       ephemeral: true
     });
   }
-}
-
-export default new FavColour();
+};

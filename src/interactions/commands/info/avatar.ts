@@ -1,27 +1,16 @@
-import {
-  SlashCommandBuilder,
-  ChatInputCommandInteraction
-} from 'discord.js';
-import Bot from '../../../structures/bot';
-import Command from '../../../structures/command';
+import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
+import { Command } from '../../../structures/command';
 import { Embed } from '../../../structures/embed';
 
-class Avatar extends Command {
-  constructor() {
-    super(
-      new SlashCommandBuilder()
-        .setName('avatar')
-        .setDescription('🔬 get a user\'s\ avatar')
-        .addUserOption((option) =>
-          option
-            .setName('target')
-            .setDescription('member to fetch the avatar from')
-        )
-        .toJSON()
-    );
-  }
+export const command: Command = {
+  data: new SlashCommandBuilder()
+    .setName('avatar')
+    .setDescription("🔬 get a user's avatar")
+    .addUserOption((option) =>
+      option.setName('target').setDescription('member to fetch the avatar from')
+    ),
 
-  public async execute(interaction: ChatInputCommandInteraction, client: Bot) {
+  async execute(interaction: ChatInputCommandInteraction) {
     if (interaction.inCachedGuild()) {
       const { options } = interaction;
 
@@ -40,6 +29,4 @@ class Avatar extends Command {
       });
     }
   }
-}
-
-export default new Avatar();
+};

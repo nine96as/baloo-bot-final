@@ -3,23 +3,15 @@ import {
   UserContextMenuCommandInteraction,
   ContextMenuCommandBuilder
 } from 'discord.js';
-import Bot from '../../../structures/bot';
-import Command from '../../../structures/command';
+import { Command } from '../../../structures/command';
 import { Embed } from '../../../structures/embed';
 
-class GetAvatar extends Command {
-  constructor() {
-    super(
-      new ContextMenuCommandBuilder()
-        .setName('getAvatar')
-        .setType(ApplicationCommandType.User)
-    );
-  }
+export const command: Command = {
+  data: new ContextMenuCommandBuilder()
+    .setName('getAvatar')
+    .setType(ApplicationCommandType.User),
 
-  public async execute(
-    interaction: UserContextMenuCommandInteraction,
-    client: Bot
-  ) {
+  async execute(interaction: UserContextMenuCommandInteraction) {
     const member = interaction.targetUser;
 
     await interaction.reply({
@@ -34,6 +26,4 @@ class GetAvatar extends Command {
       ]
     });
   }
-}
-
-export default new GetAvatar();
+};

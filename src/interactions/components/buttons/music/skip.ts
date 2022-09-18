@@ -1,38 +1,38 @@
-import { ButtonInteraction, ButtonBuilder, ButtonStyle } from 'discord.js';
-import Bot from '../../../../structures/bot';
-import Button from '../../../../structures/button';
+import { ButtonInteraction } from 'discord.js';
+import { Bot } from '../../../../structures/bot';
+import { Button } from '../../../../structures/button';
+import { ErrorEmbed, SuccessEmbed } from '../../../../structures/embed';
 
-class Skip extends Button {
-  constructor() {
-    super(
-      'skip',
-      new ButtonBuilder()
-        .setCustomId('skip')
-        .setLabel('⏭️')
-        .setStyle(ButtonStyle.Secondary)
-    );
-  }
-
-  public async execute(interaction: ButtonInteraction, client: Bot) {
+export const button: Button = {
+  customId: 'skip',
+  async execute(interaction: ButtonInteraction, client: Bot) {
     if (interaction.inCachedGuild()) {
+      const { member, guildId } = interaction;
+
       // checks if user is in a voice channel
-      if (!interaction.member.voice.channel) {
-        return interaction.editReply('❌ | please join a voice channel first!');
+      if (!member.voice.channel) {
+        return interaction.followUp({
+          embeds: [new ErrorEmbed('***notInVC***')],
+          ephemeral: true
+        });
       }
 
-      const queue = client.player.getQueue(interaction.guildId);
+      const queue = client.player.getQueue(guildId);
 
-      // checks if queue is empty
-      if (!queue) {
-        return interaction.editReply('❌ | there are no songs in the queue');
+      // checks if there is anything playing
+      if (!queue || !queue.playing) {
+        return interaction.followUp({
+          embeds: [new ErrorEmbed('***nothingPlaying***')],
+          ephemeral: true
+        });
       }
 
-      const skip = queue.skip();
-      return interaction.editReply(
-        skip ? '⏭️ | song skipped' : '❌ | failed to skip track'
-      );
+      queue.skip();
+
+      return await interaction.followUp({
+        embeds: [new SuccessEmbed(`***song skipped***`)]
+      });
     }
   }
 }
 
-export default new Skip();

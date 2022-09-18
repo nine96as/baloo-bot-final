@@ -1,21 +1,33 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
-import Bot from '../../../structures/bot';
-import Command from '../../../structures/command';
-import favColour from '../../components/modals/favColour';
+import {
+  SlashCommandBuilder,
+  ChatInputCommandInteraction,
+  ModalBuilder,
+  ActionRowBuilder,
+  ModalActionRowComponentBuilder,
+  TextInputBuilder,
+  TextInputStyle
+} from 'discord.js';
+import { Command } from '../../../structures/command';
 
-class Modal extends Command {
-  constructor() {
-    super(
-      new SlashCommandBuilder()
-        .setName('modal')
-        .setDescription('📑 returns a modal')
-        .toJSON()
-    );
+export const command: Command = {
+  data: new SlashCommandBuilder()
+    .setName('modal')
+    .setDescription('📑 returns a modal'),
+
+  async execute(interaction: ChatInputCommandInteraction) {
+    const favColour = new ModalBuilder()
+      .setCustomId('favColour')
+      .setTitle('fav colour?')
+      .addComponents(
+        new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(
+          new TextInputBuilder()
+            .setCustomId('favColourInput')
+            .setLabel('what is your fav colour?')
+            .setRequired(true)
+            .setStyle(TextInputStyle.Short)
+        )
+      );
+
+    return interaction.showModal(favColour);
   }
-
-  public async execute(interaction: ChatInputCommandInteraction, client: Bot) {
-    interaction.showModal(favColour.data);
-  }
-}
-
-export default new Modal();
+};

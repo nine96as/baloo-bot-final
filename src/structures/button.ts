@@ -1,14 +1,10 @@
-import { ButtonInteraction, ButtonBuilder } from 'discord.js';
-import Bot from './bot';
+import { Bot } from './bot';
+import { ButtonInteraction, Message, InteractionResponse } from 'discord.js';
 
-export default abstract class Button {
-  data: ButtonBuilder;
-  name: string;
-
-  constructor(name: string, data: ButtonBuilder) {
-    this.data = data;
-    this.name = name;
-  }
-
-  public abstract execute(interaction: ButtonInteraction, client: Bot): any;
+export interface Button {
+  customId: string;
+  execute(
+    interaction: ButtonInteraction,
+    client: Bot
+  ): Promise<InteractionResponse<boolean> | Message<boolean> | void>;
 }

@@ -1,34 +1,24 @@
-import {
-  SlashCommandBuilder,
-  ChatInputCommandInteraction
-} from 'discord.js';
-import Bot from '../../../structures/bot';
-import Command from '../../../structures/command';
+import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
+import { Command } from '../../../structures/command';
 import { Embed, ErrorEmbed } from '../../../structures/embed';
 
-class Banner extends Command {
-  constructor() {
-    super(
-      new SlashCommandBuilder()
-        .setName('banner')
-        .setDescription("🔬 get a user's banner")
-        .addSubcommand((subcommand) =>
-          subcommand
-            .setName('user')
-            .setDescription("🔬 a user's banner")
-            .addUserOption((option) =>
-              option.setName('target').setDescription('the user')
-            )
+export const command: Command = {
+  data: new SlashCommandBuilder()
+    .setName('banner')
+    .setDescription("🔬 get a user's banner")
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName('user')
+        .setDescription("🔬 a user's banner")
+        .addUserOption((option) =>
+          option.setName('target').setDescription('the user')
         )
-        .addSubcommand((subcommand) =>
-          subcommand.setName('server').setDescription('🔬 the server banner')
-        )
-        .toJSON()
-    );
-    this.developer = true;
-  }
+    )
+    .addSubcommand((subcommand) =>
+      subcommand.setName('server').setDescription('🔬 the server banner')
+    ),
 
-  public async execute(interaction: ChatInputCommandInteraction, client: Bot) {
+  async execute(interaction: ChatInputCommandInteraction) {
     if (interaction.options.getSubcommand() === 'user') {
       if (interaction.inCachedGuild()) {
         const { options } = interaction;
@@ -50,9 +40,9 @@ class Banner extends Command {
               ]
             })
           : interaction.reply({
-            embeds: [new ErrorEmbed('***noBanner***')],
-            ephemeral: true
-          });
+              embeds: [new ErrorEmbed('***noBanner***')],
+              ephemeral: true
+            });
       }
     } else if (interaction.options.getSubcommand() === 'server') {
       if (interaction.inCachedGuild()) {
@@ -71,12 +61,10 @@ class Banner extends Command {
               ]
             })
           : interaction.reply({
-            embeds: [new ErrorEmbed('***noBanner***')],
-            ephemeral: true
-          });
+              embeds: [new ErrorEmbed('***noBanner***')],
+              ephemeral: true
+            });
       }
     }
   }
-}
-
-export default new Banner();
+};

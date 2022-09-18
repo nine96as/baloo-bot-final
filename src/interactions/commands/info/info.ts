@@ -4,36 +4,27 @@ import {
   time,
   ChannelType
 } from 'discord.js';
-import Bot from '../../../structures/bot';
-import Command from '../../../structures/command';
+import { Command } from '../../../structures/command';
 import { Embed } from '../../../structures/embed';
 import emojis from '../../../utils/assets/emojis';
 
-class Info extends Command {
-  constructor() {
-    super(
-      new SlashCommandBuilder()
-        .setName('info')
-        .setDescription('🔬 get info about a user or server')
-        .addSubcommand((subcommand) =>
-          subcommand
-            .setName('user')
-            .setDescription('🔬 info about a user')
-            .addUserOption((option) =>
-              option.setName('target').setDescription('the user')
-            )
+export const command: Command = {
+  data: new SlashCommandBuilder()
+    .setName('info')
+    .setDescription('🔬 get info about a user or server')
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName('user')
+        .setDescription('🔬 info about a user')
+        .addUserOption((option) =>
+          option.setName('target').setDescription('the user')
         )
-        .addSubcommand((subcommand) =>
-          subcommand
-            .setName('server')
-            .setDescription('🔬 info about the server')
-        )
-        .toJSON()
-    );
-    this.developer = true;
-  }
+    )
+    .addSubcommand((subcommand) =>
+      subcommand.setName('server').setDescription('🔬 info about the server')
+    ),
 
-  public async execute(interaction: ChatInputCommandInteraction, client: Bot) {
+  async execute(interaction: ChatInputCommandInteraction) {
     if (interaction.options.getSubcommand() === 'user') {
       if (interaction.inCachedGuild()) {
         const { options, guild } = interaction;
@@ -54,8 +45,10 @@ class Info extends Command {
                 iconURL: member.user.displayAvatarURL(),
                 name: member.user.tag
               })
-              // @ts-ignore
-              .setDescription(`${member} ${badges.map((b) => emojis.badge[b]).join(' ')}`)
+              .setDescription(
+                // @ts-ignore
+                `${member} ${badges.map((b) => emojis.badge[b]).join(' ')}`
+              )
               .setFooter({
                 text: `ID: ${member.user.id}`
               })
@@ -86,12 +79,13 @@ class Info extends Command {
                 {
                   name: `permissions (${member.permissions.toArray().length})`,
                   value: `${
-                    member.permissions.toArray().includes('Administrator') ?
-                      'Administrator' :
-                      member.permissions.toArray()
-                      .map((p) => p)
-                      .join(', ')
-                      .replace('_', ' ') || 'none'
+                    member.permissions.toArray().includes('Administrator')
+                      ? 'Administrator'
+                      : member.permissions
+                          .toArray()
+                          .map((p) => p)
+                          .join(', ')
+                          .replace('_', ' ') || 'none'
                   }`
                 }
               )
@@ -148,12 +142,15 @@ class Info extends Command {
                 },
                 {
                   name: 'role list',
-                  value: `${guild.roles.cache.map((r) => r).join(' ') || 'none'}`
+                  value: `${
+                    guild.roles.cache.map((r) => r).join(' ') || 'none'
+                  }`
                 },
                 {
                   name: 'created at',
                   value:
-                    `${time(guild.createdAt)} ` + `(${time(guild.createdAt, 'R')})`
+                    `${time(guild.createdAt)} ` +
+                    `(${time(guild.createdAt, 'R')})`
                 }
               )
           ]
@@ -161,6 +158,4 @@ class Info extends Command {
       }
     }
   }
-}
-
-export default new Info();
+};

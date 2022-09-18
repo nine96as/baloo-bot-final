@@ -1,16 +1,27 @@
+import { Bot } from './bot';
 import {
   CommandInteraction,
-  RESTPostAPIApplicationCommandsJSONBody
+  ContextMenuCommandBuilder,
+  InteractionResponse,
+  Message,
+  MessageContextMenuCommandInteraction,
+  SlashCommandBuilder,
+  SlashCommandSubcommandsOnlyBuilder,
+  UserContextMenuCommandInteraction
 } from 'discord.js';
-import Bot from './bot';
 
-export default abstract class Command {
+export interface Command {
   developer?: boolean;
-  data: RESTPostAPIApplicationCommandsJSONBody;
-
-  constructor(data: RESTPostAPIApplicationCommandsJSONBody) {
-    this.data = data;
-  }
-
-  public abstract execute(interaction: CommandInteraction, client: Bot): any;
+  data:
+    | ContextMenuCommandBuilder
+    | SlashCommandBuilder
+    | Omit<SlashCommandBuilder, 'addSubcommand' | 'addSubcommandGroup'>
+    | SlashCommandSubcommandsOnlyBuilder;
+  execute(
+    interaction:
+      | MessageContextMenuCommandInteraction
+      | UserContextMenuCommandInteraction
+      | CommandInteraction,
+    client: Bot
+  ): Promise<InteractionResponse<boolean> | Message<boolean> | void>;
 }

@@ -1,17 +1,9 @@
-import { Events } from 'discord.js';
-import Bot from './bot';
+import { Bot } from './bot';
+import { ClientEvents } from 'discord.js';
 
-export default interface Event {
-  client: Bot;
-  name: Events | CustomEvents;
+export interface Event {
+  name: keyof ClientEvents;
   once?: boolean;
-  execute: (...args: any) => void;
+  execute(client: Bot, ...args: unknown[]): void | Promise<void>;
 }
 
-export enum CustomEvents {
-  BotDisconnect = 'botDisconnect',
-  ChannelEmpty = 'channelEmpty',
-  ConnectionError = 'connectionError',
-  QueueEnd = 'queueEnd',
-  TrackStart = 'trackStart'
-}

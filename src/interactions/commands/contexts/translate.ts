@@ -1,27 +1,19 @@
 import {
   ApplicationCommandType,
-  UserContextMenuCommandInteraction,
-  ContextMenuCommandBuilder
+  ContextMenuCommandBuilder,
+  MessageContextMenuCommandInteraction
 } from 'discord.js';
-import Bot from '../../../structures/bot';
-import Command from '../../../structures/command';
-import translate from '@iamtraction/google-translate';
+import { Command } from '../../../structures/command';
 import { Embed } from '../../../structures/embed';
 import emojis from '../../../utils/assets/emojis';
+import translate from '@iamtraction/google-translate';
 
-class Translate extends Command {
-  constructor() {
-    super(
-      new ContextMenuCommandBuilder()
-        .setName('translate')
-        .setType(ApplicationCommandType.Message)
-    );
-  }
+export const command: Command = {
+  data: new ContextMenuCommandBuilder()
+    .setName('translate')
+    .setType(ApplicationCommandType.Message),
 
-  public async execute(
-    interaction: UserContextMenuCommandInteraction,
-    client: Bot
-  ) {
+  async execute(interaction: MessageContextMenuCommandInteraction) {
     if (interaction.inCachedGuild()) {
       const { channel, targetId } = interaction;
 
@@ -43,6 +35,4 @@ class Translate extends Command {
       });
     }
   }
-}
-
-export default new Translate();
+};
