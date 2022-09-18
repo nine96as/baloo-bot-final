@@ -4,21 +4,15 @@ import { DiscordTogether } from 'discord-together';
 import handleCommands from '../utils/handlers/commands';
 import handleEvents from '../utils/handlers/events';
 import handleButtons from '../utils/handlers/buttons';
-import handleMenus from '../utils/handlers/menus';
+import handleSelects from '../utils/handlers/selects';
 import handleModals from '../utils/handlers/modals';
 
 export class Bot extends Client {
   commands = handleCommands();
   buttons = handleButtons();
-  menus = handleMenus();
+  selects = handleSelects();
   modals = handleModals();
   together = new DiscordTogether(this);
-  player = new Player(this, {
-    ytdlOptions: {
-      quality: 'highestaudio',
-      highWaterMark: 1 << 25
-    }
-  });
 
   constructor(token: string) {
     super({
