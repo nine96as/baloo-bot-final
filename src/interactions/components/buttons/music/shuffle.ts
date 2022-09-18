@@ -9,30 +9,29 @@ export const button: Button = {
     if (interaction.inCachedGuild()) {
       const { member, guildId } = interaction;
 
-        // checks if user is in a voice channel
-        if (!member.voice.channel) {
-          return interaction.followUp({
-            embeds: [new ErrorEmbed('***notInVC***')],
-            ephemeral: true
-          });
-        }
-
-        const queue = client.player.getQueue(guildId);
-
-        // checks if queue is empty
-        if (!queue) {
-          return interaction.followUp({
-            embeds: [new ErrorEmbed('***queueEmpty***')],
-            ephemeral: true
-          });
-        }
-
-        queue.shuffle();
-
+      // checks if user is in a voice channel
+      if (!member.voice.channel) {
         return interaction.followUp({
-          embeds: [new SuccessEmbed(`***queue shuffled!***`)]
+          embeds: [new ErrorEmbed('***notInVC***')],
+          ephemeral: true
         });
+      }
+
+      const queue = client.player.getQueue(guildId);
+
+      // checks if queue is empty
+      if (!queue) {
+        return interaction.followUp({
+          embeds: [new ErrorEmbed('***queueEmpty***')],
+          ephemeral: true
+        });
+      }
+
+      queue.shuffle();
+
+      return interaction.followUp({
+        embeds: [new SuccessEmbed(`***queue shuffled!***`)]
+      });
     }
   }
-}
-
+};

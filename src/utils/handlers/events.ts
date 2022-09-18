@@ -14,11 +14,15 @@ export default (client: Bot) => {
     const event: Event = require(filePath);
 
     if (event.once) {
-      client.once(event.name, (...args: unknown[]) => event.execute(client, ...args));
+      client.once(event.name, (...args: unknown[]) =>
+        event.execute(client, ...args)
+      );
     } else {
-      client.on(event.name, (...args: unknown[]) => event.execute(client,...args));
+      client.on(event.name, (...args: unknown[]) =>
+        event.execute(client, ...args)
+      );
     }
-    
+
     table.addRow(event.name, 'on');
   });
 

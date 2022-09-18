@@ -12,4 +12,4 @@ export const event: Event = {
       type: ActivityType.Playing
     });
   }
-}
+};

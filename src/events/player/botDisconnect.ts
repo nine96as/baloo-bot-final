@@ -11,7 +11,7 @@ export const event: Event = {
     queue.metadata.channel
       .send('❌ i was disconnected from the voice channel, clearing queue!')
       .then((msg: Message) => {
-          setTimeout(() => msg.delete(), 5000);
+        setTimeout(() => msg.delete(), 5000);
       });
   }
-}
+};

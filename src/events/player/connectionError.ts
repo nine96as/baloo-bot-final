@@ -16,4 +16,4 @@ export const event: Event = {
         setTimeout(() => msg.delete(), 5000);
       });
   }
-}
+};
