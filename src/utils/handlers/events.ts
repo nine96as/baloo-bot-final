@@ -11,7 +11,7 @@ export default (client: Bot) => {
   const files = getFiles(join(__dirname, '../../events'));
 
   files.forEach((filePath) => {
-    const event: Event = require(filePath);
+    const { event } = require(filePath);
 
     if (event.once) {
       client.once(event.name, (...args: unknown[]) =>

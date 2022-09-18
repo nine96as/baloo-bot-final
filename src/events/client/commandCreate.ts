@@ -14,33 +14,15 @@ export const event: Event = {
       // exits early if command doesn't exist
       if (!command) return;
 
-      // music and activity commands need to be deferred
-      if (
-        interaction.commandName === 'music' ||
-        interaction.commandName === 'activities'
-      ) {
-        // if command exists, tries to carry out "execute" function
-        try {
-          await interaction.deferReply();
-          await command.execute(interaction as CommandInteraction, client);
-        } catch (e) {
-          logger.error(e);
-          await interaction.followUp({
-            embeds: [new ErrorEmbed('***commandExecuteError***')],
-            ephemeral: true
-          });
-        }
-      } else {
-        // if command exists, tries to carry out "execute" function
-        try {
-          await command.execute(interaction as CommandInteraction, client);
-        } catch (e) {
-          logger.error(e);
-          await interaction.followUp({
-            embeds: [new ErrorEmbed('***commandExecuteError***')],
-            ephemeral: true
-          });
-        }
+      // if command exists, tries to carry out "execute" function
+      try {
+        await command.execute(interaction as CommandInteraction, client);
+      } catch (e) {
+        logger.error(e);
+        interaction.reply({
+          embeds: [new ErrorEmbed('***commandExecuteError***')],
+          ephemeral: true
+        });
       }
     }
     if (interaction.isContextMenuCommand()) {
@@ -50,30 +32,15 @@ export const event: Event = {
       // exits early if command doesn't exist
       if (!command) return;
 
-      // translate command needs to be deferred
-      if (interaction.commandName === 'translate') {
-        // if command exists, tries to carry out "execute" function
-        try {
-          await interaction.deferReply();
-          await command.execute(interaction as CommandInteraction, client);
-        } catch (e) {
-          logger.error(e);
-          await interaction.followUp({
-            embeds: [new ErrorEmbed('***contextExecuteError***')],
-            ephemeral: true
-          });
-        }
-      } else {
-        // if command exists, tries to carry out "execute" function
-        try {
-          await command.execute(interaction as CommandInteraction, client);
-        } catch (e) {
-          logger.error(e);
-          await interaction.followUp({
-            embeds: [new ErrorEmbed('***contextExecuteError***')],
-            ephemeral: true
-          });
-        }
+      // if command exists, tries to carry out "execute" function
+      try {
+        await command.execute(interaction as CommandInteraction, client);
+      } catch (e) {
+        logger.error(e);
+        interaction.reply({
+          embeds: [new ErrorEmbed('***contextMenuExecuteError***')],
+          ephemeral: true
+        });
       }
     }
   }

@@ -16,11 +16,10 @@ export const event: Event = {
 
       // if button exists, tries to carry out "execute" function
       try {
-        await interaction.deferReply({ ephemeral: true });
         await button.execute(interaction as ButtonInteraction, client);
       } catch (e) {
         logger.error(e);
-        await interaction.followUp({
+        interaction.reply({
           embeds: [new ErrorEmbed('***buttonExecuteError***')]
         });
       }
