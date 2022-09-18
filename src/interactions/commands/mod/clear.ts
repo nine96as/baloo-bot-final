@@ -51,7 +51,7 @@ export const command: Command = {
             interaction.reply({
               embeds: [
                 new SuccessEmbed(
-                  `***cleared ${messages.size} message(s) from ${target}***`
+                  `***cleared \`${messages.size}\` message(s) from ${target}***`
                 )
               ]
             });
@@ -67,11 +67,7 @@ export const command: Command = {
         try {
           await channel?.bulkDelete(amount, true);
           interaction.reply({
-            embeds: [
-              new SuccessEmbed(
-                `***cleared ${amount} message(s) from channel***`
-              )
-            ]
+            embeds: [new SuccessEmbed(`***cleared \`${amount}\` message(s)***`)]
           });
         } catch (e) {
           logger.error(e);

@@ -14,7 +14,7 @@ export default (): Collection<string, SelectMenu> => {
   );
 
   files.forEach((filePath) => {
-    const menu: SelectMenu = require(filePath);
+    const { menu } = require(filePath);
     if (menu === undefined || menu.customId === undefined) {
       logger.error(
         `file at path ${filePath} seems to be incorrectly be exporting a select menu.`

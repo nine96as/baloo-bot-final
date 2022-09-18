@@ -19,7 +19,7 @@ export const event: Event = {
         await modal.execute(interaction as ModalSubmitInteraction, client);
       } catch (e) {
         logger.error(e);
-        await interaction.reply({
+        interaction.reply({
           embeds: [new ErrorEmbed('***modalExecuteError***')],
           ephemeral: true
         });

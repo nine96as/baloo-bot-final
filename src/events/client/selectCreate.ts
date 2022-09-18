@@ -19,7 +19,7 @@ export const event: Event = {
         await menu.execute(interaction as SelectMenuInteraction, client);
       } catch (e) {
         logger.error(e);
-        await interaction.reply({
+        interaction.reply({
           embeds: [new ErrorEmbed('***menuExecuteError***')],
           ephemeral: true
         });

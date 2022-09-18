@@ -14,7 +14,7 @@ export default (): Collection<string, Button> => {
   );
 
   files.forEach((filePath) => {
-    const button: Button = require(filePath);
+    const { button } = require(filePath);
     if (button === undefined || button.customId === undefined) {
       logger.error(
         `file at path ${filePath} seems to be incorrectly be exporting a button.`

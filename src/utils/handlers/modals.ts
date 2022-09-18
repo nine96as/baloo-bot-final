@@ -14,7 +14,7 @@ export default (): Collection<string, Modal> => {
   );
 
   files.forEach((filePath) => {
-    const modal: Modal = require(filePath);
+    const { modal } = require(filePath);
     if (modal === undefined || modal.customId === undefined) {
       logger.error(
         `file at path ${filePath} seems to incorrectly be exporting a modal.`

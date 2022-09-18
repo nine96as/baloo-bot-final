@@ -22,14 +22,17 @@ export const command: Command = {
 
       const translatedMsg = await translate(rawMsg!, { to: 'en' });
 
-      return interaction.followUp({
+      return interaction.reply({
         embeds: [
           new Embed()
             .setColor('Random')
             .setTitle(`${emojis.translate} translate`)
             .addFields([
-              { name: 'raw', value: '```' + rawMsg + '```' },
-              { name: 'translated', value: '```' + translatedMsg.text + '```' }
+              { name: '***raw***', value: '```' + rawMsg + '```' },
+              {
+                name: '***translated***',
+                value: '```' + translatedMsg.text + '```'
+              }
             ])
         ]
       });

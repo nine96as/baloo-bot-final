@@ -37,7 +37,8 @@ export const command: Command = {
       }
 
       await guild.bans.fetch();
-      if (!guild.bans.cache.some((ban) => ban.user.id === id)) {
+      const ban = guild.bans.cache.find((ban) => ban.user.id === id);
+      if (!ban) {
         return await interaction.reply({
           embeds: [new ErrorEmbed('***notBanned***')],
           ephemeral: true
@@ -45,9 +46,9 @@ export const command: Command = {
       }
 
       try {
-        guild.bans.remove(id!, reason);
+        guild.bans.remove(id, reason);
         return interaction.reply({
-          embeds: [new SuccessEmbed(`***${id} was unbanned***`)]
+          embeds: [new SuccessEmbed(`***${ban.user.tag} was unbanned***`)]
         });
       } catch (e) {
         if (e) {

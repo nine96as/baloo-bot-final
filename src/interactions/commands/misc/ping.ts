@@ -17,9 +17,9 @@ export const command: Command = {
     await interaction.editReply({
       embeds: [
         new Embed().setDescription(
-          `${emojis.ping} ***pong!*** \`${
+          `${emojis.ping} ***pong! \`${
             msg.createdTimestamp - interaction.createdTimestamp
-          }ms\``
+          }ms\`***`
         )
       ]
     });
