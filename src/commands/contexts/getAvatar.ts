@@ -14,7 +14,7 @@ export const command: Command = {
   async execute(interaction: UserContextMenuCommandInteraction) {
     const member = interaction.targetUser;
 
-    await interaction.reply({
+    return interaction.reply({
       embeds: [
         new Embed()
           .setColor('Random')

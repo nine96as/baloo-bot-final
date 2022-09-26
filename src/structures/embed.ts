@@ -1,5 +1,5 @@
 import { EmbedBuilder, EmbedData } from 'discord.js';
-import emojis from '../utils/assets/emojis';
+import emojis from '#assets/emojis';
 
 export class Embed extends EmbedBuilder {
   constructor(data?: EmbedData) {
