@@ -3,15 +3,16 @@ import fs from 'fs';
 type path = string;
 
 /**
- * returns all '.ts' or '.js' files in a path
+ * fetches all '.ts' or '.js' files in a path
  * @param {string} path path to search
+ * @returns {Array} list of files in path
  */
-export default (path: path): path[] => {
+export function getFiles(path: path): Array<string> {
   const results = fs.readdirSync(path);
   const files: path[] = pushFiles(path, results);
 
   return files;
-};
+}
 
 const pushFiles = (path: path, results: path[]) => {
   const files: path[] = [];

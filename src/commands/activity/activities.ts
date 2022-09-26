@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
-import { Bot } from '../../../structures/bot';
-import { Command } from '../../../structures/command';
-import { ErrorEmbed, SuccessEmbed } from '../../../structures/embed';
+import { Bot } from '#structures/bot';
+import { Command } from '#structures/command';
+import { ErrorEmbed, SuccessEmbed } from '#structures/embed';
 
 export const command: Command = {
   data: new SlashCommandBuilder()
@@ -32,7 +32,7 @@ export const command: Command = {
       const vc = member.voice.channel;
 
       if (!vc) {
-        return await interaction.followUp({
+        return interaction.reply({
           embeds: [new ErrorEmbed('***notInVC***')],
           ephemeral: true
         });
@@ -41,48 +41,48 @@ export const command: Command = {
       switch (choices) {
         case '1':
           app.createTogetherCode(vc.id, 'poker').then((invite) =>
-            interaction.followUp({
+            interaction.reply({
               embeds: [new SuccessEmbed(`***[activity](${invite.code})***`)]
             })
           );
           break;
         case '2':
           app.createTogetherCode(vc.id, 'betrayal').then((invite) =>
-            interaction.followUp({
+            interaction.reply({
               embeds: [new SuccessEmbed(`***[activity](${invite.code})***`)]
             })
           );
           break;
         case '3':
           app.createTogetherCode(vc.id, 'fishing').then((invite) =>
-            interaction.followUp({
+            interaction.reply({
               embeds: [new SuccessEmbed(`***[activity](${invite.code})***`)]
             })
           );
           break;
         case '4':
           app.createTogetherCode(vc.id, 'youtube').then((invite) =>
-            interaction.followUp({
+            interaction.reply({
               embeds: [new SuccessEmbed(`***[activity](${invite.code})***`)]
             })
           );
           break;
         case '5':
           app.createTogetherCode(vc.id, 'land').then((invite) =>
-            interaction.followUp({
+            interaction.reply({
               embeds: [new SuccessEmbed(`***[activity](${invite.code})***`)]
             })
           );
         case '6':
           app.createTogetherCode(vc.id, 'doodlecrew').then((invite) =>
-            interaction.followUp({
+            interaction.reply({
               embeds: [new SuccessEmbed(`***[activity](${invite.code})***`)]
             })
           );
           break;
         case '7':
           app.createTogetherCode(vc.id, 'puttparty').then((invite) =>
-            interaction.followUp({
+            interaction.reply({
               embeds: [new SuccessEmbed(`***[activity](${invite.code})***`)]
             })
           );

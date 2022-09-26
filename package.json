@@ -1,21 +1,35 @@
 {
   "name": "baloo",
   "version": "1.0.0",
-  "description": "",
-  "main": "./lib/index.js",
+  "description": "a discord bot made using discord.js",
+  "type": "module",
+  "exports": "./src/index.ts",
+  "imports": {
+    "#handlers/*": "./src/handlers/*.ts",
+    "#assets/*": "./src/assets/*.ts",
+    "#functions/*": "./src/functions/*.ts",
+    "#structures/*": "./src/structures/*.ts"
+  },
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint --fix .",
-    "start": "node ./lib/index.js",
+    "start": "ts-node ./src/index.ts",
     "start:dev": "nodemon ./src/index.ts | pino-pretty",
-    "pre-commit": "npm run format",
-    "build": "tsc"
+    "pre-commit": "npm run format"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/996as/baloo-bot-final"
   },
   "keywords": [],
   "author": "996as",
-  "license": "ISC",
+  "license": "GNU General Public License v3.0",
+  "engines": {
+    "node": ">=16.16.0"
+  },
   "devDependencies": {
-    "@types/node": "*",
+    "@types/glob": "^8.0.0",
+    "@types/node": "^18.7.21",
     "@typescript-eslint/eslint-plugin": "^5.37.0",
     "@typescript-eslint/parser": "^5.37.0",
     "eslint": "^8.23.1",
@@ -23,7 +37,6 @@
     "eslint-plugin-prettier": "^4.2.1",
     "husky": "^8.0.1",
     "nodemon": "^2.0.19",
-    "pino": "7.0.0-rc.9",
     "pino-pretty": "^9.1.0",
     "prettier": "^2.7.1",
     "ts-node": "^10.9.1",
@@ -35,11 +48,13 @@
     "@discordjs/voice": "^0.11.0",
     "@iamtraction/google-translate": "^1.1.2",
     "ascii-table": "^0.0.9",
-    "discord-player": "^5.3.1",
+    "discord-player-plus": "^1.4.1",
     "discord-together": "^1.3.31",
     "discord.js": "^14.3.0",
     "dotenv": "^16.0.2",
     "ffmpeg-static": "^5.1.0",
-    "ms": "^2.1.3"
+    "ms": "^2.1.3",
+    "pino": "^8.6.0",
+    "tiny-glob": "^0.2.9"
   }
 }

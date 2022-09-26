@@ -1,4 +1,4 @@
-import { Bot } from './bot';
+import { Bot } from './bot.js';
 import {
   InteractionResponse,
   Message,
