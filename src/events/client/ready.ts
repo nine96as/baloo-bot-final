@@ -1,7 +1,6 @@
 import { ActivityType } from 'discord.js';
-import { Bot } from '#structures/bot';
-import { Event } from '#structures/event';
-import { logger } from '#functions/logger';
+import { Bot, Event } from '#structures';
+import { logger } from '#functions';
 
 export const event: Event = {
   name: 'ready',

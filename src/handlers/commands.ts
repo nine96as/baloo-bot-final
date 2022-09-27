@@ -1,9 +1,6 @@
 import { REST, Routes } from 'discord.js';
-import { Bot } from '#structures/bot';
-import { getContents } from '#functions/getContents';
-import { config } from '#functions/config';
-import { logger } from '#functions/logger';
-
+import { Bot } from '#structures';
+import { config, getContents, logger } from '#functions';
 const { clientId, developerGuildId, token } = config;
 
 const commandArray: JSON[] = [];

@@ -1,4 +1,4 @@
-export default {
+export const emojis = {
   user: '<:user:1019630013991096360>',
   textChannel: '<:text:1019353564306485248>',
   voiceChannel: '<:voice:1019353562507116627>',

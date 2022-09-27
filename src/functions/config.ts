@@ -1,4 +1,4 @@
-import { logger } from '#functions/logger';
+import { logger } from '#functions';
 import 'dotenv/config';
 const { token, clientId, developerGuildId } = process.env;
 
