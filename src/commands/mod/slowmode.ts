@@ -3,8 +3,7 @@ import {
   ChatInputCommandInteraction,
   PermissionFlagsBits
 } from 'discord.js';
-import { Command } from '#structures/command';
-import { SuccessEmbed, ErrorEmbed } from '#structures/embed';
+import { Command, SuccessEmbed, ErrorEmbed } from '#structures';
 import ms from 'ms';
 
 export const command: Command = {

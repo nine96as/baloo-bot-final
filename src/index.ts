@@ -1,4 +1,4 @@
-import { Bot } from '#structures/bot';
-import { config } from '#functions/config';
+import { Bot } from '#structures';
+import { config } from '#functions';
 
 new Bot(config.token);
