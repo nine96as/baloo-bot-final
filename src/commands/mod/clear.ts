@@ -4,10 +4,9 @@ import {
   PermissionFlagsBits,
   Message
 } from 'discord.js';
-import { Command } from '#structures/command';
-import { SuccessEmbed, ErrorEmbed } from '#structures/embed';
-import { logger } from '#functions/logger';
-import wait from 'node:timers/promises';
+import { Command, SuccessEmbed, ErrorEmbed } from '#structures';
+import { logger } from '#functions';
+import wait from 'timers/promises';
 
 export const command: Command = {
   data: new SlashCommandBuilder()

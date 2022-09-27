@@ -1,6 +1,5 @@
 import { ModalSubmitInteraction } from 'discord.js';
-import { Modal } from '#structures/modal';
-import { Embed } from '#structures/embed';
+import { Modal, Embed } from '#structures';
 
 export const modal: Modal = {
   customId: 'favColour',

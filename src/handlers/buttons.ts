@@ -1,6 +1,5 @@
-import { Bot } from '#structures/bot';
-import { getContents } from '#functions/getContents';
-import { logger } from '#functions/logger';
+import { Bot } from '#structures';
+import { getContents, logger } from '#functions';
 
 export async function loadButtons(client: Bot) {
   const contents = await getContents('src/buttons');

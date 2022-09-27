@@ -1,8 +1,6 @@
 import { Interaction, SelectMenuInteraction } from 'discord.js';
-import { Bot } from '#structures/bot';
-import { Event } from '#structures/event';
-import { ErrorEmbed } from '#structures/embed';
-import { logger } from '#functions/logger';
+import { Bot, Event, ErrorEmbed } from '#structures';
+import { logger } from '#functions';
 
 export const event: Event = {
   name: 'interactionCreate',

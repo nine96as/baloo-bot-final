@@ -1,10 +1,12 @@
 import { Client, Collection, GatewayIntentBits } from 'discord.js';
 import { DiscordTogether } from 'discord-together';
-import { loadCommands } from '#handlers/commands';
-import { loadEvents } from '#handlers/events';
-import { loadButtons } from '#handlers/buttons';
-import { loadSelects } from '#handlers/selects';
-import { loadModals } from '#handlers/modals';
+import {
+  loadEvents,
+  loadCommands,
+  loadButtons,
+  loadSelects,
+  loadModals
+} from '#handlers';
 import { Command } from './command.js';
 import { Button } from './button.js';
 import { SelectMenu } from './select.js';

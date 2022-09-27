@@ -1,7 +1,6 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
-import { Command } from '#structures/command';
-import { Embed } from '#structures/embed';
-import emojis from '#assets/emojis';
+import { Command, Embed } from '#structures';
+import { emojis } from '#assets';
 
 const sides = [
   { name: 'd4', value: 4 },

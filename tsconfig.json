@@ -8,10 +8,10 @@
     "moduleResolution": "Node16",
     "baseUrl": "src",
     "paths": {
-      "#handlers/*": ["handlers/*.ts"],
-      "#assets/*": ["assets/*.ts"],
-      "#functions/*": ["functions/*.ts"],
-      "#structures/*": ["structures/*.ts"]
+      "#handlers": ["handlers/index.ts"],
+      "#assets": ["assets/index.ts"],
+      "#functions": ["functions/index.ts"],
+      "#structures": ["structures/index.ts"]
     },
     "resolveJsonModule": true,
     "sourceMap": false,
