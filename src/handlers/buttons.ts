@@ -1,34 +1,18 @@
-import { Collection } from 'discord.js';
-import { Button } from '#structures/button';
+import { Bot } from '#structures/bot';
+import { getContents } from '#functions/getContents';
 import { logger } from '#functions/logger';
-import { join } from 'path';
-import { readdirSync } from 'fs';
 
-export async function loadButtons() {
-  const collection: Collection<string, Button> = new Collection();
-  const path: string = join('src/buttons');
-  const buttons = readdirSync(path);
+export async function loadButtons(client: Bot) {
+  const contents = await getContents('src/buttons');
 
-  buttons.forEach((module) => {
-    const modulePath: string = join(path, module)
-    const files = readdirSync(modulePath)
-      .filter((file) => file.endsWith('.js'));
+  for (const content of contents) {
+    const { button } = content;
+    if (button === undefined || button.customId === undefined) {
+      logger.error(`error exporting button.`);
+    } else {
+      client.buttons.set(button.customId, button);
+    }
+  }
 
-    files.forEach(async (file) => {
-      const filePath = join(modulePath, module, file);
-      const { button } = await import(filePath);
-      if (button === undefined || button.data === undefined) {
-        logger.error(
-          `file at path ${path} seems to incorrectly be exporting a button.`
-        );
-      } else {
-        collection.set(button.customId, button);
-        // table.addRow(button.customId, 'on');
-      }
-    });
-  });
-
-  logger.info(`loaded buttons.`);
-
-  return collection;
+  logger.info(`loaded ${client.buttons.size} button(s).`);
 }

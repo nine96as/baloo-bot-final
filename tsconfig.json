@@ -3,31 +3,31 @@
     "target": "ES2022",
     "module": "ES2022",
     "lib": ["ES2022"],
-    "experimentalDecorators": true,                   
-    "emitDecoratorMetadata": true,                    
-    "moduleResolution": "Node16",                       
-    "baseUrl": "src",                                  
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "moduleResolution": "Node16",
+    "baseUrl": "src",
     "paths": {
       "#handlers/*": ["handlers/*.ts"],
       "#assets/*": ["assets/*.ts"],
       "#functions/*": ["functions/*.ts"],
       "#structures/*": ["structures/*.ts"]
-    },                                      
-    "resolveJsonModule": true,                        
-    "sourceMap": false,                                
+    },
+    "resolveJsonModule": true,
+    "sourceMap": false,
     "outDir": "lib",
-    "importHelpers": true,                            
-    "allowSyntheticDefaultImports": true,             
+    "importHelpers": true,
+    "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "strictNullChecks": true,                         
-    "skipDefaultLibCheck": true,                      
+    "strictNullChecks": true,
+    "skipDefaultLibCheck": true,
     "skipLibCheck": true
   },
   "ts-node": {
     "esm": true,
     "files": true,
-    "transpileOnly": true,                            
+    "transpileOnly": true
   }
 }

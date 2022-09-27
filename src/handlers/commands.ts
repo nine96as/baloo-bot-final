@@ -1,49 +1,46 @@
 import { REST, Routes } from 'discord.js';
 import { Bot } from '#structures/bot';
+import { getContents } from '#functions/getContents';
+import { config } from '#functions/config';
 import { logger } from '#functions/logger';
-import 'dotenv/config';
-import glob from 'tiny-glob';
 
-const { clientId, developerGuildId, token } = process.env;
+const { clientId, developerGuildId, token } = config;
 
 const commandArray: JSON[] = [];
 const developerArray: JSON[] = [];
 
 export async function loadCommands(client: Bot) {
-  const files = await glob('src/commands/**/*.js');
+  const contents = await getContents('src/commands');
 
-  const contents = await Promise.all(
-    files.map((path) => import(path))
-  );
-
-  console.log(contents);
-
-  for (const command of contents) {
+  for (const content of contents) {
+    const { command } = content;
     if (command === undefined || command.data === undefined) {
-      logger.error(
-        `error exporting ${command.data.name}`
-      );
+      logger.error(`error exporting command.`);
     } else {
       client.commands.set(command.data.name, command);
-      // table.addRow(modal.customId, 'on');
+      if (command.developer) {
+        developerArray.push(command.data.toJSON());
+      } else {
+        commandArray.push(command.data.toJSON());
+      }
     }
   }
 
-  deployCommands();
+  await deployCommands();
 
-  logger.info(`loaded commands.`);
+  logger.info(`loaded ${client.commands.size} command(s).`);
 }
 
-function deployCommands() {
-  const rest = new REST({ version: '10' }).setToken(token!);
+async function deployCommands() {
+  const rest = new REST({ version: '10' }).setToken(token);
 
   //loading of developer guild commands
-  rest.put(Routes.applicationGuildCommands(clientId!, developerGuildId!), {
+  await rest.put(Routes.applicationGuildCommands(clientId, developerGuildId), {
     body: developerArray
   });
 
   //loading of global commands
-  rest.put(Routes.applicationCommands(clientId!), {
+  await rest.put(Routes.applicationCommands(clientId), {
     body: commandArray
   });
 }

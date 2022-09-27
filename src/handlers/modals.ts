@@ -1,31 +1,18 @@
-import { Collection } from 'discord.js';
-import { Modal } from '#structures/modal';
+import { Bot } from '#structures/bot';
+import { getContents } from '#functions/getContents';
 import { logger } from '#functions/logger';
-import { join } from 'path';
-import { readdir } from 'fs/promises';
 
-export async function loadModals() {
-  const collection: Collection<string, Modal> = new Collection();
-  const path: string = join('src/modals');
-  const files = (await readdir(path))
-    .filter((file) => file.endsWith('.js'));
+export async function loadModals(client: Bot) {
+  const contents = await getContents('src/modals');
 
-  const fileContents = await Promise.all(
-    files.map((path) => import(path))
-  );
-
-  for (const modal of fileContents) {
+  for (const content of contents) {
+    const { modal } = content;
     if (modal === undefined || modal.customId === undefined) {
-      logger.error(
-        `error exporting ${modal.customId}`
-      );
+      logger.error(`error exporting modal.`);
     } else {
-      collection.set(modal.customId, modal);
-      // table.addRow(modal.customId, 'on');
+      client.modals.set(modal.customId, modal);
     }
   }
 
-  logger.info(`loaded modals.`);
-
-  return collection;
+  logger.info(`loaded ${client.modals.size} modal(s).`);
 }

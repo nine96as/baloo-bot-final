@@ -73,6 +73,7 @@ export const command: Command = {
               embeds: [new SuccessEmbed(`***[activity](${invite.code})***`)]
             })
           );
+          break;
         case '6':
           app.createTogetherCode(vc.id, 'doodlecrew').then((invite) =>
             interaction.reply({

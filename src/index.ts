@@ -1,6 +1,4 @@
 import { Bot } from '#structures/bot';
-import 'dotenv/config';
+import { config } from '#functions/config';
 
-const { token } = process.env
-
-new Bot(token!);
+new Bot(config.token);

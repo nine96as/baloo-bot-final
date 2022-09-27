@@ -4,9 +4,9 @@ import {
   time,
   ChannelType
 } from 'discord.js';
-import { Command } from '../../../structures/command';
-import { Embed } from '../../../structures/embed';
-import emojis from '../../../utils/assets/emojis';
+import { Command } from '#structures/command';
+import { Embed } from '#structures/embed';
+import emojis from '#assets/emojis';
 
 export const command: Command = {
   data: new SlashCommandBuilder()
