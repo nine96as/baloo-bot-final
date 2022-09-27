@@ -3,9 +3,8 @@ import {
   ContextMenuCommandBuilder,
   MessageContextMenuCommandInteraction
 } from 'discord.js';
-import { Command } from '#structures/command';
-import { Embed } from '#structures/embed';
-import emojis from '#assets/emojis';
+import { Command, Embed } from '#structures';
+import { emojis } from '#assets';
 import translate from '@iamtraction/google-translate';
 
 export const command: Command = {
