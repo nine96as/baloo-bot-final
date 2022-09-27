@@ -3,19 +3,9 @@ import {
   ChatInputCommandInteraction,
   PermissionFlagsBits
 } from 'discord.js';
-import { Command } from '../../../structures/command';
-import { ErrorEmbed, SuccessEmbed } from '../../../structures/embed';
-import logger from '../../../utils/functions/logger';
-
-const durations = [
-  { name: '60 seconds', value: 60 * 1000 },
-  { name: '5 minutes', value: 5 * 60 * 1000 },
-  { name: '10 minutes', value: 10 * 60 * 1000 },
-  { name: '30 minutes', value: 30 * 60 * 1000 },
-  { name: '1 hour', value: 60 * 60 * 1000 },
-  { name: '1 day', value: 24 * 60 * 60 * 1000 },
-  { name: '1 week', value: 7 * 24 * 60 * 60 * 1000 }
-];
+import { Command } from '#structures/command';
+import { SuccessEmbed, ErrorEmbed } from '#structures/embed';
+import { logger } from '#functions/logger';
 
 export const command: Command = {
   data: new SlashCommandBuilder()
@@ -85,7 +75,6 @@ export const command: Command = {
 
       try {
         await member.timeout(duration, reason);
-        //duration = durations.find((d) => duration === d.value)?.name
         return interaction.reply({
           embeds: [new SuccessEmbed(`***${member.user.tag} was timed out***`)]
         });

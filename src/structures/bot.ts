@@ -1,5 +1,4 @@
 import { Client, Collection, GatewayIntentBits } from 'discord.js';
-import { PlayerManager } from 'discord-player-plus';
 import { DiscordTogether } from 'discord-together';
 import { loadCommands } from '#handlers/commands';
 import { loadEvents } from '#handlers/events';
@@ -19,7 +18,6 @@ export class Bot extends Client {
   buttons = new Collection<string, Button>();
   selects = new Collection<string, SelectMenu>();
   modals = new Collection<string, Modal>();
-  player = new PlayerManager();
   together = new DiscordTogether(this);
 
   constructor(token: string) {
@@ -33,6 +31,9 @@ export class Bot extends Client {
   async init(token: string) {
     await loadEvents(this);
     await loadCommands(this);
+    await loadButtons(this);
+    await loadSelects(this);
+    await loadModals(this);
     this.login(token);
   }
 }

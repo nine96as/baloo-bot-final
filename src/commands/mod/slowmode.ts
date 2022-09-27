@@ -3,9 +3,9 @@ import {
   ChatInputCommandInteraction,
   PermissionFlagsBits
 } from 'discord.js';
-import { Command } from '../../../structures/command';
-import { ErrorEmbed, SuccessEmbed } from '../../../structures/embed';
-const ms = require('ms');
+import { Command } from '#structures/command';
+import { SuccessEmbed, ErrorEmbed } from '#structures/embed';
+import ms from 'ms';
 
 export const command: Command = {
   data: new SlashCommandBuilder()
@@ -24,7 +24,7 @@ export const command: Command = {
       const { channel, options } = interaction;
 
       const duration = options.getString('duration');
-      const durationMS = ms(duration);
+      const durationMS = ms(duration!);
 
       if (durationMS > 21600000) {
         return interaction.reply({
