@@ -1,8 +1,8 @@
 import { Interaction, ModalSubmitInteraction } from 'discord.js';
-import { Bot } from '../../structures/bot';
-import { Event } from '../../structures/event';
-import { ErrorEmbed } from '../../structures/embed';
-import logger from '../../utils/functions/logger';
+import { Bot } from '#structures/bot';
+import { Event } from '#structures/event';
+import { ErrorEmbed } from '#structures/embed';
+import { logger } from '#functions/logger';
 
 export const event: Event = {
   name: 'interactionCreate',

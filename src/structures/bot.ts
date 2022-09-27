@@ -1,31 +1,39 @@
-import { Client, GatewayIntentBits } from 'discord.js';
-import { Player } from 'discord-player';
+import { Client, Collection, GatewayIntentBits } from 'discord.js';
 import { DiscordTogether } from 'discord-together';
-import handleCommands from '../utils/handlers/commands';
-import handleEvents from '../utils/handlers/events';
-import handleButtons from '../utils/handlers/buttons';
-import handleSelects from '../utils/handlers/selects';
-import handleModals from '../utils/handlers/modals';
+import { loadCommands } from '#handlers/commands';
+import { loadEvents } from '#handlers/events';
+import { loadButtons } from '#handlers/buttons';
+import { loadSelects } from '#handlers/selects';
+import { loadModals } from '#handlers/modals';
+import { Command } from './command.js';
+import { Button } from './button.js';
+import { SelectMenu } from './select.js';
+import { Modal } from './modal.js';
+
+const { Guilds, GuildMembers, GuildMessages, GuildVoiceStates } =
+  GatewayIntentBits;
 
 export class Bot extends Client {
-  commands = handleCommands();
-  buttons = handleButtons();
-  selects = handleSelects();
-  modals = handleModals();
+  commands = new Collection<string, Command>();
+  buttons = new Collection<string, Button>();
+  selects = new Collection<string, SelectMenu>();
+  modals = new Collection<string, Modal>();
   together = new DiscordTogether(this);
 
   constructor(token: string) {
     super({
-      intents: [
-        GatewayIntentBits.Guilds,
-        GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.GuildMembers,
-        GatewayIntentBits.GuildVoiceStates
-      ]
+      intents: [Guilds, GuildMessages, GuildMembers, GuildVoiceStates]
     });
 
-    handleEvents(this);
+    this.init(token);
+  }
 
+  async init(token: string) {
+    await loadEvents(this);
+    await loadCommands(this);
+    await loadButtons(this);
+    await loadSelects(this);
+    await loadModals(this);
     this.login(token);
   }
 }

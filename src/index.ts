@@ -1,5 +1,4 @@
-import 'dotenv/config';
-import { Bot } from './structures/bot';
+import { Bot } from '#structures/bot';
+import { config } from '#functions/config';
 
-const { token } = process.env;
-const client = new Bot(token!);
+new Bot(config.token);
