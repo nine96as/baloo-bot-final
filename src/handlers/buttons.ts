@@ -2,7 +2,7 @@ import { Bot } from '#structures';
 import { getContents, logger } from '#functions';
 
 export async function loadButtons(client: Bot) {
-  const contents = await getContents('src/buttons');
+  const contents = await getContents('./src/buttons');
 
   for (const content of contents) {
     const { button } = content;

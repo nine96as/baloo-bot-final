@@ -7,7 +7,7 @@ const commandArray: JSON[] = [];
 const developerArray: JSON[] = [];
 
 export async function loadCommands(client: Bot) {
-  const contents = await getContents('src/commands');
+  const contents = await getContents('./src/commands');
 
   for (const content of contents) {
     const { command } = content;
