@@ -31,13 +31,14 @@ export async function loadCommands(client: Bot) {
 async function deployCommands() {
   const rest = new REST({ version: '10' }).setToken(token);
 
-  //loading of developer guild commands
-  await rest.put(Routes.applicationGuildCommands(clientId, developerGuildId), {
-    body: developerArray
-  });
-
-  //loading of global commands
-  await rest.put(Routes.applicationCommands(clientId), {
-    body: commandArray
-  });
+  await Promise.all([
+    //loading of developer guild commands
+    rest.put(Routes.applicationGuildCommands(clientId, developerGuildId), {
+      body: developerArray
+    }),
+    //loading of global commands
+    rest.put(Routes.applicationCommands(clientId), {
+      body: commandArray
+    })
+  ]);
 }

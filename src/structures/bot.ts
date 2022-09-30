@@ -31,11 +31,13 @@ export class Bot extends Client {
   }
 
   async init(token: string) {
-    await loadEvents(this);
-    await loadCommands(this);
-    await loadButtons(this);
-    await loadSelects(this);
-    await loadModals(this);
+    await Promise.all([
+      loadEvents(this),
+      loadCommands(this),
+      loadButtons(this),
+      loadSelects(this),
+      loadModals(this)
+    ]);
     this.login(token);
   }
 }
