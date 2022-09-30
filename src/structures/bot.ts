@@ -38,6 +38,7 @@ export class Bot extends Client {
       loadSelects(this),
       loadModals(this)
     ]);
+
     this.login(token);
   }
 }

@@ -6,7 +6,6 @@ import {
 } from 'discord.js';
 import { Command, SuccessEmbed, ErrorEmbed } from '#structures';
 import { logger } from '#functions';
-import wait from 'timers/promises';
 
 export const command: Command = {
   data: new SlashCommandBuilder()
@@ -76,8 +75,7 @@ export const command: Command = {
           });
         }
       }
-      await wait.setTimeout(10000);
-      await interaction.deleteReply();
+      setTimeout(async () => interaction.deleteReply(), 5000);
     }
   }
 };
