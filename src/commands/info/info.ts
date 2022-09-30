@@ -32,7 +32,11 @@ export const command: Command = {
 
         const badges = [];
         if (member.user.id === guild.ownerId) badges.push('owner');
-        if (member.permissions.has('ModerateMembers')) badges.push('mod');
+        if (member.permissions.has('ModerateMembers')) {
+          badges.push('staff');
+        } else {
+          badges.push('member');
+        }
         if (member.premiumSince) badges.push('booster');
         if (member.user.bot) badges.push('bot');
 
@@ -67,7 +71,7 @@ export const command: Command = {
                     `(${time(member.user.createdAt, 'R')})`
                 },
                 {
-                  name: `roles (${member.roles.cache.size - 1})`,
+                  name: `roles (\`${member.roles.cache.size - 1}\`)`,
                   value: `${
                     member.roles.cache
                       .map((r) => r)
@@ -76,7 +80,9 @@ export const command: Command = {
                   }`
                 },
                 {
-                  name: `permissions (${member.permissions.toArray().length})`,
+                  name: `permissions (\`${
+                    member.permissions.toArray().length
+                  }\`)`,
                   value: `${
                     member.permissions.toArray().includes('Administrator')
                       ? 'Administrator'
