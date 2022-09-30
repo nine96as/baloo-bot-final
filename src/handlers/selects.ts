@@ -2,7 +2,7 @@ import { Bot } from '#structures';
 import { getContents, logger } from '#functions';
 
 export async function loadSelects(client: Bot) {
-  const contents = await getContents('src/selects');
+  const contents = await getContents('./src/selects');
 
   for (const content of contents) {
     const { select } = content;

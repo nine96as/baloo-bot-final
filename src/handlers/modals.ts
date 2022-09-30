@@ -2,7 +2,7 @@ import { Bot } from '#structures';
 import { getContents, logger } from '#functions';
 
 export async function loadModals(client: Bot) {
-  const contents = await getContents('src/modals');
+  const contents = await getContents('./src/modals');
 
   for (const content of contents) {
     const { modal } = content;
