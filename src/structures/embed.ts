@@ -31,20 +31,20 @@ export class EmojiEmbed extends Embed {
 export class SuccessEmbed extends EmojiEmbed {
   constructor(content: string) {
     super(emojis.success, content);
-    this.setColor('#2ecc71');
+    this.setColor('#00ff80');
   }
 }
 
 export class ErrorEmbed extends EmojiEmbed {
   constructor(content: string) {
     super(emojis.error, content);
-    this.setColor('#e74c3c');
+    this.setColor('#ff8080');
   }
 }
 
 export class InfoEmbed extends EmojiEmbed {
   constructor(content: string) {
     super(emojis.info, content);
-    this.setColor('#95a5a6');
+    this.setColor('#ff8040');
   }
 }
