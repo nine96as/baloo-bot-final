@@ -1,18 +1,20 @@
 import { REST, Routes } from 'discord.js';
 import { Bot } from '#structures';
 import { config, getContents, logger } from '#functions';
+import { fileURLToPath } from 'url';
 const { clientId, developerGuildId, token } = config;
 
 const commandArray: JSON[] = [];
 const developerArray: JSON[] = [];
 
 export async function loadCommands(client: Bot) {
-  const contents = await getContents('./src/commands');
+  const dirname = fileURLToPath(new URL('../commands', import.meta.url));
+  const contents = await getContents(dirname);
 
   for (const content of contents) {
     const { command } = content;
     if (command === undefined || command.data === undefined) {
-      logger.error(`error exporting command.`);
+      logger.error(`error exporting commands.`);
     } else {
       client.commands.set(command.data.name, command);
       if (command.developer) {

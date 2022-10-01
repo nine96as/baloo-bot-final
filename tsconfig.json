@@ -26,8 +26,8 @@
     "skipLibCheck": true
   },
   "ts-node": {
+    "swc": true,
     "esm": true,
-    "files": true,
-    "transpileOnly": true
+    "files": true
   }
 }

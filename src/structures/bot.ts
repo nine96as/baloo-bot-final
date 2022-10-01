@@ -34,8 +34,8 @@ export class Bot extends Client {
     await Promise.all([
       loadEvents(this),
       loadCommands(this),
-      loadButtons(this),
-      loadSelects(this),
+      // loadButtons(this),
+      // loadSelects(this),
       loadModals(this)
     ]);
 

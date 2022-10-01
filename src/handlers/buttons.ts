@@ -1,8 +1,10 @@
 import { Bot } from '#structures';
 import { getContents, logger } from '#functions';
+import { fileURLToPath } from 'url';
 
 export async function loadButtons(client: Bot) {
-  const contents = await getContents('./src/buttons');
+  const dirname = fileURLToPath(new URL('../buttons', import.meta.url));
+  const contents = await getContents(dirname);
 
   for (const content of contents) {
     const { button } = content;
