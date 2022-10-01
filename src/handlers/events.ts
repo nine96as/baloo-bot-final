@@ -1,8 +1,10 @@
 import { Bot } from '#structures';
 import { getContents, logger } from '#functions';
+import { fileURLToPath } from 'url';
 
 export async function loadEvents(client: Bot) {
-  const contents = await getContents('./src/events/client');
+  const dirname = fileURLToPath(new URL('../events', import.meta.url));
+  const contents = await getContents(dirname);
 
   for (const content of contents) {
     const { event } = content;

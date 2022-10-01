@@ -1,8 +1,10 @@
 import { Bot } from '#structures';
 import { getContents, logger } from '#functions';
+import { fileURLToPath } from 'url';
 
 export async function loadModals(client: Bot) {
-  const contents = await getContents('./src/modals');
+  const dirname = fileURLToPath(new URL('../modals', import.meta.url));
+  const contents = await getContents(dirname);
 
   for (const content of contents) {
     const { modal } = content;
