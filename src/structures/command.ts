@@ -1,5 +1,6 @@
 import { Bot } from './bot.js';
 import {
+  AutocompleteInteraction,
   CommandInteraction,
   ContextMenuCommandBuilder,
   InteractionResponse,
@@ -17,6 +18,10 @@ export interface Command {
     | SlashCommandBuilder
     | Omit<SlashCommandBuilder, 'addSubcommand' | 'addSubcommandGroup'>
     | SlashCommandSubcommandsOnlyBuilder;
+  autocomplete?(
+    interaction: AutocompleteInteraction,
+    client: Bot
+  ): Promise<void>;
   execute(
     interaction:
       | MessageContextMenuCommandInteraction
