@@ -39,7 +39,7 @@ export const emojis = {
   badge: {
     owner: '<:owner:1025362154259492974>',
     booster: '<:booster:1025374007341625344>',
-    staff: '<:mod:1025373363759222815>',
+    staff: '<:staff:1025373363759222815>',
     member: '<:member:1025367605919371286>',
     bot: '<:bot:1025360506166448158>'
   }
