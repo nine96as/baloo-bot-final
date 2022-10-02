@@ -156,7 +156,7 @@ export const command: Command = {
       interaction.reply({
         embeds: [
           new Embed().setDescription(
-            `${emojis.dice} ***${num1} mod ${num2} = ${num1! % num2!}***`
+            `${emojis.math} ***${num1} mod ${num2} = ${num1! % num2!}***`
           )
         ]
       });
@@ -166,7 +166,7 @@ export const command: Command = {
       interaction.reply({
         embeds: [
           new Embed().setDescription(
-            `${emojis.dice} ***${num1} ^ ${num2} = ${num1! ** num2!}***`
+            `${emojis.math} ***${num1} ^ ${num2} = ${num1! ** num2!}***`
           )
         ]
       });
