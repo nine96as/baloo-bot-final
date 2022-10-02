@@ -27,6 +27,13 @@ export const command: Command = {
           { name: 'd12', value: 4 },
           { name: 'd20', value: 20 }
         )
+    )
+    .addIntegerOption((option) =>
+      option
+        .setName('count')
+        .setDescription('number of dice to roll')
+        .setMinValue(1)
+        .setMaxValue(5)
     ),
 
   async execute(interaction: ChatInputCommandInteraction) {
@@ -35,15 +42,32 @@ export const command: Command = {
     const side = options.getNumber('sides');
     const min = 1;
     const max = sides.find((s) => side === s.value)?.value || 6;
+    const count = options.getInteger('count');
 
-    interaction.reply({
-      embeds: [
-        new Embed().setDescription(
-          `${emojis.dice} ***rolled ${
-            Math.floor(Math.random() * max) + min
-          }!***`
-        )
-      ]
-    });
+    function rollDice() {
+      return Math.floor(Math.random() * max) + min;
+    }
+
+    if (count === 1) {
+      interaction.reply({
+        embeds: [
+          new Embed().setDescription(
+            `${emojis.dice} ***rolled ${rollDice()}!***`
+          )
+        ]
+      });
+    } else {
+      const results: number[] = [];
+
+      for (let i = 0; i < count!; i++) results.push(rollDice());
+
+      interaction.reply({
+        embeds: [
+          new Embed().setDescription(
+            `${emojis.dice} ***rolled ${results.join(', ')}!***`
+          )
+        ]
+      });
+    }
   }
 };
