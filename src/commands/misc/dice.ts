@@ -42,7 +42,7 @@ export const command: Command = {
     const side = options.getNumber('sides');
     const min = 1;
     const max = sides.find((s) => side === s.value)?.value || 6;
-    const count = options.getInteger('count');
+    const count = options.getInteger('count') || 1;
 
     function rollDice() {
       return Math.floor(Math.random() * max) + min;
