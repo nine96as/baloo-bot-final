@@ -7,10 +7,10 @@ export const modal: Modal = {
     const { fields, channel } = interaction;
 
     const title = fields.getTextInputValue('title');
-    const description = fields.getTextInputValue('description');
-    const image = fields.getTextInputValue('image');
-    const thumbnail = fields.getTextInputValue('thumbnail');
-    const footer = fields.getTextInputValue('footer');
+    const description = fields.getTextInputValue('description') || null;
+    const image = fields.getTextInputValue('image') || null;
+    const thumbnail = fields.getTextInputValue('thumbnail') || null;
+    const footer = fields.getTextInputValue('footer') || ' ';
 
     await interaction.reply({
       embeds: [new SuccessEmbed(`***embed created***`)]
