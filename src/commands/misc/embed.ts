@@ -24,8 +24,8 @@ export const command: Command = {
             .setCustomId('title')
             .setLabel('embed title')
             .setPlaceholder('enter title')
-            .setRequired(true)
             .setStyle(TextInputStyle.Short)
+            .setMaxLength(20)
         ),
         new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(
           new TextInputBuilder()
@@ -33,6 +33,7 @@ export const command: Command = {
             .setLabel('embed description')
             .setPlaceholder('enter description')
             .setStyle(TextInputStyle.Paragraph)
+            .setRequired(false)
         ),
         new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(
           new TextInputBuilder()
@@ -40,6 +41,7 @@ export const command: Command = {
             .setLabel('image URL')
             .setPlaceholder('enter URL')
             .setStyle(TextInputStyle.Short)
+            .setRequired(false)
         ),
         new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(
           new TextInputBuilder()
@@ -47,6 +49,7 @@ export const command: Command = {
             .setLabel('thumbnail URL')
             .setPlaceholder('enter URL')
             .setStyle(TextInputStyle.Short)
+            .setRequired(false)
         ),
         new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(
           new TextInputBuilder()
@@ -54,6 +57,8 @@ export const command: Command = {
             .setLabel('embed footer')
             .setPlaceholder('enter footer')
             .setStyle(TextInputStyle.Short)
+            .setRequired(false)
+            .setMaxLength(15)
         )
       );
 
