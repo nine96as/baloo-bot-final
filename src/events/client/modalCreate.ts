@@ -1,9 +1,9 @@
-import { Interaction, ModalSubmitInteraction } from 'discord.js';
+import { Interaction, ModalSubmitInteraction, Events } from 'discord.js';
 import { Bot, Event, ErrorEmbed } from '#structures';
 import { logger } from '#functions';
 
 export const event: Event = {
-  name: 'interactionCreate',
+  name: Events.InteractionCreate,
   async execute(client: Bot, interaction: Interaction) {
     if (interaction.isModalSubmit()) {
       // checks if modal exists in modal collection
