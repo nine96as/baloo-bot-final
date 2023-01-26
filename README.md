@@ -2,6 +2,8 @@
 
 a multi-purpose discord bot made using [discord.js](https://github.com/discordjs/discord.js)
 
+![Alt](https://repobeats.axiom.co/api/embed/e8869e46cb00702494f2185115d71ff73b070a8e.svg "Repobeats analytics image")
+
 ## auto-deployment
 
 -   you will have to configure environment variables; **check configuration section below**
