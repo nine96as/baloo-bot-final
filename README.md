@@ -2,7 +2,7 @@
 
 a multi-purpose discord bot made using [discord.js](https://github.com/discordjs/discord.js)
 
-![Alt](https://repobeats.axiom.co/api/embed/e8869e46cb00702494f2185115d71ff73b070a8e.svg "Repobeats analytics image")
+![Alt](https://repobeats.axiom.co/api/embed/a70c458d296958fd09ea21b9069c89955ef76a4b.svg "Repobeats analytics image")
 
 ## auto-deployment
 
