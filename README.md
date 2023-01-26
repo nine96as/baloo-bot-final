@@ -47,8 +47,8 @@ npm i #install dependencies from package.json
 
 | attribute            | type     | description                         |
 | :------------------- | :------- | :---------------------------------- |
-| `token`              | `string` | bot token (disc dev portal)         |
-| `clientId`           | `string` | `APPLICATION_ID` in disc dev portal |
+| `token`              | `string` | bot token ([disc dev portal](https://discord.com/developers/applications))         |
+| `clientId`           | `string` | `APPLICATION_ID` in [disc dev portal](https://discord.com/developers/applications) |
 | `developerGuildId`   | `string` | ID of developer guild               |
 
 ### deployment
