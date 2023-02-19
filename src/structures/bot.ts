@@ -11,6 +11,7 @@ import { Command } from './command.js';
 import { Button } from './button.js';
 import { SelectMenu } from './select.js';
 import { Modal } from './modal.js';
+import { Player } from 'discord-music-player';
 
 const { Guilds, GuildMembers, GuildMessages, GuildVoiceStates } =
   GatewayIntentBits;
@@ -20,6 +21,7 @@ export class Bot extends Client {
   buttons = new Collection<string, Button>();
   selects = new Collection<string, SelectMenu>();
   modals = new Collection<string, Modal>();
+  player = new Player(this, { deafenOnJoin: true, quality: 'high' });
   together = new DiscordTogether(this);
 
   constructor(token: string) {
