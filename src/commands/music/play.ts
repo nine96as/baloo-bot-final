@@ -89,13 +89,13 @@ export const command: Command = {
           });
         } catch (e) {
           logger.error(e);
-          return interaction.followUp({
+          return await interaction.followUp({
             embeds: [new ErrorEmbed('***songPlayError***')],
             ephemeral: true
           });
         }
 
-        await interaction.editReply({
+        return await interaction.followUp({
           embeds: [
             new SuccessEmbed(
               `***[${queuedSong.name}](${queuedSong.url}) added to queue.***`
@@ -114,7 +114,7 @@ export const command: Command = {
           });
         } catch (e) {
           logger.error(e);
-          return interaction.followUp({
+          return await interaction.followUp({
             embeds: [new ErrorEmbed('***playlistPlayError***')],
             ephemeral: true
           });
@@ -135,7 +135,7 @@ export const command: Command = {
           });
         }
 
-        await interaction.editReply({
+        return await interaction.followUp({
           embeds: [
             new SuccessEmbed(
               `***[${queuedPlaylist.songs.length}] songs from [${queuedPlaylist.name}](${queuedPlaylist.url}) have been added to queue.***`
