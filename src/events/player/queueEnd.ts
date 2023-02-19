@@ -1,4 +1,4 @@
-import { GuildTextBasedChannel } from 'discord.js';
+import { BaseGuildTextChannel } from 'discord.js';
 import { Queue } from 'discord-music-player';
 import { Bot, InfoEmbed, PlayerEvent } from '#structures';
 
@@ -9,7 +9,7 @@ export const event: PlayerEvent = {
     const channelId = data.channelId;
     const channel = client.channels.cache.get(
       channelId
-    ) as GuildTextBasedChannel;
+    ) as BaseGuildTextChannel;
 
     await channel.send({
       embeds: [new InfoEmbed('***the queue is empty, leaving the channel***')]
