@@ -1,4 +1,4 @@
-import { GuildTextBasedChannel } from 'discord.js';
+import { BaseGuildTextChannel } from 'discord.js';
 import { DMPError, Queue } from 'discord-music-player';
 import { Bot, ErrorEmbed, PlayerEvent } from '#structures';
 import { logger } from '#functions';
@@ -10,7 +10,7 @@ export const event: PlayerEvent = {
     const channelId = data.channelId;
     const channel = client.channels.cache.get(
       channelId
-    ) as GuildTextBasedChannel;
+    ) as BaseGuildTextChannel;
 
     logger.error(`${error} in ${queue.guild.name}`);
     await channel.send({
