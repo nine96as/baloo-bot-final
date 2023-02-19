@@ -13,7 +13,7 @@ export const event: PlayerEvent = {
 
     await channel.send({
       embeds: [
-        new InfoEmbed(`***${channel.name} is empty, leaving the channel***`)
+        new InfoEmbed(`***${channel.name}** is empty, leaving the channel.*`)
       ]
     });
   }
