@@ -12,7 +12,7 @@ export const event: PlayerEvent = {
     ) as BaseGuildTextChannel;
 
     await channel.send({
-      embeds: [new InfoEmbed('***the queue is empty, leaving the channel***')]
+      embeds: [new InfoEmbed('***the queue is empty, leaving the channel.***')]
     });
   }
 };
