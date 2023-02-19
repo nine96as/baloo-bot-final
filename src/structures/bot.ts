@@ -5,7 +5,8 @@ import {
   loadCommands,
   loadButtons,
   loadSelects,
-  loadModals
+  loadModals,
+  loadPlayerEvents
 } from '#handlers';
 import { Command } from './command.js';
 import { Button } from './button.js';
@@ -35,6 +36,7 @@ export class Bot extends Client {
   async init(token: string) {
     await Promise.all([
       loadEvents(this),
+      loadPlayerEvents(this),
       loadCommands(this),
       // loadButtons(this),
       // loadSelects(this),
