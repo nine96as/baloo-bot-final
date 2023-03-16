@@ -11,17 +11,30 @@ import {
   UserContextMenuCommandInteraction
 } from 'discord.js';
 
+/**
+ * Represents a command that can be executed by a user in a Discord server.
+ */
 export interface Command {
+  /**
+   * A flag indicating whether the command is for developers only.
+   */
   developer?: boolean;
+
+  /**
+   * The data used to define the command, which could be one of several types depending on the type of command.
+   */
   data:
     | ContextMenuCommandBuilder
     | SlashCommandBuilder
     | Omit<SlashCommandBuilder, 'addSubcommand' | 'addSubcommandGroup'>
     | SlashCommandSubcommandsOnlyBuilder;
-  autocomplete?(
-    interaction: AutocompleteInteraction,
-    client: Bot
-  ): Promise<void>;
+
+  /**
+   * Executes the logic for the command when it is invoked by a user.
+   * @param interaction - The interaction object representing the command invocation event.
+   * @param client - The Discord bot client instance that received the event.
+   * @returns A promise that resolves to a `InteractionResponse<boolean>`, `Message<boolean>`, or void.
+   */
   execute(
     interaction:
       | MessageContextMenuCommandInteraction
@@ -29,4 +42,15 @@ export interface Command {
       | CommandInteraction,
     client: Bot
   ): Promise<InteractionResponse<boolean> | Message<boolean> | void>;
+
+  /**
+   * Executes the logic for the command when a user is selecting an autocomplete option.
+   * @param interaction - The interaction object representing the autocomplete event.
+   * @param client - The Discord bot client instance that received the event.
+   * @returns A promise that resolves to void.
+   */
+  autocomplete?(
+    interaction: AutocompleteInteraction,
+    client: Bot
+  ): Promise<void>;
 }
