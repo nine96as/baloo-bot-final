@@ -1,3 +1,6 @@
+/**
+ * Holds emojis in a <value, id> pair
+ */
 export const emojis = {
   category: '<:category:1025367604384239679>',
 
