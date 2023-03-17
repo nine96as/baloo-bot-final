@@ -15,10 +15,10 @@ export async function loadModals(client: Bot) {
 
   for (const content of contents) {
     // Extract the modal object from the content object.
-    const { modal } = content as Modal;
+    const { modal }: { modal: Modal } = content;
     if (modal === undefined || modal.customId === undefined) {
       logger.error(
-        `error exporting modal, succeeded in loading ${client.modals.size} modal(s).`
+        `error exporting modals, last export: ${client.modals.last()?.customId}`
       );
     } else {
       // Add the modal object to the client's 'modals' collection, with its customId as the key.
@@ -26,5 +26,5 @@ export async function loadModals(client: Bot) {
     }
   }
 
-  logger.info(`loaded ${client.modals.size} modal(s).`);
+  logger.info(`✅ loaded ${client.modals.size} modal(s).`);
 }
