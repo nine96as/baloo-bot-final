@@ -6,13 +6,13 @@ export const event: Event = {
   name: Events.InteractionCreate,
   async execute(client: Bot, interaction: Interaction) {
     if (interaction.isButton()) {
-      // checks if button exists in buttons collection
+      // Checks if button exists in buttons collection.
       const button = client.buttons.get(interaction.customId);
 
-      // exits early if button doesn't exist
+      // Exits early if button doesn't exist.
       if (!button) return;
 
-      // if button exists, tries to carry out "execute" function
+      // If button exists, tries to carry out "execute" function.
       try {
         await button.execute(interaction as ButtonInteraction, client);
       } catch (e) {
