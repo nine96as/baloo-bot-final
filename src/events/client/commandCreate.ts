@@ -6,13 +6,13 @@ export const event: Event = {
   name: Events.InteractionCreate,
   async execute(client: Bot, interaction: Interaction) {
     if (interaction.isChatInputCommand()) {
-      // checks if command exists in commands collection
+      // Checks if command exists in commands collection.
       const command = client.commands.get(interaction.commandName);
 
-      // exits early if command doesn't exist
+      // Exits early if command doesn't exist.
       if (!command) return;
 
-      // if command exists, tries to carry out "execute" function
+      // If command exists, tries to carry out "execute" function.
       try {
         await command.execute(interaction as CommandInteraction, client);
       } catch (e) {
@@ -24,13 +24,13 @@ export const event: Event = {
       }
     }
     if (interaction.isContextMenuCommand()) {
-      // checks if command exists in commands collection
+      // Checks if command exists in commands collection.
       const command = client.commands.get(interaction.commandName);
 
-      // exits early if command doesn't exist
+      // Exits early if command doesn't exist.
       if (!command) return;
 
-      // if command exists, tries to carry out "execute" function
+      // If command exists, tries to carry out "execute" function.
       try {
         await command.execute(interaction as CommandInteraction, client);
       } catch (e) {
