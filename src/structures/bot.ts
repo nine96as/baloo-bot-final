@@ -1,12 +1,6 @@
 import { Client, Collection } from 'discord.js';
 import { DiscordTogether } from 'discord-together';
-import {
-  loadEvents,
-  loadCommands,
-  loadButtons,
-  loadSelects,
-  loadModals
-} from '#handlers';
+import { loadEvents, loadCommands, loadModals } from '#handlers';
 import { Command } from './command.js';
 import { Button } from './button.js';
 import { SelectMenu } from './select.js';
