@@ -17,10 +17,17 @@ export const event: Event = {
         await modal.execute(interaction as ModalSubmitInteraction, client);
       } catch (e) {
         logger.error(e);
-        interaction.reply({
-          embeds: [new ErrorEmbed('***modalExecuteError***')],
-          ephemeral: true
-        });
+        if (interaction.replied || interaction.deferred) {
+          await interaction.followUp({
+            embeds: [new ErrorEmbed('***modalExecuteError***')],
+            ephemeral: true
+          });
+        } else {
+          await interaction.reply({
+            embeds: [new ErrorEmbed('***modalExecuteError***')],
+            ephemeral: true
+          });
+        }
       }
     }
   }
