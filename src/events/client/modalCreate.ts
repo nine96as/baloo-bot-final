@@ -6,13 +6,13 @@ export const event: Event = {
   name: Events.InteractionCreate,
   async execute(client: Bot, interaction: Interaction) {
     if (interaction.isModalSubmit()) {
-      // checks if modal exists in modal collection
+      // Checks if modal exists in modal collection
       const modal = client.modals.get(interaction.customId);
 
-      // exists early if modal doesn't exist
+      // Exists early if modal doesn't exist
       if (!modal) return;
 
-      // if modal exists, tries to carry out "execute" function
+      // If modal exists, tries to carry out "execute" function
       try {
         await modal.execute(interaction as ModalSubmitInteraction, client);
       } catch (e) {
