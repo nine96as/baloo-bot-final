@@ -15,10 +15,12 @@ export async function loadButtons(client: Bot): Promise<void> {
 
   for (const content of contents) {
     // Extract the button object from the content object.
-    const { button } = content as Button;
+    const { button }: { button: Button } = content;
     if (button === undefined || button.customId === undefined) {
       logger.error(
-        `error exporting button, succeeded in loading ${client.buttons.size} button(s).`
+        `error exporting buttons, last export: ${
+          client.buttons.last()?.customId
+        }`
       );
       process.exit(1);
     } else {
