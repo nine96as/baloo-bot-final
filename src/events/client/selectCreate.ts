@@ -17,10 +17,17 @@ export const event: Event = {
         await menu.execute(interaction as AnySelectMenuInteraction, client);
       } catch (e) {
         logger.error(e);
-        interaction.reply({
-          embeds: [new ErrorEmbed('***menuExecuteError***')],
-          ephemeral: true
-        });
+        if (interaction.replied || interaction.deferred) {
+          await interaction.followUp({
+            embeds: [new ErrorEmbed('***selectMenuExecuteError***')],
+            ephemeral: true
+          });
+        } else {
+          await interaction.reply({
+            embeds: [new ErrorEmbed('***selectMenuExecuteError***')],
+            ephemeral: true
+          });
+        }
       }
     }
   }
