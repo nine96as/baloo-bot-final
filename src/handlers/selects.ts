@@ -15,9 +15,13 @@ export async function loadSelects(client: Bot) {
 
   for (const content of contents) {
     // Extract the select menu object from the content object.
-    const { select } = content as SelectMenu;
+    const { select }: { select: SelectMenu } = content;
     if (select === undefined || select.customId === undefined) {
-      logger.error(`error exporting select menu.`);
+      logger.error(
+        `error exporting select menus, last export: ${
+          client.selects.last()?.customId
+        }`
+      );
       process.exit(1);
     } else {
       // Add the select menu object to the client's 'selects' collection, with its customId as the key.
@@ -25,5 +29,5 @@ export async function loadSelects(client: Bot) {
     }
   }
 
-  logger.info(`loaded ${client.selects.size} select menu(s).`);
+  logger.info(`✅ loaded ${client.selects.size} select menu(s).`);
 }
