@@ -17,9 +17,17 @@ export const event: Event = {
         await button.execute(interaction as ButtonInteraction, client);
       } catch (e) {
         logger.error(e);
-        interaction.reply({
-          embeds: [new ErrorEmbed('***buttonExecuteError***')]
-        });
+        if (interaction.replied || interaction.deferred) {
+          await interaction.followUp({
+            embeds: [new ErrorEmbed('***buttonExecuteError***')],
+            ephemeral: true
+          });
+        } else {
+          await interaction.reply({
+            embeds: [new ErrorEmbed('***buttonExecuteError***')],
+            ephemeral: true
+          });
+        }
       }
     }
   }
