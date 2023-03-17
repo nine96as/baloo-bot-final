@@ -7,7 +7,7 @@ export async function loadEvents(client: Bot) {
   const contents = await getContents(dirname);
 
   for (const content of contents) {
-    const { event } = content as Event;
+    const { event }: { event: Event } = content;
     if (event.once) {
       client.once(event.name, (...args: unknown[]) =>
         event.execute(client, ...args)
@@ -19,5 +19,5 @@ export async function loadEvents(client: Bot) {
     }
   }
 
-  logger.info(`loaded client events.`);
+  logger.info(`✅ loaded client events.`);
 }
