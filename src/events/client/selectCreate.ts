@@ -1,20 +1,20 @@
-import { Interaction, SelectMenuInteraction, Events } from 'discord.js';
+import { Interaction, AnySelectMenuInteraction, Events } from 'discord.js';
 import { Bot, Event, ErrorEmbed } from '#structures';
 import { logger } from '#functions';
 
 export const event: Event = {
   name: Events.InteractionCreate,
   async execute(client: Bot, interaction: Interaction) {
-    if (interaction.isSelectMenu()) {
-      // checks if menu exists in menus collection
+    if (interaction.isStringSelectMenu()) {
+      // Checks if select menu exists in menus collection.
       const menu = client.selects.get(interaction.customId);
 
-      // exits early if menu doesn't exist
+      // Exits early if select menu doesn't exist.
       if (!menu) return;
 
-      // if menu exists, tries to carry out "execute" function
+      // If select menu exists, tries to carry out "execute" function.
       try {
-        await menu.execute(interaction as SelectMenuInteraction, client);
+        await menu.execute(interaction as AnySelectMenuInteraction, client);
       } catch (e) {
         logger.error(e);
         interaction.reply({
