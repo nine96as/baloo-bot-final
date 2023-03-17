@@ -17,10 +17,17 @@ export const event: Event = {
         await command.execute(interaction as CommandInteraction, client);
       } catch (e) {
         logger.error(e);
-        interaction.reply({
-          embeds: [new ErrorEmbed('***commandExecuteError***')],
-          ephemeral: true
-        });
+        if (interaction.replied || interaction.deferred) {
+          await interaction.followUp({
+            embeds: [new ErrorEmbed('***commandExecuteError***')],
+            ephemeral: true
+          });
+        } else {
+          await interaction.reply({
+            embeds: [new ErrorEmbed('***commandExecuteError***')],
+            ephemeral: true
+          });
+        }
       }
     }
     if (interaction.isContextMenuCommand()) {
@@ -35,10 +42,17 @@ export const event: Event = {
         await command.execute(interaction as CommandInteraction, client);
       } catch (e) {
         logger.error(e);
-        interaction.reply({
-          embeds: [new ErrorEmbed('***contextMenuExecuteError***')],
-          ephemeral: true
-        });
+        if (interaction.replied || interaction.deferred) {
+          await interaction.followUp({
+            embeds: [new ErrorEmbed('***contextMenuExecuteError***')],
+            ephemeral: true
+          });
+        } else {
+          await interaction.reply({
+            embeds: [new ErrorEmbed('***contextMenuExecuteError***')],
+            ephemeral: true
+          });
+        }
       }
     }
   }
