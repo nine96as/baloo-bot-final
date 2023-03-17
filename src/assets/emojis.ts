@@ -1,5 +1,5 @@
 /**
- * Holds emojis in a <value, id> pair
+ * Object containing various emojis used in the Discord bot.
  */
 export const emojis = {
   category: '<:category:1025367604384239679>',
