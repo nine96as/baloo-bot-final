@@ -16,11 +16,6 @@ import {
  */
 export interface Command {
   /**
-   * A flag indicating whether the command is for developers only.
-   */
-  developer?: boolean;
-
-  /**
    * The data used to define the command, which could be one of several types depending on the type of command.
    */
   data:
