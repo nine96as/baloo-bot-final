@@ -56,7 +56,8 @@ npm i #install dependencies from package.json
 - deploy bot using below command
 
 ```sh
-npm run start #transpiles ts code into js
+npm run build #builds ts code into js
+npm run start #runs js compiled code
 ```
 
 ### extras
