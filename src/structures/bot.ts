@@ -6,12 +6,13 @@ import { Command } from './command.js';
 import { Button } from './button.js';
 import { SelectMenu } from './select.js';
 import { Modal } from './modal.js';
-import { intents, logger } from '#functions';
+import { config, intents, logger } from '#functions';
+import { Configuration, OpenAIApi } from 'openai';
 
 /**
  * Extends the Client class from the Discord.js library and adds additional functionality to manage events, commands,
  * buttons, select menus, and modals. Also creates a DiscordTogether instance to enable users to watch YouTube
- * videos together in voice channels.
+ * videos together in voice channels, and creates a OpenAiApi instance to enable interaction with OpenAI's AI models.
  */
 export class Bot extends Client {
   /**
@@ -43,6 +44,15 @@ export class Bot extends Client {
    * Attribute used to create a new DiscordTogether instance.
    */
   together = new DiscordTogether(this);
+
+  /**
+   * Attribute used to create a new OpenAIApi instance.
+   */
+  ai = new OpenAIApi(
+    new Configuration({
+      apiKey: config.openAIKey
+    })
+  );
 
   // Constructs a new client instance with intent declarations
   constructor(token: string) {
