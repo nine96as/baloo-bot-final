@@ -22,8 +22,8 @@ export const command: Command = {
     if (interaction.inCachedGuild()) {
       const { channel, options } = interaction;
 
-      const duration = options.getString('duration');
-      const durationMS = ms(duration!);
+      const duration = options.getString('duration') as string;
+      const durationMS = ms(duration);
 
       if (durationMS > 21600000) {
         return interaction.reply({
@@ -32,10 +32,10 @@ export const command: Command = {
         });
       }
 
-      await channel!.setRateLimitPerUser(durationMS / 1000);
-
-      return interaction.reply({
-        embeds: [new SuccessEmbed(`***slowmode set to \`${duration}\`***`)]
+      await channel?.setRateLimitPerUser(durationMS / 1000).then(() => {
+        return interaction.reply({
+          embeds: [new SuccessEmbed(`***slowmode set to \`${duration}\`***`)]
+        });
       });
     }
   }
