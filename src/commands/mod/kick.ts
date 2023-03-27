@@ -54,18 +54,17 @@ export const command: Command = {
         });
 
       try {
-        await member.kick(reason);
-        return await interaction.reply({
-          embeds: [new SuccessEmbed(`***${member.user.tag} was kicked***`)]
+        await member.kick(reason).then(() => {
+          return interaction.reply({
+            embeds: [new SuccessEmbed(`***${member.user.tag} was kicked***`)]
+          });
         });
       } catch (e) {
-        if (e) {
-          logger.error(e);
-          return interaction.reply({
-            embeds: [new ErrorEmbed(`***kickError***`)],
-            ephemeral: true
-          });
-        }
+        logger.error(e);
+        return interaction.reply({
+          embeds: [new ErrorEmbed(`***kickError***`)],
+          ephemeral: true
+        });
       }
     }
   }
