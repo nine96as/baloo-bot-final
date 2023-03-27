@@ -111,62 +111,80 @@ export const command: Command = {
 
   async execute(interaction: ChatInputCommandInteraction) {
     if (interaction.options.getSubcommand() === 'add') {
-      const num1 = interaction.options.getNumber('num1');
-      const num2 = interaction.options.getNumber('num2');
-      interaction.reply({
+      const { options } = interaction;
+
+      const num1 = options.getNumber('num1') as number;
+      const num2 = options.getNumber('num2') as number;
+
+      return interaction.reply({
         embeds: [
           new Embed().setDescription(
-            `${emojis.math} ***${num1} + ${num2} = ${num1! + num2!}***`
+            `${emojis.math} ***${num1} + ${num2} = ${num1 + num2}***`
           )
         ]
       });
     } else if (interaction.options.getSubcommand() === 'sub') {
-      const num1 = interaction.options.getNumber('num1');
-      const num2 = interaction.options.getNumber('num2');
-      interaction.reply({
+      const { options } = interaction;
+
+      const num1 = options.getNumber('num1') as number;
+      const num2 = options.getNumber('num2') as number;
+
+      return interaction.reply({
         embeds: [
           new Embed().setDescription(
-            `${emojis.math} ***${num1} - ${num2} = ${num1! - num2!}***`
+            `${emojis.math} ***${num1} - ${num2} = ${num1 - num2}***`
           )
         ]
       });
     } else if (interaction.options.getSubcommand() === 'mul') {
-      const num1 = interaction.options.getNumber('num1');
-      const num2 = interaction.options.getNumber('num2');
-      interaction.reply({
+      const { options } = interaction;
+
+      const num1 = options.getNumber('num1') as number;
+      const num2 = options.getNumber('num2') as number;
+
+      return interaction.reply({
         embeds: [
           new Embed().setDescription(
-            `${emojis.math} ***${num1} * ${num2} = ${num1! * num2!}***`
+            `${emojis.math} ***${num1} * ${num2} = ${num1 * num2}***`
           )
         ]
       });
     } else if (interaction.options.getSubcommand() === 'div') {
-      const num1 = interaction.options.getNumber('num1');
-      const num2 = interaction.options.getNumber('num2');
-      interaction.reply({
+      const { options } = interaction;
+
+      const num1 = options.getNumber('num1') as number;
+      const num2 = options.getNumber('num2') as number;
+
+      return interaction.reply({
         embeds: [
           new Embed().setDescription(
-            `${emojis.math} ***${num1} / ${num2} = ${num1! / num2!}***`
+            `${emojis.math} ***${num1} / ${num2} = ${num1 / num2}***`
           )
         ]
       });
     } else if (interaction.options.getSubcommand() === 'mod') {
-      const num1 = interaction.options.getNumber('num1');
-      const num2 = interaction.options.getNumber('num2');
-      interaction.reply({
+      const { options } = interaction;
+
+      const num1 = options.getNumber('num1') as number;
+      const num2 = options.getNumber('num2') as number;
+
+      return interaction.reply({
         embeds: [
           new Embed().setDescription(
-            `${emojis.math} ***${num1} mod ${num2} = ${num1! % num2!}***`
+            `${emojis.math} ***${num1} mod ${num2} = ${num1 % num2}***`
           )
         ]
       });
     } else if (interaction.options.getSubcommand() === 'pow') {
-      const num1 = interaction.options.getNumber('num1');
-      const num2 = interaction.options.getNumber('num2');
-      interaction.reply({
+      const { options } = interaction;
+
+      const num1 = options.getNumber('num1') as number;
+      const num2 = options.getNumber('num2') as number;
+
+      return interaction.reply({
         embeds: [
           new Embed().setDescription(
-            `${emojis.math} ***${num1} ^ ${num2} = ${num1! ** num2!}***`
+            `${emojis.math} ***${num1} ^ ${num2} = ${num1 ** num2}***`
           )
         ]
       });
