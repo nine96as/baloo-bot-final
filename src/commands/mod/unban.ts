@@ -25,7 +25,7 @@ export const command: Command = {
     if (interaction.inCachedGuild()) {
       const { options, guild } = interaction;
 
-      const id = options.getString('target')!;
+      const id = options.getString('target') as string;
       const reason = options.getString('reason') || 'no reason given';
 
       if (!/\d{18,19}/.test(id)) {
@@ -38,7 +38,7 @@ export const command: Command = {
       await guild.bans.fetch();
       const ban = guild.bans.cache.find((ban) => ban.user.id === id);
       if (!ban) {
-        return await interaction.reply({
+        return interaction.reply({
           embeds: [new ErrorEmbed('***notBanned***')],
           ephemeral: true
         });
@@ -50,13 +50,11 @@ export const command: Command = {
           embeds: [new SuccessEmbed(`***${ban.user.tag} was unbanned***`)]
         });
       } catch (e) {
-        if (e) {
-          logger.error(e);
-          return interaction.reply({
-            embeds: [new ErrorEmbed('***unbanError***')],
-            ephemeral: true
-          });
-        }
+        logger.error(e);
+        return interaction.reply({
+          embeds: [new ErrorEmbed('***unbanError***')],
+          ephemeral: true
+        });
       }
     }
   }
