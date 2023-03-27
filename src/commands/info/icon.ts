@@ -10,7 +10,7 @@ export const command: Command = {
     if (interaction.inCachedGuild()) {
       const { guild } = interaction;
 
-      await interaction.reply({
+      return interaction.reply({
         embeds: [
           new Embed()
             .setColor('Random')
