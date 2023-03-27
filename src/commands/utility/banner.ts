@@ -4,7 +4,7 @@ import { Command, Embed, ErrorEmbed } from '#structures';
 export const command: Command = {
   data: new SlashCommandBuilder()
     .setName('banner')
-    .setDescription("get a user's banner")
+    .setDescription("🔬 get a user's banner")
     .addSubcommand((subcommand) =>
       subcommand
         .setName('user')
