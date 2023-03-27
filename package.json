@@ -1,6 +1,6 @@
 {
   "name": "baloo",
-  "version": "1.0.0",
+  "version": "0.9.1",
   "description": "a discord bot made using discord.js",
   "type": "module",
   "exports": "./src/index.ts",
