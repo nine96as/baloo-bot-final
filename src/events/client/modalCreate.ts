@@ -12,6 +12,9 @@ export const event: Event = {
       // Exists early if modal doesn't exist.
       if (!modal) return;
 
+      // Exits early if modal wasn't called in recognised guild.
+      if (!interaction.inCachedGuild()) return;
+
       // If modal exists, tries to carry out "execute" function.
       try {
         await modal.execute(interaction as ModalSubmitInteraction, client);
