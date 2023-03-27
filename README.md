@@ -8,14 +8,12 @@ a multi-purpose discord bot made using [discord.js](https://github.com/discordjs
 
 - you will have to configure environment variables; **check configuration section below**
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/nine96as/baloo-bot-final)
-<br>
 [![Open in Gitpod](https://camo.githubusercontent.com/76e60919474807718793857d8eb615e7a50b18b04050577e5a35c19421f260a3/68747470733a2f2f676974706f642e696f2f627574746f6e2f6f70656e2d696e2d676974706f642e737667)](https://gitpod.io/#https://github.com/nine96as/baloo-bot-final)
 
 ## features
 
 - a dedicated welcome banner system, lockdown system, afk system, role menu system
-- fully-featured music system with lyrics search (yt, soundcloud, spotify) **#tbc**
+- fully-featured chatbot system which leverages OpenAI's gpt-3.5 turbo model
 - makes use of slash commands, buttons and select menus, context menus
 - an array of commands; misc, moderation, reaction roles, information etc
 
