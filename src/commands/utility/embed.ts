@@ -12,7 +12,7 @@ import { Command } from '#structures';
 export const command: Command = {
   data: new SlashCommandBuilder()
     .setName('embed')
-    .setDescription('📰 create a basic embed'),
+    .setDescription('create a basic embed'),
 
   async execute(interaction: ChatInputCommandInteraction) {
     const embed = new ModalBuilder()
