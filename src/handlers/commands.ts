@@ -3,7 +3,7 @@ import { Bot, Command } from '#structures';
 import { config, getContents, logger } from '#functions';
 import { fileURLToPath } from 'url';
 import { table } from 'console';
-const { clientId, developerGuildId, token } = config;
+const { clientId, token } = config;
 
 /**
  * Loads all commands from the 'commands' directory and adds them to the client's 'commands' collection.
@@ -56,22 +56,11 @@ const deployCommands = async (client: Bot) => {
   const rest = new REST({ version: '10' }).setToken(token);
   const body = client.commands.map((command) => command.data.toJSON());
 
-  // If the environment is production, commands will be registered globally.
-  const endpoint =
-    process.env.NODE_ENV === 'production'
-      ? Routes.applicationCommands(clientId)
-      : Routes.applicationGuildCommands(clientId, developerGuildId);
+  // Endpoint is set for global command registry.
+  const endpoint = Routes.applicationCommands(clientId);
 
   // Deploying commands to Discord.
-  try {
-    rest.put(endpoint, { body }).then(() => {
-      const response =
-        process.env.NODE_ENV === 'production'
-          ? `commands deployed for production.`
-          : `commands deployed for development.`;
-      logger.info(response);
-    });
-  } catch (e) {
+  rest.put(endpoint, { body }).catch((e) => {
     logger.error(e);
-  }
+  });
 };
