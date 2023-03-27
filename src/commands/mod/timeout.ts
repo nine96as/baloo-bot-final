@@ -73,18 +73,17 @@ export const command: Command = {
         });
 
       try {
-        await member.timeout(duration, reason);
-        return interaction.reply({
-          embeds: [new SuccessEmbed(`***${member.user.tag} was timed out***`)]
+        await member.timeout(duration, reason).then(() => {
+          return interaction.reply({
+            embeds: [new SuccessEmbed(`***${member.user.tag} was timed out***`)]
+          });
         });
       } catch (e) {
-        if (e) {
-          logger.error(e);
-          return interaction.reply({
-            embeds: [new ErrorEmbed('***timeoutError***')],
-            ephemeral: true
-          });
-        }
+        logger.error(e);
+        return interaction.reply({
+          embeds: [new ErrorEmbed('***timeoutError***')],
+          ephemeral: true
+        });
       }
     }
   }
