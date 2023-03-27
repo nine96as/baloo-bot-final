@@ -40,7 +40,7 @@ export const command: Command = {
         if (member.premiumSince) badges.push('booster');
         if (member.user.bot) badges.push('bot');
 
-        await interaction.reply({
+        return await interaction.reply({
           embeds: [
             new Embed()
               .setColor('Random')
@@ -61,8 +61,8 @@ export const command: Command = {
                 {
                   name: 'joined',
                   value:
-                    `${time(member.joinedAt!)} ` +
-                    `(${time(member.joinedAt!, 'R')})`
+                    `${time(member.joinedAt as Date)} ` +
+                    `(${time(member.joinedAt as Date, 'R')})`
                 },
                 {
                   name: 'registered',
@@ -101,7 +101,7 @@ export const command: Command = {
       if (interaction.inCachedGuild()) {
         const { guild } = interaction;
 
-        await interaction.reply({
+        return await interaction.reply({
           embeds: [
             new Embed()
               .setColor('Random')
