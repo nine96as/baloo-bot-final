@@ -11,7 +11,9 @@ export const command: Command = {
     .setType(ApplicationCommandType.User),
 
   async execute(interaction: UserContextMenuCommandInteraction) {
-    const member = interaction.targetUser;
+    const { targetUser } = interaction;
+
+    const member = targetUser;
 
     return interaction.reply({
       embeds: [
