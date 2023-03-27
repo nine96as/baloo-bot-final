@@ -12,6 +12,9 @@ export const event: Event = {
       // Exits early if command doesn't exist.
       if (!command) return;
 
+      // Exits early if command wasn't called in recognised guild.
+      if (!interaction.inCachedGuild()) return;
+
       // If command exists, tries to carry out "execute" function.
       try {
         await command.execute(interaction as CommandInteraction, client);
@@ -36,6 +39,9 @@ export const event: Event = {
 
       // Exits early if command doesn't exist.
       if (!command) return;
+
+      // Exits early if command wasn't called in recognised guild.
+      if (!interaction.inCachedGuild()) return;
 
       // If command exists, tries to carry out "execute" function.
       try {
