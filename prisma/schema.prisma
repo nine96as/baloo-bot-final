@@ -1,0 +1,58 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model User {
+  id       String @id @unique
+  username String @db.VarChar(255)
+  roles    Role[] @relation()
+}
+
+model Guild {
+  id       String    @id @default(uuid())
+  channels Channel[] @relation()
+}
+
+model Channel {
+  id               String          @id @default(uuid())
+  guild            Guild           @relation(fields: [guildId], references: [id])
+  guildId          String          @db.VarChar(255)
+  WelcomeSystem    WelcomeSystem[] @relation()
+  lockdownChannels LockdownSystem? @relation("lockdownChannels", fields: [lockdownSystemId], references: [id])
+  lockdownSystemId String
+
+  @@index([guildId])
+  @@index([lockdownSystemId])
+}
+
+model Role {
+  id          String @id @default(uuid())
+  users       User[] @relation()
+  userId      String @db.VarChar(255)
+  description String @db.Text
+  emoji       String @db.Text
+
+  @@index([userId])
+}
+
+model WelcomeSystem {
+  id             String  @id @default(uuid())
+  welcomeChannel Channel @relation(fields: [channelId], references: [id])
+  channelId      String  @db.VarChar(255)
+
+  @@index([channelId])
+}
+
+model LockdownSystem {
+  id               String    @id @default(uuid())
+  lockdownChannels Channel[] @relation("lockdownChannels")
+}
