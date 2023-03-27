@@ -12,6 +12,9 @@ export const event: Event = {
       // Exits early if select menu doesn't exist.
       if (!menu) return;
 
+      // Exits early if select menu wasn't called in recognised guild.
+      if (!interaction.inCachedGuild()) return;
+
       // If select menu exists, tries to carry out "execute" function.
       try {
         await menu.execute(interaction as AnySelectMenuInteraction, client);
