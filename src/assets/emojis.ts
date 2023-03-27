@@ -1,7 +1,7 @@
 /**
  * Object containing various emojis used in the Discord bot.
  */
-export const emojis: Record<string, string | Record<string, string>> = {
+export const emojis = {
   category: '<:category:1025367604384239679>',
 
   success: '<:success:1025364274610196582>',
@@ -35,11 +35,4 @@ export const emojis: Record<string, string | Record<string, string>> = {
     member: '<:member:1025367605919371286>',
     bot: '<:bot:1025360506166448158>'
   }
-};
-
-/**
- * Construct a type with a set of properties K of type T.
- */
-type Record<K extends string, T> = {
-  [P in K]: T;
 };
