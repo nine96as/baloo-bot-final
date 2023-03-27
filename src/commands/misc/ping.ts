@@ -13,7 +13,7 @@ export const command: Command = {
       fetchReply: true
     });
 
-    await interaction.editReply({
+    return await interaction.editReply({
       embeds: [
         new Embed().setDescription(
           `${emojis.ping} ***pong! \`${
