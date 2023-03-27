@@ -5,7 +5,7 @@ import { emojis } from '#assets';
 export const command: Command = {
   data: new SlashCommandBuilder()
     .setName('ping')
-    .setDescription('🏓 sends a ping request!'),
+    .setDescription('sends a ping request!'),
 
   async execute(interaction: ChatInputCommandInteraction) {
     const msg = await interaction.reply({
