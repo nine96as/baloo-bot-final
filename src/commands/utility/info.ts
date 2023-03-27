@@ -7,6 +7,7 @@ import {
 } from 'discord.js';
 import { Bot, Command, Embed } from '#structures';
 import { emojis } from '#assets';
+import ms from 'ms';
 
 export const command: Command = {
   data: new SlashCommandBuilder()
@@ -203,9 +204,7 @@ export const command: Command = {
               },
               {
                 name: 'uptime',
-                value: `${((client.uptime as number) / 1000 / 60 / 60).toFixed(
-                  3
-                )} hours`,
+                value: ms(client.uptime as number, { long: true }),
                 inline: true
               },
               {
