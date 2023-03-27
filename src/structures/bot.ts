@@ -1,6 +1,7 @@
 import { Client, Collection } from 'discord.js';
 import { DiscordTogether } from 'discord-together';
 import { loadEvents, loadCommands, loadModals } from '#handlers';
+import { Event } from './event.js';
 import { Command } from './command.js';
 import { Button } from './button.js';
 import { SelectMenu } from './select.js';
@@ -8,11 +9,16 @@ import { Modal } from './modal.js';
 import { intents, logger } from '#functions';
 
 /**
- * Extends the Client class from the Discord.js library and adds additional functionality to manage commands,
+ * Extends the Client class from the Discord.js library and adds additional functionality to manage events, commands,
  * buttons, select menus, and modals. Also creates a DiscordTogether instance to enable users to watch YouTube
  * videos together in voice channels.
  */
 export class Bot extends Client {
+  /**
+   * Collection instance used to store `Event` instances.
+   */
+  events = new Collection<string, Event>();
+
   /**
    * Collection instance used to store `Command` instances.
    */
