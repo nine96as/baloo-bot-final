@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
 import { Command, Embed } from '#structures';
 import { emojis } from '#assets';
+import { getRandomInt } from '#functions';
 
 const sides = [
   { name: 'd4', value: 4 },
@@ -14,7 +15,7 @@ const sides = [
 export const command: Command = {
   data: new SlashCommandBuilder()
     .setName('dice')
-    .setDescription('🎲 rolls the dice (d6 by default)')
+    .setDescription('rolls the dice (d6 by default)')
     .addNumberOption((option) =>
       option
         .setName('sides')
@@ -44,22 +45,18 @@ export const command: Command = {
     const max = sides.find((s) => side === s.value)?.value || 6;
     const count = options.getInteger('count') || 1;
 
-    const rollDice = () => {
-      return Math.floor(Math.random() * max) + min;
-    };
-
     if (count === 1) {
       return interaction.reply({
         embeds: [
           new Embed().setDescription(
-            `${emojis.dice} ***rolled ${rollDice()}!***`
+            `${emojis.dice} ***rolled ${getRandomInt(min, max)}!***`
           )
         ]
       });
     } else {
       const results: number[] = [];
 
-      for (let i = 0; i < count; i++) results.push(rollDice());
+      for (let i = 0; i < count; i++) results.push(getRandomInt(min, max));
 
       return interaction.reply({
         embeds: [
