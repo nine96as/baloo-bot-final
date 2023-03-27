@@ -2,7 +2,8 @@ import {
   SlashCommandBuilder,
   ChatInputCommandInteraction,
   PermissionFlagsBits,
-  Message
+  Message,
+  Collection
 } from 'discord.js';
 import { Command, SuccessEmbed, ErrorEmbed } from '#structures';
 import { logger } from '#functions';
@@ -30,14 +31,17 @@ export const command: Command = {
     if (interaction.inCachedGuild()) {
       const { options, channel } = interaction;
 
-      const amount = options.getNumber('amount')!;
+      const amount = options.getNumber('amount') as number;
       const target = options.getMember('target');
-      const messages = await channel?.messages.fetch();
+      const messages = (await channel?.messages.fetch()) as Collection<
+        string,
+        Message<boolean>
+      >;
 
       if (target) {
         let i = 0;
         const filtered: Message<boolean>[] = [];
-        messages!.forEach((m: Message) => {
+        messages.forEach((m: Message) => {
           if (m.author.id === target.id && amount > i) {
             filtered.push(m);
             i++;
@@ -46,7 +50,7 @@ export const command: Command = {
 
         try {
           await channel?.bulkDelete(filtered, true).then((messages) => {
-            interaction.reply({
+            return interaction.reply({
               embeds: [
                 new SuccessEmbed(
                   `***cleared \`${messages.size}\` message(s) from ${target}***`
@@ -56,20 +60,23 @@ export const command: Command = {
           });
         } catch (e) {
           logger.error(e);
-          interaction.reply({
+          return interaction.reply({
             embeds: [new ErrorEmbed('***messageDeleteError***')],
             ephemeral: true
           });
         }
       } else {
         try {
-          await channel?.bulkDelete(amount, true);
-          interaction.reply({
-            embeds: [new SuccessEmbed(`***cleared \`${amount}\` message(s)***`)]
+          await channel?.bulkDelete(amount, true).then(() => {
+            return interaction.reply({
+              embeds: [
+                new SuccessEmbed(`***cleared \`${amount}\` message(s)***`)
+              ]
+            });
           });
         } catch (e) {
           logger.error(e);
-          interaction.reply({
+          return interaction.reply({
             embeds: [new ErrorEmbed('***messageDeleteError***')],
             ephemeral: true
           });
