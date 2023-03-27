@@ -44,12 +44,12 @@ export const command: Command = {
     const max = sides.find((s) => side === s.value)?.value || 6;
     const count = options.getInteger('count') || 1;
 
-    function rollDice() {
+    const rollDice = () => {
       return Math.floor(Math.random() * max) + min;
-    }
+    };
 
     if (count === 1) {
-      interaction.reply({
+      return interaction.reply({
         embeds: [
           new Embed().setDescription(
             `${emojis.dice} ***rolled ${rollDice()}!***`
@@ -59,9 +59,9 @@ export const command: Command = {
     } else {
       const results: number[] = [];
 
-      for (let i = 0; i < count!; i++) results.push(rollDice());
+      for (let i = 0; i < count; i++) results.push(rollDice());
 
-      interaction.reply({
+      return interaction.reply({
         embeds: [
           new Embed().setDescription(
             `${emojis.dice} ***rolled ${results.join(', ')}!***`
