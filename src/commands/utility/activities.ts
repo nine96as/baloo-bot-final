@@ -4,7 +4,7 @@ import { Bot, Command, SuccessEmbed, ErrorEmbed } from '#structures';
 export const command: Command = {
   data: new SlashCommandBuilder()
     .setName('activities')
-    .setDescription('💡 creates an invite for an activity in a voice channel')
+    .setDescription('creates an invite for an activity in a voice channel')
     .addStringOption((option) =>
       option
         .setName('activity')
