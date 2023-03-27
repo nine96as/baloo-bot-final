@@ -1,11 +1,12 @@
+import 'dotenv/config';
 import { logger } from '#functions';
 import { GatewayIntentBits } from 'discord.js';
-import 'dotenv/config';
-const { token, clientId, developerGuildId } = process.env;
+import { env } from 'process';
+const { token, clientId, developerGuildId, openAIKey, databaseUrl } = env;
 
 // If env variables are missing, will output error
-if (!token || !clientId || !developerGuildId) {
-  logger.error('missing environment variables.');
+if (!token || !clientId || !developerGuildId || !openAIKey || !databaseUrl) {
+  logger.fatal('missing environment variables.');
   process.exit(9);
 }
 
@@ -15,7 +16,9 @@ if (!token || !clientId || !developerGuildId) {
 export const config: Record<string, string> = {
   token,
   clientId,
-  developerGuildId
+  developerGuildId,
+  openAIKey,
+  databaseUrl
 };
 
 /**
