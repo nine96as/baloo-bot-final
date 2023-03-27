@@ -2,6 +2,7 @@ import { REST, Routes } from 'discord.js';
 import { Bot, Command } from '#structures';
 import { config, getContents, logger } from '#functions';
 import { fileURLToPath } from 'url';
+import { table } from 'console';
 const { clientId, developerGuildId, token } = config;
 
 /**
@@ -9,11 +10,13 @@ const { clientId, developerGuildId, token } = config;
  * @param {Bot} client - The Discord client instance.
  * @returns {Promise<void>} - A Promise that resolves when all commands have been loaded.
  */
-export async function loadCommands(client: Bot) {
-  // Get the absolute path to the 'buttons' directory.
+export const loadCommands = async (client: Bot): Promise<void> => {
+  // Get the absolute path to the 'commands' directory.
   const dirname = fileURLToPath(new URL('../commands', import.meta.url));
   // Get an array of all command files in the 'commands' directory and its subdirectories.
   const contents = await getContents(dirname);
+  // Instantiates an array of all successfully loaded events.
+  const commands = [];
 
   for (const content of contents) {
     // Extract the command object from the content object.
@@ -27,19 +30,29 @@ export async function loadCommands(client: Bot) {
       process.exit(1);
     } else {
       // Add the command object to the client's 'commands' collection, with its name as the key.
-      client.commands.set(command.data.name, command);
+      try {
+        client.commands.set(command.data.name, command);
+        commands.push({ command: command.data.name, status: '🟩' });
+      } catch (e) {
+        logger.error(
+          `error exporting commands, last export: ${
+            client.commands.last()?.data.name
+          }`
+        );
+      }
     }
   }
 
   await deployCommands(client);
 
-  logger.info(`✅ loaded ${client.commands.size} command(s).`);
-}
+  logger.info(table(commands));
+};
 
 /**
  * Uses the `REST` class from the `discord.js` module to deploy the commands to Discord.
+ * @param {Bot} client - The Discord client instance.
  */
-async function deployCommands(client: Bot) {
+const deployCommands = async (client: Bot) => {
   const rest = new REST({ version: '10' }).setToken(token);
   const body = client.commands.map((command) => command.data.toJSON());
 
@@ -53,10 +66,12 @@ async function deployCommands(client: Bot) {
   try {
     rest.put(endpoint, { body }).then(() => {
       const response =
-        process.env.NODE_ENV === 'production' ? `✅ prod` : `✅ dev`;
+        process.env.NODE_ENV === 'production'
+          ? `commands deployed for production`
+          : `commands deployed for development`;
       logger.info(response);
     });
   } catch (e) {
     logger.error(e);
   }
-}
+};
