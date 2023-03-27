@@ -2,15 +2,16 @@ import {
   SlashCommandBuilder,
   ChatInputCommandInteraction,
   time,
-  ChannelType
+  ChannelType,
+  version
 } from 'discord.js';
-import { Command, Embed } from '#structures';
+import { Bot, Command, Embed } from '#structures';
 import { emojis } from '#assets';
 
 export const command: Command = {
   data: new SlashCommandBuilder()
     .setName('info')
-    .setDescription('🔬 get info about a user or server')
+    .setDescription('🔬 get info about a user, the server or the bot')
     .addSubcommand((subcommand) =>
       subcommand
         .setName('user')
@@ -21,9 +22,12 @@ export const command: Command = {
     )
     .addSubcommand((subcommand) =>
       subcommand.setName('server').setDescription('🔬 info about the server')
+    )
+    .addSubcommand((subcommand) =>
+      subcommand.setName('bot').setDescription('🔬 info about the bot')
     ),
 
-  async execute(interaction: ChatInputCommandInteraction) {
+  async execute(interaction: ChatInputCommandInteraction, client: Bot) {
     if (interaction.options.getSubcommand() === 'user') {
       if (interaction.inCachedGuild()) {
         const { options, guild } = interaction;
@@ -161,6 +165,57 @@ export const command: Command = {
           ]
         });
       }
+    } else if (interaction.options.getSubcommand() === 'bot') {
+      return await interaction.reply({
+        ephemeral: true,
+        embeds: [
+          new Embed()
+            .setColor('Random')
+            .setFooter({
+              text: `${client.user?.username}`,
+              iconURL: client.user?.displayAvatarURL()
+            })
+            .setTimestamp()
+            .addFields(
+              {
+                name: 'node.js',
+                value: process.version.slice(1),
+                inline: true
+              },
+              {
+                name: 'discord.js',
+                value: version,
+                inline: true
+              },
+              {
+                name: 'memory usage',
+                value: `${(
+                  process.memoryUsage().heapUsed /
+                  1024 /
+                  1024
+                ).toFixed(2)} MB`,
+                inline: true
+              },
+              {
+                name: 'uptime',
+                value: `${((client.uptime as number) / 1000 / 60 / 60).toFixed(
+                  3
+                )} hours`,
+                inline: true
+              },
+              {
+                name: 'servers',
+                value: `${(await client.guilds.fetch()).size}`,
+                inline: true
+              },
+              {
+                name: 'commands',
+                value: `${client.commands.size.toLocaleString()}`,
+                inline: true
+              }
+            )
+        ]
+      });
     }
   }
 };
