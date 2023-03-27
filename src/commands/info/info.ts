@@ -179,7 +179,7 @@ export const command: Command = {
             .addFields(
               {
                 name: 'node.js',
-                value: process.version.slice(1),
+                value: process.versions.node,
                 inline: true
               },
               {
@@ -188,12 +188,17 @@ export const command: Command = {
                 inline: true
               },
               {
-                name: 'memory usage',
+                name: 'memory',
                 value: `${(
                   process.memoryUsage().heapUsed /
                   1024 /
                   1024
                 ).toFixed(2)} MB`,
+                inline: true
+              },
+              {
+                name: 'platform',
+                value: process.platform,
                 inline: true
               },
               {
@@ -204,8 +209,18 @@ export const command: Command = {
                 inline: true
               },
               {
+                name: 'ping',
+                value: `${client.ws.ping}ms`,
+                inline: true
+              },
+              {
                 name: 'servers',
-                value: `${(await client.guilds.fetch()).size}`,
+                value: `${client.guilds.cache.size}`,
+                inline: true
+              },
+              {
+                name: 'users',
+                value: `${client.users.cache.size}`,
                 inline: true
               },
               {
