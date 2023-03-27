@@ -13,28 +13,26 @@ export const command: Command = {
     .setType(ApplicationCommandType.Message),
 
   async execute(interaction: MessageContextMenuCommandInteraction) {
-    if (interaction.inCachedGuild()) {
-      const { channel, targetId } = interaction;
+    const { channel, targetId } = interaction;
 
-      const query = await channel?.messages.fetch({ message: targetId });
-      const rawMsg = query?.content;
+    const query = await channel?.messages.fetch({ message: targetId });
+    const rawMsg = query?.content as string;
 
-      const translatedMsg = await translate(rawMsg!, { to: 'en' });
+    const translatedMsg = await translate(rawMsg, { to: 'en' });
 
-      return interaction.reply({
-        embeds: [
-          new Embed()
-            .setColor('Random')
-            .setTitle(`${emojis.translate} translate`)
-            .addFields([
-              { name: '***raw***', value: '```' + rawMsg + '```' },
-              {
-                name: '***translated***',
-                value: '```' + translatedMsg.text + '```'
-              }
-            ])
-        ]
-      });
-    }
+    return interaction.reply({
+      embeds: [
+        new Embed()
+          .setColor('Random')
+          .setTitle(`${emojis.translate} translate`)
+          .addFields([
+            { name: '***raw***', value: '```' + rawMsg + '```' },
+            {
+              name: '***translated***',
+              value: '```' + translatedMsg.text + '```'
+            }
+          ])
+      ]
+    });
   }
 };
