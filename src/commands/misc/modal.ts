@@ -12,7 +12,7 @@ import { Command } from '#structures';
 export const command: Command = {
   data: new SlashCommandBuilder()
     .setName('modal')
-    .setDescription('📑 returns a modal'),
+    .setDescription('returns a modal'),
 
   async execute(interaction: ChatInputCommandInteraction) {
     const favColour = new ModalBuilder()
