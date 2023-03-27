@@ -12,6 +12,9 @@ export const event: Event = {
       // Exits early if button doesn't exist.
       if (!button) return;
 
+      // Exits early if button wasn't called in recognised guild.
+      if (!interaction.inCachedGuild()) return;
+
       // If button exists, tries to carry out "execute" function.
       try {
         await button.execute(interaction as ButtonInteraction, client);
