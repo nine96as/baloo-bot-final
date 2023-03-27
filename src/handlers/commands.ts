@@ -67,8 +67,8 @@ const deployCommands = async (client: Bot) => {
     rest.put(endpoint, { body }).then(() => {
       const response =
         process.env.NODE_ENV === 'production'
-          ? `commands deployed for production`
-          : `commands deployed for development`;
+          ? `commands deployed for production.`
+          : `commands deployed for development.`;
       logger.info(response);
     });
   } catch (e) {
