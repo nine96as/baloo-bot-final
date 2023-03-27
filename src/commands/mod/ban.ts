@@ -62,21 +62,22 @@ export const command: Command = {
         });
 
       try {
-        await member.ban({
-          reason: reason,
-          deleteMessageDays: cleanDays
-        });
-        return await interaction.reply({
-          embeds: [new SuccessEmbed(`***${member.user.tag} was banned***`)]
-        });
-      } catch (e) {
-        if (e) {
-          logger.error(e);
-          return interaction.reply({
-            embeds: [new ErrorEmbed(`***banError***`)],
-            ephemeral: true
+        await member
+          .ban({
+            reason: reason,
+            deleteMessageDays: cleanDays
+          })
+          .then(() => {
+            return interaction.reply({
+              embeds: [new SuccessEmbed(`***${member.user.tag} was banned***`)]
+            });
           });
-        }
+      } catch (e) {
+        logger.error(e);
+        return interaction.reply({
+          embeds: [new ErrorEmbed(`***banError***`)],
+          ephemeral: true
+        });
       }
     }
   }
