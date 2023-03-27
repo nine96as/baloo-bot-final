@@ -5,7 +5,7 @@ import glob from 'tiny-glob';
  * @param {string} path Path to search.
  * @returns {Promise<any[]>} List of files in path.
  */
-export async function getContents(path: string): Promise<any[]> {
+export const getContents = async (path: string): Promise<any[]> => {
   const files = await glob(`${path}/**/*.{ts,js}`);
 
   const contents = await Promise.all(
@@ -13,4 +13,4 @@ export async function getContents(path: string): Promise<any[]> {
   );
 
   return contents;
-}
+};
