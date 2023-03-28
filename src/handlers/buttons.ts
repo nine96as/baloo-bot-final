@@ -1,4 +1,5 @@
-import { Bot, Button } from '#structures';
+import { Bot } from '#structures';
+import { Button } from '#interfaces';
 import { getContents, logger } from '#functions';
 import { fileURLToPath } from 'url';
 import { table } from 'console';
