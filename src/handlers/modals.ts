@@ -1,4 +1,5 @@
-import { Bot, Modal } from '#structures';
+import { Bot } from '#structures';
+import { Modal } from '#interfaces';
 import { getContents, logger } from '#functions';
 import { fileURLToPath } from 'url';
 import { table } from 'console';
