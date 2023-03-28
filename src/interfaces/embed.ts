@@ -1,5 +1,5 @@
 import { EmbedBuilder, EmbedData } from 'discord.js';
-import { emojis } from '#assets';
+import { loggerEmojis } from '#assets';
 
 export class Embed extends EmbedBuilder {
   constructor(data?: EmbedData) {
@@ -30,21 +30,21 @@ export class EmojiEmbed extends Embed {
 
 export class SuccessEmbed extends EmojiEmbed {
   constructor(content: string) {
-    super(emojis.success, content);
+    super(loggerEmojis.success, content);
     this.setColor('#00ff80');
   }
 }
 
 export class ErrorEmbed extends EmojiEmbed {
   constructor(content: string) {
-    super(emojis.error, content);
+    super(loggerEmojis.error, content);
     this.setColor('#ff8080');
   }
 }
 
 export class InfoEmbed extends EmojiEmbed {
   constructor(content: string) {
-    super(emojis.info, content);
+    super(loggerEmojis.info, content);
     this.setColor('#ff8040');
   }
 }
