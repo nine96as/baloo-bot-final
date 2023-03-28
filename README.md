@@ -2,8 +2,6 @@
 
 <div align="center">
 
-[![discord.js]](https://discord.js.org)
-
 A multi-purpose [**Discord**](https://discord.com) bot built with [**discord.js**](https://github.com/discordjs/discord.js), [**TypeScript**](https://www.typescriptlang.org/)
 
 </div>
