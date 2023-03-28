@@ -8,6 +8,7 @@
     "#handlers": "./src/handlers/index.ts",
     "#assets": "./src/assets/index.ts",
     "#functions": "./src/functions/index.ts",
+    "#interfaces": "./src/interfaces/index.ts",
     "#structures": "./src/structures/index.ts"
   },
   "scripts": {
