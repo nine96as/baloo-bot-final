@@ -5,7 +5,7 @@ import {
 } from 'discord.js';
 import { Command, Embed } from '#structures';
 import { emojis } from '#assets';
-import { getRandomInt } from '#functions';
+import { getRandomInt } from 'utils';
 
 export const command: Command = {
   data: new SlashCommandBuilder()

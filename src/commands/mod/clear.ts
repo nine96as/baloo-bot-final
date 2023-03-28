@@ -6,7 +6,7 @@ import {
   Collection
 } from 'discord.js';
 import { Command, SuccessEmbed, ErrorEmbed } from '#structures';
-import { logger } from '#functions';
+import { logger } from 'utils';
 
 export const command: Command = {
   data: new SlashCommandBuilder()
