@@ -7,7 +7,7 @@
   "imports": {
     "#handlers": "./src/handlers/index.ts",
     "#assets": "./src/assets/index.ts",
-    "#functions": "./src/functions/index.ts",
+    "#utils": "./src/utils/index.ts",
     "#interfaces": "./src/interfaces/index.ts",
     "#structures": "./src/structures/index.ts"
   },

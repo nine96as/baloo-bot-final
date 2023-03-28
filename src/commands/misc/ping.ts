@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
-import { Command, Embed } from '#structures';
+import { Command, Embed } from '#interfaces';
 import { emojis } from '#assets';
 
 export const command: Command = {

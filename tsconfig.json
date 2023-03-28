@@ -10,7 +10,7 @@
     "paths": {
       "#handlers": ["handlers/index.ts"],
       "#assets": ["assets/index.ts"],
-      "#functions": ["functions/index.ts"],
+      "#utils": ["utils/index.ts"],
       "#interfaces": ["interfaces/index.ts"],
       "#structures": ["structures/index.ts"]
     },
