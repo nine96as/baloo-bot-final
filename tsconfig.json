@@ -5,12 +5,13 @@
     "lib": ["ES2022"],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "moduleResolution": "Node16",
+    "moduleResolution": "node",
     "baseUrl": "src",
     "paths": {
       "#handlers": ["handlers/index.ts"],
       "#assets": ["assets/index.ts"],
       "#functions": ["functions/index.ts"],
+      "#interfaces": ["interfaces/index.ts"],
       "#structures": ["structures/index.ts"]
     },
     "resolveJsonModule": true,
