@@ -1,74 +1,85 @@
 # baloo-bot-final
 
-a multi-purpose discord bot made using [discord.js](https://github.com/discordjs/discord.js)
+<div align="center">
+
+[![discord.js]](https://discord.js.org)
+
+A multi-purpose [**Discord**](https://discord.com) bot built with [**discord.js**](https://github.com/discordjs/discord.js), [**TypeScript**](https://www.typescriptlang.org/)
+
+</div>
 
 ![Alt](https://repobeats.axiom.co/api/embed/a70c458d296958fd09ea21b9069c89955ef76a4b.svg 'Repobeats analytics image')
 
-## auto-deployment
+---
 
-- you will have to configure environment variables; **check configuration section below**
+## Features
 
-[![Open in Gitpod](https://camo.githubusercontent.com/76e60919474807718793857d8eb615e7a50b18b04050577e5a35c19421f260a3/68747470733a2f2f676974706f642e696f2f627574746f6e2f6f70656e2d696e2d676974706f642e737667)](https://gitpod.io/#https://github.com/nine96as/baloo-bot-final)
+- A dedicated member welcoming system, moderation system, AFK (Away From Keyboard) system, role menu system
+- Fully-featured chatbot system which leverages OpenAI's `gpt-3.5-turbo` model
+- Makes use of Discord's new bot-user interactions: slash commands, buttons and select menus, context menus and modals
 
-## features
+## Installation
 
-- a dedicated welcome banner system, lockdown system, afk system, role menu system
-- fully-featured chatbot system which leverages OpenAI's gpt-3.5-turbo model
-- makes use of slash commands, buttons and select menus, context menus
-- an array of commands; misc, moderation, reaction roles, information etc
+1. Clone the repository and `cd` into it:
 
-## manual installation
+   ```sh
+   git clone https://github.com/nine96as/baloo-bot-final
+   cd baloo-bot-final
+   ```
 
-### requirements
+2. Install required `npm` dependencies:
 
-- node.js (v16.16>)
-- npm
+   ```sh
+   npm install #install dependencies from package.json
+   ```
 
-### initialisation
+3. Complete the steps in the **Configuration** section, then run the bot with:
 
-- create a discord bot application [here](https://discordjs.guide/preparations/setting-up-a-bot-application.html#creating-your-bot)
-- clone the bot project using below command
+   ```sh
+   npm run start:dev #nodemon listens for file changes
+   ```
 
-```bash
-git clone https://github.com/nine96as/baloo-bot-final
-```
+   > **Note**: The `start:dev` script will run the bot with [nodemon](https://nodemon.io), which will automatically restart the bot when changes are made to the source code.
 
-- open terminal in project directory, and enter below command
+## Configuration
 
-```sh
-npm i #install dependencies from package.json
-```
+The bot requires a **Discord bot token** to use the Discord API, the bot's `APPLICATION_ID` to be able to deploy commands, an **OpenAI API key** to enable the chatbot functionality, and a `DATABASE_URL` to enable Prisma to interact with a database.
 
-### configuration
+1. Fetch the **Discord bot token** by creating a discord bot application, [using this guide](https://discordjs.guide/preparations/setting-up-a-bot-application.html#creating-your-bot).
 
-- create a .env file in the project directory and fill in the following attribute-value combinations
+   > **Warning**: It is vital that you do not ever share your bot token with anybody, purposely or accidentally. If someone does manage to get a hold of your bot's token, they can use your bot as if it were theirs. If you accidentally share your token, [revoke it immediately](https://discordjs.guide/preparations/setting-up-a-bot-application.html#revoking-token-and-invite-link) and generate a new one.
 
-| attribute     | type     | description                                                                                                   |
-| :------------ | :------- | :------------------------------------------------------------------------------------------------------------ |
-| `token`       | `string` | bot token ([disc dev portal](https://discord.com/developers/applications))                                    |
-| `clientId`    | `string` | `APPLICATION_ID` in [disc dev portal](https://discord.com/developers/applications)                            |
-| `databaseUrl` | `string` | prisma database url ([docs](https://pris.ly/d/prisma-schema#accessing-environment-variables-from-the-schema)) |
+2. Fetch the `APPLICATION_ID` by accessing the [Discord Developer Portal](https://discord.com/developers/applications), selecting your newly generated bot application, and looking at the **General Information** page.
 
-### deployment
+3. Fetch the **OpenAI API key** [using this guide](https://www.windowscentral.com/software-apps/how-to-get-an-openai-api-key).
 
-- deploy bot using below command
+   > **Warning**: It is imperative that you do not ever share OpenAI API key with anybody, purposely or accidentally. If you accidentally commit your token, [revoke it immediately](https://platform.openai.com/account/api-keys) and generate a new one.
+
+4. Fetch the `DATABASE_URL` [using this guide](https://www.prisma.io/docs/getting-started/setup-prisma/add-to-existing-project/relational-databases/connect-your-database-typescript-planetscale), where [PlanetScale](https://planetscale.com/) is used as the database provider.
+
+5. After you've acquired all the required values, create a `.env` file, and fill it in as shown below:
+
+   ```env
+   token='token'
+   clientId='APPLICATION_ID'
+   openAIKey='openAIApiKey'
+   databaseUrl='DATABASE_URL'
+   ```
+
+### Deployment
+
+To deploy the bot for production, run the below commands.
 
 ```sh
 npm run build #builds ts code into js
 npm run start #runs js compiled code
 ```
 
-### extras
+### Additional Scripts
 
-- prettier and eslint scripts are available to automate code formatting
+- **[Prettier](https://prettier.io)** and **[ESLint](https://eslint.org)** scripts are available to automate code formatting
 
-```sh
-npm run format #prettier checks + enforces formatting
-npm run lint #eslint check + auto-fix errors where possible
-```
-
-- a nodemon script is available for instant restarts upon file changes
-
-```sh
-npm run start:dev #nodemon listens for file changes
-```
+  ```sh
+  npm run format #prettier checks + enforces formatting
+  npm run lint #eslint check + auto-fix errors where possible
+  ```
