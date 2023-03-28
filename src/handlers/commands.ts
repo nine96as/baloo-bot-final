@@ -15,7 +15,7 @@ export const loadCommands = async (client: Bot): Promise<void> => {
   // Get the absolute path to the 'commands' directory.
   const dirname = fileURLToPath(new URL('../commands', import.meta.url));
   // Get an array of all command files in the 'commands' directory and its subdirectories.
-  const contents = await getContents(dirname);
+  const contents = await getContents<{ command: Command }>(dirname);
   // Instantiates an array of all successfully loaded events.
   const commands = [];
 
