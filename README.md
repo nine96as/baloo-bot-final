@@ -1,4 +1,4 @@
-# baloo-bot-final
+<h1 align="center">baloo-bot-final</h1>
 
 <div align="center">
 
