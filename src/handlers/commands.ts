@@ -1,5 +1,6 @@
 import { REST, Routes } from 'discord.js';
-import { Bot, Command } from '#structures';
+import { Bot } from '#structures';
+import { Command } from '#interfaces';
 import { config, getContents, logger } from '#functions';
 import { fileURLToPath } from 'url';
 import { table } from 'console';
