@@ -20,10 +20,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/996as/baloo-bot-final"
+    "url": "https://github.com/nine96as/baloo-bot-final"
   },
   "keywords": [],
-  "author": "996as",
+  "author": "nine96as",
   "license": "GNU General Public License v3.0",
   "engines": {
     "node": ">=16.16.0"
