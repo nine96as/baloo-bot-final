@@ -13,7 +13,7 @@ a multi-purpose discord bot made using [discord.js](https://github.com/discordjs
 ## features
 
 - a dedicated welcome banner system, lockdown system, afk system, role menu system
-- fully-featured chatbot system which leverages OpenAI's gpt-3.5 turbo model
+- fully-featured chatbot system which leverages OpenAI's gpt-3.5-turbo model
 - makes use of slash commands, buttons and select menus, context menus
 - an array of commands; misc, moderation, reaction roles, information etc
 
@@ -47,7 +47,7 @@ npm i #install dependencies from package.json
 | :----------------- | :------- | :--------------------------------------------------------------------------------- |
 | `token`            | `string` | bot token ([disc dev portal](https://discord.com/developers/applications))         |
 | `clientId`         | `string` | `APPLICATION_ID` in [disc dev portal](https://discord.com/developers/applications) |
-| `developerGuildId` | `string` | ID of developer guild                                                              |
+| `databaseUrl`      | `string` | prisma database url ([docs](https://pris.ly/d/prisma-schema#accessing-environment-variables-from-the-schema)) |
 
 ### deployment
 
