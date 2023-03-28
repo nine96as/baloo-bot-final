@@ -8,7 +8,7 @@ import {
 import ms from 'ms';
 import { Bot } from '#structures';
 import { Command, Embed } from '#interfaces';
-import { emojis } from '#assets';
+import { badgeEmojis } from '#assets';
 
 export const command: Command = {
   data: new SlashCommandBuilder()
@@ -55,8 +55,7 @@ export const command: Command = {
                 name: member.user.tag
               })
               .setDescription(
-                // @ts-ignore
-                `${member} ${badges.map((b) => emojis.badge[b]).join(' ')}`
+                `${member} ${badges.map((b) => badgeEmojis[b]).join(' ')}`
               )
               .setFooter({
                 text: `ID: ${member.user.id}`
