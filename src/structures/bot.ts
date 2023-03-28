@@ -1,13 +1,9 @@
 import { Client, Collection } from 'discord.js';
 import { DiscordTogether } from 'discord-together';
-import { loadEvents, loadCommands, loadModals } from '#handlers';
-import { Event } from './event.js';
-import { Command } from './command.js';
-import { Button } from './button.js';
-import { SelectMenu } from './select.js';
-import { Modal } from './modal.js';
-import { config, intents, logger } from '#functions';
 import { Configuration, OpenAIApi } from 'openai';
+import { Command, Button, SelectMenu, Modal, Event } from '#interfaces';
+import { loadEvents, loadCommands, loadModals } from '#handlers';
+import { config, intents, logger } from '#functions';
 
 /**
  * Extends the Client class from the Discord.js library and adds additional functionality to manage events, commands,
