@@ -13,7 +13,7 @@ export const loadButtons = async (client: Bot): Promise<void> => {
   // Get the absolute path to the 'buttons' directory.
   const dirname = fileURLToPath(new URL('../buttons', import.meta.url));
   // Get an array of all button files in the 'buttons' directory and its subdirectories.
-  const contents = await getContents(dirname);
+  const contents = await getContents<{ button: Button }>(dirname);
   // Instantiates an array of all successfully loaded buttons.
   const buttons = [];
 
