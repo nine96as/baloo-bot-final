@@ -43,11 +43,11 @@ npm i #install dependencies from package.json
 
 - create a .env file in the project directory and fill in the following attribute-value combinations
 
-| attribute          | type     | description                                                                        |
-| :----------------- | :------- | :--------------------------------------------------------------------------------- |
-| `token`            | `string` | bot token ([disc dev portal](https://discord.com/developers/applications))         |
-| `clientId`         | `string` | `APPLICATION_ID` in [disc dev portal](https://discord.com/developers/applications) |
-| `databaseUrl`      | `string` | prisma database url ([docs](https://pris.ly/d/prisma-schema#accessing-environment-variables-from-the-schema)) |
+| attribute     | type     | description                                                                                                   |
+| :------------ | :------- | :------------------------------------------------------------------------------------------------------------ |
+| `token`       | `string` | bot token ([disc dev portal](https://discord.com/developers/applications))                                    |
+| `clientId`    | `string` | `APPLICATION_ID` in [disc dev portal](https://discord.com/developers/applications)                            |
+| `databaseUrl` | `string` | prisma database url ([docs](https://pris.ly/d/prisma-schema#accessing-environment-variables-from-the-schema)) |
 
 ### deployment
 
