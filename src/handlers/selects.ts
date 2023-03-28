@@ -1,4 +1,5 @@
-import { Bot, SelectMenu } from '#structures';
+import { Bot } from '#structures';
+import { SelectMenu } from '#interfaces';
 import { getContents, logger } from '#functions';
 import { fileURLToPath } from 'url';
 import { table } from 'console';
