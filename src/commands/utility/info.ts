@@ -5,9 +5,10 @@ import {
   ChannelType,
   version
 } from 'discord.js';
-import { Bot, Command, Embed } from '#structures';
-import { emojis } from '#assets';
 import ms from 'ms';
+import { Bot } from '#structures';
+import { Command, Embed } from '#interfaces';
+import { emojis } from '#assets';
 
 export const command: Command = {
   data: new SlashCommandBuilder()

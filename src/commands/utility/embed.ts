@@ -7,7 +7,7 @@ import {
   TextInputBuilder,
   TextInputStyle
 } from 'discord.js';
-import { Command } from '#structures';
+import { Command } from '#interfaces';
 
 export const command: Command = {
   data: new SlashCommandBuilder()

@@ -1,5 +1,5 @@
 import { ModalSubmitInteraction } from 'discord.js';
-import { Modal, Embed, SuccessEmbed } from '#structures';
+import { Modal, Embed, SuccessEmbed } from '#interfaces';
 
 export const modal: Modal = {
   customId: 'embed',

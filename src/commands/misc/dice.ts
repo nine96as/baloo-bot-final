@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
-import { Command, Embed } from '#structures';
+import { Command, Embed } from '#interfaces';
 import { emojis } from '#assets';
-import { getRandomInt } from 'utils';
+import { getRandomInt } from '#utils';
 
 const sides = [
   { name: 'd4', value: 4 },

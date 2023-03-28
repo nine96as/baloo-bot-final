@@ -3,7 +3,7 @@ import {
   ContextMenuCommandBuilder,
   MessageContextMenuCommandInteraction
 } from 'discord.js';
-import { Command, Embed } from '#structures';
+import { Command, Embed } from '#interfaces';
 import { emojis } from '#assets';
 import translate from '@iamtraction/google-translate';
 

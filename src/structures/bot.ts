@@ -3,7 +3,7 @@ import { DiscordTogether } from 'discord-together';
 import { Configuration, OpenAIApi } from 'openai';
 import { Command, Button, SelectMenu, Modal, Event } from '#interfaces';
 import { loadEvents, loadCommands, loadModals } from '#handlers';
-import { config, intents, logger } from 'utils';
+import { config, intents, logger } from '#utils';
 
 /**
  * Extends the Client class from the Discord.js library and adds additional functionality to manage events, commands,

@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { logger } from 'utils';
+import { logger } from '#utils';
 import { GatewayIntentBits } from 'discord.js';
 import { env } from 'process';
 const { token, clientId, openAIKey, databaseUrl } = env;
