@@ -5,7 +5,7 @@ import {
   AutocompleteInteraction
 } from 'discord.js';
 import { Bot, Event, ErrorEmbed } from '#structures';
-import { logger } from '#functions';
+import { logger } from 'utils';
 
 export const event: Event = {
   name: Events.InteractionCreate,

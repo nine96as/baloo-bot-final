@@ -1,5 +1,5 @@
 import { Bot } from '#structures';
-import { config } from '#functions';
+import { config } from 'utils';
 
 /**
  * Creates a new instance of the Bot class and passes in a Discord bot token,

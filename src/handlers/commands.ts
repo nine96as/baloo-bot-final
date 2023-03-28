@@ -1,7 +1,7 @@
 import { REST, Routes } from 'discord.js';
 import { Bot } from '#structures';
 import { Command } from '#interfaces';
-import { config, getContents, logger } from '#functions';
+import { config, getContents, logger } from 'utils';
 import { fileURLToPath } from 'url';
 import { table } from 'console';
 const { clientId, token } = config;
