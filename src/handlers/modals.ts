@@ -13,7 +13,7 @@ export const loadModals = async (client: Bot): Promise<void> => {
   // Get the absolute path to the 'modals' directory.
   const dirname = fileURLToPath(new URL('../modals', import.meta.url));
   // Get an array of all modal files in the 'modals' directory and its subdirectories.
-  const contents = await getContents(dirname);
+  const contents = await getContents<{ modal: Modal }>(dirname);
   // Instantiates an array of all successfully loaded modals.
   const modals = [];
 
