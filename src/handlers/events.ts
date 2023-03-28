@@ -1,4 +1,5 @@
-import { Bot, Event } from '#structures';
+import { Bot } from '#structures';
+import { Event } from '#interfaces';
 import { getContents, logger } from '#functions';
 import { fileURLToPath } from 'url';
 import { table } from 'console';
@@ -11,7 +12,7 @@ import { table } from 'console';
 export const loadEvents = async (client: Bot): Promise<void> => {
   // Get the absolute path to the 'events' directory.
   const dirname = fileURLToPath(new URL('../events/client', import.meta.url));
-  // Get an array of all event files in the 'commands' directory and its subdirectories.
+  // Get an array of all event files in the 'events' directory and its subdirectories.
   const contents = await getContents(dirname);
   // Instantiates an array of all successfully loaded events.
   const events = [];
@@ -29,7 +30,7 @@ export const loadEvents = async (client: Bot): Promise<void> => {
             event.execute(client, ...args)
           );
 
-      // Add the command object to the client's 'commands' collection, with its name as the key.
+      // Add the event object to the client's 'events' collection, with its name as the key.
       client.events.set(event.name, event);
       events.push({ event: event.name, status: '🟩' });
     } catch (e) {
