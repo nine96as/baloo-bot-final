@@ -12,47 +12,61 @@ datasource db {
 }
 
 model User {
-  id       String @id @unique
-  username String @db.VarChar(255)
-  roles    Role[] @relation()
+  id        Int      @id @unique @default(autoincrement())
+  userId    String   @unique
+  guild     Guild    @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
+  guildId   String
+  roles     Role[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([guildId])
 }
 
 model Guild {
-  id       String    @id @default(uuid())
-  channels Channel[] @relation()
+  id            Int            @id @unique @default(autoincrement())
+  guildId       String         @unique
+  channels      Channel[]
+  users         User[]
+  roles         Role[]
+  WelcomeSystem WelcomeSystem?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
 }
 
 model Channel {
-  id               String          @id @default(uuid())
-  guild            Guild           @relation(fields: [guildId], references: [id])
-  guildId          String          @db.VarChar(255)
-  WelcomeSystem    WelcomeSystem[] @relation()
-  lockdownChannels LockdownSystem? @relation("lockdownChannels", fields: [lockdownSystemId], references: [id])
-  lockdownSystemId String
+  id            Int            @id @unique @default(autoincrement())
+  channelId     String         @unique
+  guild         Guild          @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
+  guildId       String
+  WelcomeSystem WelcomeSystem?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
 
   @@index([guildId])
-  @@index([lockdownSystemId])
 }
 
 model Role {
-  id          String @id @default(uuid())
-  users       User[] @relation()
-  userId      String @db.VarChar(255)
-  description String @db.Text
-  emoji       String @db.Text
+  id          Int      @id @unique @default(autoincrement())
+  guild       Guild    @relation(fields: [guildId], references: [guildId])
+  guildId     String
+  users       User[]
+  description String
+  emoji       String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  @@index([userId])
+  @@index([guildId])
 }
 
 model WelcomeSystem {
-  id             String  @id @default(uuid())
-  welcomeChannel Channel @relation(fields: [channelId], references: [id])
-  channelId      String  @db.VarChar(255)
+  id        Int      @id @unique @default(autoincrement())
+  guild     Guild    @relation(fields: [guildId], references: [guildId])
+  guildId   String   @unique
+  channel   Channel  @relation(fields: [channelId], references: [channelId])
+  channelId String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  @@index([channelId])
-}
-
-model LockdownSystem {
-  id               String    @id @default(uuid())
-  lockdownChannels Channel[] @relation("lockdownChannels")
+  @@index([guildId])
 }
