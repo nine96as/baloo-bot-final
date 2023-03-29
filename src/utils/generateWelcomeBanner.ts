@@ -28,13 +28,13 @@ const av = {
 export const generateWelcomeBanner = async (
   member: GuildMember
 ): Promise<AttachmentBuilder> => {
-  const { tag, displayAvatarURL } = member.user;
+  const { tag } = member.user;
   const { memberCount } = member.guild;
 
   // Load all required images
   const background = await loadImage('https://i.imgur.com/2VWMBZ0.jpg');
   const avatarUrl = await loadImage(
-    displayAvatarURL({
+    member.displayAvatarURL({
       extension: 'png',
       size: 256
     })
@@ -47,8 +47,6 @@ export const generateWelcomeBanner = async (
 
   // Uses the canvas dimensions to stretch background onto entire canvas
   context.drawImage(background, 0, 0, canvas.width, canvas.height);
-  // Draws avatar onto the main canvas
-  context.drawImage(avatarUrl, av.x, av.y);
 
   // Draws black tinted box on top of background
   context.fillStyle = 'rgba(0,0,0,0.8)';
@@ -95,6 +93,9 @@ export const generateWelcomeBanner = async (
   context.closePath();
   // Clip off drawn on region
   context.clip();
+
+  // Draws avatar onto the main canvas
+  context.drawImage(avatarUrl, av.x, av.y);
 
   const attachment = new AttachmentBuilder(canvas.toBuffer(), {
     name: 'welcome.png'
