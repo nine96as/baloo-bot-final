@@ -12,12 +12,18 @@ export const command: Command = {
         .setDescription('question to ask the bot')
         .setRequired(true)
         .setMaxLength(1024)
+    )
+    .addBooleanOption((option) =>
+      option
+        .setName('visible')
+        .setDescription('whether or not the response should be shown')
     ),
 
   async execute(interaction: ChatInputCommandInteraction, client: Bot) {
     if (interaction.inCachedGuild()) {
       const { options } = interaction;
 
+      const visible = options.getBoolean('visible') ?? false;
       const question = options.getString('question', true);
       const user = interaction.user;
 
@@ -28,10 +34,10 @@ export const command: Command = {
         });
       }
 
-      await interaction.deferReply({ ephemeral: true });
+      await interaction.deferReply({ ephemeral: visible });
 
       const systemPrompt = `
-        You are a friendly chatbot. 
+        Your name is baloo, you are a friendly chatbot created by nine96. 
         Answer as concisely as possible.
         Current date: ${new Date().toString()}
       `;
@@ -39,11 +45,7 @@ export const command: Command = {
       const response = await client.ai.createChatCompletion({
         model: 'gpt-3.5-turbo',
         messages: [
-          {
-            name: client.user?.username,
-            role: 'system',
-            content: systemPrompt
-          },
+          { role: 'system', content: systemPrompt },
           { name: user.username, role: 'user', content: question }
         ]
       });
