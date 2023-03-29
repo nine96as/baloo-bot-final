@@ -11,7 +11,7 @@ import { table } from 'console';
  */
 export const loadEvents = async (client: Bot): Promise<void> => {
   // Get the absolute path to the 'events' directory.
-  const dirname = fileURLToPath(new URL('../events/client', import.meta.url));
+  const dirname = fileURLToPath(new URL('../events', import.meta.url));
   // Get an array of all event files in the 'events' directory and its subdirectories.
   const contents = await getContents<{ event: Event }>(dirname);
   // Instantiates an array of all successfully loaded events.
