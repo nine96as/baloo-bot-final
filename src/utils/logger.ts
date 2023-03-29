@@ -1,6 +1,8 @@
 import { pino } from 'pino';
 
-// Defines pino-pretty formatting options
+/**
+ * Defines pino-pretty formatting options
+ */
 const transport = pino.transport({
   target: 'pino-pretty',
   options: {
