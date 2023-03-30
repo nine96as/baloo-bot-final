@@ -8,8 +8,8 @@ export const event: Event = {
   once: true,
   execute(client: Bot) {
     logger.info(`logged in as ${client.user?.tag}.`);
-    client.user?.setActivity('with discord.js', {
-      type: ActivityType.Playing
+    client.user?.setActivity(`${client.guilds.cache.size} servers`, {
+      type: ActivityType.Watching
     });
   }
 };
