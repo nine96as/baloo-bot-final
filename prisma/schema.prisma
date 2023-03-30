@@ -92,7 +92,7 @@ model LockdownSystem {
   guildId   String   @unique
   channel   Channel  @relation(fields: [channelId], references: [channelId])
   channelId String   @unique
-  duration  Int
+  duration  Int?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
