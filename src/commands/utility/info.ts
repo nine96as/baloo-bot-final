@@ -122,12 +122,12 @@ export const command: Command = {
               .addFields(
                 { name: 'owner', value: `<@${guild.ownerId}>` },
                 {
-                  name: 'total members',
+                  name: 'members',
                   value: `${guild.memberCount}`,
                   inline: true
                 },
                 {
-                  name: 'total roles',
+                  name: 'roles',
                   value: `${guild.roles.cache.size}`,
                   inline: true
                 },
