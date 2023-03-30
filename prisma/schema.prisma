@@ -12,36 +12,40 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @unique @default(autoincrement())
-  userId    String   @unique
-  guild     Guild    @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
+  id        Int        @id @unique @default(autoincrement())
+  userId    String     @unique
+  guild     Guild      @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
   guildId   String
   roles     Role[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  AfkSystem AfkSystem?
 
   @@index([guildId])
 }
 
 model Guild {
-  id            Int            @id @unique @default(autoincrement())
-  guildId       String         @unique
-  channels      Channel[]
-  users         User[]
-  roles         Role[]
-  WelcomeSystem WelcomeSystem?
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
+  id             Int             @id @unique @default(autoincrement())
+  guildId        String          @unique
+  channels       Channel[]
+  users          User[]
+  roles          Role[]
+  WelcomeSystem  WelcomeSystem?
+  AfkSystem      AfkSystem?
+  LockdownSystem LockdownSystem?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
 }
 
 model Channel {
-  id            Int            @id @unique @default(autoincrement())
-  channelId     String         @unique
-  guild         Guild          @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
-  guildId       String
-  WelcomeSystem WelcomeSystem?
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
+  id             Int             @id @unique @default(autoincrement())
+  channelId      String          @unique
+  guild          Guild           @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
+  guildId        String
+  WelcomeSystem  WelcomeSystem?
+  LockdownSystem LockdownSystem?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
 
   @@index([guildId])
 }
@@ -69,4 +73,26 @@ model WelcomeSystem {
   updatedAt DateTime @updatedAt
 
   @@index([guildId])
+}
+
+model AfkSystem {
+  id        Int      @id @unique @default(autoincrement())
+  guild     Guild    @relation(fields: [guildId], references: [guildId])
+  guildId   String   @unique
+  user      User     @relation(fields: [userId], references: [userId])
+  userId    String   @unique
+  status    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model LockdownSystem {
+  id        Int      @id @unique @default(autoincrement())
+  guild     Guild    @relation(fields: [guildId], references: [guildId])
+  guildId   String   @unique
+  channel   Channel  @relation(fields: [channelId], references: [channelId])
+  channelId String   @unique
+  duration  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
