@@ -47,7 +47,7 @@ export const command: Command = {
 
         return interaction.reply({
           embeds: [
-            new SuccessEmbed(`***set welcome channel as <#${channel.id}>***`)
+            new SuccessEmbed(`***welcome channel set as <#${channel.id}>***`)
           ]
         });
       }
