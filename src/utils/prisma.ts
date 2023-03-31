@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 
 export const prisma = new PrismaClient({
-  errorFormat: 'pretty',
+  errorFormat: 'minimal',
   log: [
     { level: 'warn', emit: 'event' },
     { level: 'info', emit: 'event' },
