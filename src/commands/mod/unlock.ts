@@ -2,7 +2,8 @@ import {
   SlashCommandBuilder,
   ChatInputCommandInteraction,
   PermissionFlagsBits,
-  BaseGuildTextChannel
+  TextChannel,
+  ChannelType
 } from 'discord.js';
 import { Command, SuccessEmbed, ErrorEmbed } from '#interfaces';
 import { prisma } from '#utils';
@@ -11,12 +12,18 @@ export const command: Command = {
   data: new SlashCommandBuilder()
     .setName('unlock')
     .setDescription('🚨 unlock a previously locked channel')
+    .addChannelOption((option) =>
+      option
+        .setName('channel')
+        .setDescription('target channel')
+        .addChannelTypes(ChannelType.GuildText)
+    )
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels),
 
   async execute(interaction: ChatInputCommandInteraction) {
     if (interaction.inCachedGuild()) {
-      const { guild, guildId } = interaction;
-      const channel = interaction.channel as BaseGuildTextChannel;
+      const { guildId } = interaction;
+      const channel = interaction.channel as TextChannel;
 
       if (
         channel.permissionsFor(guildId)?.has(PermissionFlagsBits.SendMessages)
@@ -27,13 +34,11 @@ export const command: Command = {
         });
       }
 
-      channel.permissionOverwrites.edit(interaction.guildId, {
+      await channel.permissionOverwrites.edit(guildId, {
         SendMessages: null
       });
 
-      prisma.lockdownSystem.delete({
-        where: { guildId: guild.id, channelId: channel.id }
-      });
+      await prisma.lockdownSystem.delete({ where: { channelId: channel.id } });
 
       return interaction.reply({
         embeds: [new SuccessEmbed(`***<#${channel.id}> was unlocked***`)]
