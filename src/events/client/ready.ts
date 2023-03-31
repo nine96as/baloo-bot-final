@@ -1,7 +1,7 @@
 import { ActivityType, Events } from 'discord.js';
 import { Bot } from '#structures';
 import { Event } from '#interfaces';
-import { logger } from '#utils';
+import { checkLockdownChannels, logger } from '#utils';
 
 export const event: Event = {
   name: Events.ClientReady,
@@ -10,6 +10,11 @@ export const event: Event = {
     logger.info(`logged in as ${client.user?.tag}.`);
     client.user?.setActivity(`${client.guilds.cache.size} servers`, {
       type: ActivityType.Watching
+    });
+
+    // Run checks on lockdown channels for every guild
+    client.guilds.cache.forEach(async (g) => {
+      checkLockdownChannels(client, g);
     });
   }
 };
