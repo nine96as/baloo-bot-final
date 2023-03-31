@@ -6,7 +6,7 @@ import {
 } from 'discord.js';
 import { Bot } from '#structures';
 import { Event, ErrorEmbed } from '#interfaces';
-import { logger } from '#utils';
+import { logger, prisma } from '#utils';
 
 export const event: Event = {
   name: Events.InteractionCreate,
@@ -26,6 +26,12 @@ export const event: Event = {
 
       // If command exists, tries to carry out "execute" function.
       try {
+        const { user, guildId } = interaction;
+        await prisma.user.upsert({
+          where: { userId: user.id },
+          create: { userId: user.id, guildId: guildId },
+          update: { userId: user.id }
+        });
         await command.execute(interaction as CommandInteraction, client);
       } catch (e) {
         logger.error(e);
