@@ -5,10 +5,8 @@ import {
   ContextMenuCommandBuilder,
   InteractionResponse,
   Message,
-  MessageContextMenuCommandInteraction,
   SlashCommandBuilder,
-  SlashCommandSubcommandsOnlyBuilder,
-  UserContextMenuCommandInteraction
+  SlashCommandSubcommandsOnlyBuilder
 } from 'discord.js';
 
 /**
@@ -31,10 +29,7 @@ export interface Command {
    * @returns A promise that resolves to a `InteractionResponse<boolean>`, `Message<boolean>`, or void.
    */
   execute(
-    interaction:
-      | MessageContextMenuCommandInteraction
-      | UserContextMenuCommandInteraction
-      | CommandInteraction,
+    interaction: CommandInteraction,
     client: Bot
   ): Promise<InteractionResponse<boolean> | Message<boolean> | void>;
 
