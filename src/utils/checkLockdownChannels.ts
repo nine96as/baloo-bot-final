@@ -1,7 +1,7 @@
 import { Bot } from '#structures';
 import { BaseGuildTextChannel, Guild } from 'discord.js';
 import { setTimeout } from 'timers';
-import { prisma } from './prisma';
+import { prisma } from '#utils';
 
 /**
  * Checks all indexes from LockdownSystem model, where the lockdown is ended if the
@@ -24,6 +24,9 @@ export const checkLockdownChannels = async (client: Bot, guild: Guild) => {
 
         // If there are no locked channels, nothing to be done
         if (!channel) return;
+
+        // If there is no duration, nothing to be done
+        if (!d.duration) return;
 
         // If the lockdown expiry time has passed, lockdown is ended
         const timeNow = Date.now();
@@ -50,7 +53,7 @@ export const checkLockdownChannels = async (client: Bot, guild: Guild) => {
             })
             .then(async () => {
               return prisma.lockdownSystem.delete({
-                where: { guildId: guild.id, channelId: channel.id }
+                where: { channelId: channel.id }
               });
             });
         }, end);
