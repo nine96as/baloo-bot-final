@@ -16,7 +16,7 @@ export const command: Command = {
     .addBooleanOption((option) =>
       option
         .setName('visible')
-        .setDescription('whether or not the response should be shown')
+        .setDescription('whether the response should be shown or not')
     ),
 
   async execute(interaction: ChatInputCommandInteraction, client: Bot) {
@@ -58,7 +58,7 @@ export const command: Command = {
         embeds: [
           new Embed()
             .setColor('Random')
-            .setTitle(question)
+            .setTitle(`> ${question.toLowerCase()}`)
             .setFooter({
               text: `${client.user?.username}`,
               iconURL: client.user?.displayAvatarURL()
