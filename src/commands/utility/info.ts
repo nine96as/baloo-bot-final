@@ -168,7 +168,6 @@ export const command: Command = {
       }
     } else if (interaction.options.getSubcommand() === 'bot') {
       return await interaction.reply({
-        ephemeral: true,
         embeds: [
           new Embed()
             .setColor('Random')
