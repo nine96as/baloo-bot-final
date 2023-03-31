@@ -2,8 +2,8 @@ import {
   SlashCommandBuilder,
   ChatInputCommandInteraction,
   PermissionFlagsBits,
-  BaseGuildTextChannel,
-  ChannelType
+  ChannelType,
+  TextChannel
 } from 'discord.js';
 import ms from 'ms';
 import { Command, SuccessEmbed, ErrorEmbed } from '#interfaces';
@@ -28,11 +28,11 @@ export const command: Command = {
 
   async execute(interaction: ChatInputCommandInteraction) {
     if (interaction.inCachedGuild()) {
-      const { options, guild, guildId } = interaction;
+      const { options, guildId } = interaction;
       const duration = options.getString('duration');
       const channel =
-        (options.getChannel('channel') as BaseGuildTextChannel) ??
-        (interaction.channel as BaseGuildTextChannel);
+        (options.getChannel('channel') as TextChannel) ??
+        (interaction.channel as TextChannel);
 
       if (
         !channel.permissionsFor(guildId)?.has(PermissionFlagsBits.SendMessages)
@@ -43,8 +43,14 @@ export const command: Command = {
         });
       }
 
-      channel.permissionOverwrites.edit(interaction.guildId, {
+      await channel.permissionOverwrites.edit(guildId, {
         SendMessages: false
+      });
+
+      await prisma.lockdownSystem.upsert({
+        where: { channelId: channel.id },
+        create: { guildId: guildId, channelId: channel.id },
+        update: { guildId: guildId, channelId: channel.id }
       });
 
       interaction.reply({
@@ -53,24 +59,32 @@ export const command: Command = {
 
       if (duration) {
         const end = Date.now() + ms(duration);
-        prisma.lockdownSystem.create({
-          data: {
-            guildId: guild.id,
+        await prisma.lockdownSystem.upsert({
+          where: { channelId: channel.id },
+          create: {
+            guildId: guildId,
+            channelId: channel.id,
+            duration: end
+          },
+          update: {
+            guildId: guildId,
             channelId: channel.id,
             duration: end
           }
         });
 
         setTimeout(async () => {
-          channel.permissionOverwrites
-            .edit(guildId, {
-              SendMessages: null
-            })
-            .then(async () => {
-              return prisma.lockdownSystem.delete({
-                where: { guildId: guild.id, channelId: channel.id }
-              });
-            });
+          channel.permissionOverwrites.edit(guildId, {
+            SendMessages: null
+          });
+
+          await prisma.lockdownSystem.delete({
+            where: { channelId: channel.id }
+          });
+
+          return interaction.reply({
+            embeds: [new SuccessEmbed(`***<#${channel.id}> was unlocked***`)]
+          });
         }, ms(duration));
       }
     }
