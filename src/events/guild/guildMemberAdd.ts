@@ -5,7 +5,7 @@ import { generateWelcomeBanner, prisma } from '#utils';
 
 export const event: Event = {
   name: Events.GuildMemberAdd,
-  async execute(client: Bot, member: GuildMember) {
+  async execute(_client: Bot, member: GuildMember) {
     const { guild } = member;
 
     const data = await prisma.welcomeSystem.findUnique({
