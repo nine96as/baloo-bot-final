@@ -5,7 +5,7 @@ import { Events, Guild } from 'discord.js';
 
 export const event: Event = {
   name: Events.GuildDelete,
-  execute: async (client: Bot, guild: Guild) => {
+  execute: async (_client: Bot, guild: Guild) => {
     if (!guild || !guild.id) return;
 
     try {
