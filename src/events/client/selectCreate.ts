@@ -3,9 +3,9 @@ import { Bot } from '#structures';
 import { Event, ErrorEmbed } from '#interfaces';
 import { logger } from '#utils';
 
-export const event: Event = {
+export const event = {
   name: Events.InteractionCreate,
-  async execute(client: Bot, interaction: Interaction) {
+  execute: async (client: Bot, interaction: Interaction) => {
     if (interaction.isStringSelectMenu()) {
       // Checks if select menu exists in menus collection.
       const menu = client.selects.get(interaction.customId);
@@ -23,16 +23,20 @@ export const event: Event = {
         logger.error(e);
         if (interaction.replied || interaction.deferred) {
           await interaction.followUp({
-            embeds: [new ErrorEmbed('***selectMenuExecuteError***')],
+            embeds: [
+              new ErrorEmbed('***Error while executing this select menu.***')
+            ],
             ephemeral: true
           });
         } else {
           await interaction.reply({
-            embeds: [new ErrorEmbed('***selectMenuExecuteError***')],
+            embeds: [
+              new ErrorEmbed('***Error while executing this select menu.***')
+            ],
             ephemeral: true
           });
         }
       }
     }
   }
-};
+} satisfies Event;
