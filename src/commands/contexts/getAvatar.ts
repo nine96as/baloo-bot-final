@@ -5,7 +5,7 @@ import {
 } from 'discord.js';
 import { Command, Embed } from '#interfaces';
 
-export const command: Command = {
+export const command = {
   data: new ContextMenuCommandBuilder()
     .setName('getAvatar')
     .setType(ApplicationCommandType.User),
@@ -25,4 +25,4 @@ export const command: Command = {
       ]
     });
   }
-};
+} satisfies Command;

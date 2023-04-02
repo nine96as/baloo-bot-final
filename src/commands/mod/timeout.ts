@@ -7,7 +7,7 @@ import { Command, SuccessEmbed, ErrorEmbed, WarnEmbed } from '#interfaces';
 import { logger } from '#utils';
 import ms from 'ms';
 
-export const command: Command = {
+export const command = {
   data: new SlashCommandBuilder()
     .setName('timeout')
     .setDescription('🚨 timeout a member')
@@ -101,4 +101,4 @@ export const command: Command = {
       }
     }
   }
-};
+} satisfies Command;

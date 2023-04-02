@@ -10,7 +10,7 @@ import {
 import { Command, SuccessEmbed, ErrorEmbed } from '#interfaces';
 import { logger } from '#utils';
 
-export const command: Command = {
+export const command = {
   data: new SlashCommandBuilder()
     .setName('clear')
     .setDescription(
@@ -106,4 +106,4 @@ export const command: Command = {
       setTimeout(async () => interaction.deleteReply(), 5000);
     }
   }
-};
+} satisfies Command;
