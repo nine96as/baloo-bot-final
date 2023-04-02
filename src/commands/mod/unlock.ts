@@ -5,8 +5,8 @@ import {
   TextChannel,
   ChannelType
 } from 'discord.js';
-import { Command, SuccessEmbed, ErrorEmbed } from '#interfaces';
-import { prisma } from '#utils';
+import { Command, SuccessEmbed, ErrorEmbed, WarnEmbed } from '#interfaces';
+import { logger, prisma } from '#utils';
 
 export const command: Command = {
   data: new SlashCommandBuilder()
@@ -19,8 +19,7 @@ export const command: Command = {
         .addChannelTypes(ChannelType.GuildText)
     )
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels),
-
-  async execute(interaction: ChatInputCommandInteraction) {
+  execute: async (interaction: ChatInputCommandInteraction) => {
     if (interaction.inCachedGuild()) {
       const { guildId } = interaction;
       const channel = interaction.channel as TextChannel;
@@ -29,19 +28,27 @@ export const command: Command = {
         channel.permissionsFor(guildId)?.has(PermissionFlagsBits.SendMessages)
       ) {
         return interaction.reply({
-          embeds: [new ErrorEmbed(`***channelNotLocked***`)],
+          embeds: [new WarnEmbed(`***${channel} is not locked.***`)],
           ephemeral: true
         });
       }
 
-      await channel.permissionOverwrites.edit(guildId, {
-        SendMessages: null
-      });
+      try {
+        await channel.permissionOverwrites.edit(guildId, {
+          SendMessages: null
+        });
+      } catch (e) {
+        logger.error(e);
+        return interaction.reply({
+          embeds: [new ErrorEmbed(`***Error while unlocking ${channel}***`)],
+          ephemeral: true
+        });
+      }
 
       await prisma.lockdownSystem.delete({ where: { channelId: channel.id } });
 
       return interaction.reply({
-        embeds: [new SuccessEmbed(`***<#${channel.id}> was unlocked***`)]
+        embeds: [new SuccessEmbed(`***${channel} was unlocked.***`)]
       });
     }
   }
