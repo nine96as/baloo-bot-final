@@ -3,7 +3,7 @@ import {
   ChatInputCommandInteraction,
   PermissionFlagsBits
 } from 'discord.js';
-import { Command, SuccessEmbed, ErrorEmbed } from '#interfaces';
+import { Command, SuccessEmbed, ErrorEmbed, WarnEmbed } from '#interfaces';
 import { logger } from '#utils';
 
 export const command: Command = {
@@ -17,29 +17,31 @@ export const command: Command = {
       option.setName('reason').setDescription('reason for punishment')
     )
     .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers),
-
-  async execute(interaction: ChatInputCommandInteraction) {
+  execute: async (interaction: ChatInputCommandInteraction) => {
     if (interaction.inCachedGuild()) {
       const { options, user, guild } = interaction;
-
       const member = options.getMember('target');
       const reason = options.getString('reason') || 'no reason given';
 
       if (!member)
         return interaction.reply({
-          embeds: [new ErrorEmbed('***invalidMember***')],
+          embeds: [new WarnEmbed('***Invalid member provided.***')],
           ephemeral: true
         });
 
       if (member.user.equals(user))
         return interaction.reply({
-          embeds: [new ErrorEmbed('***cantKickSelf***')],
+          embeds: [new WarnEmbed('***You cannot kick yourself.***')],
           ephemeral: true
         });
 
       if (!member.kickable)
         return interaction.reply({
-          embeds: [new ErrorEmbed('***missingPermissions***')],
+          embeds: [
+            new WarnEmbed(`***${member} is not kickable by the bot.
+            Please ensure that the bot's role is above all member roles.
+            ***`)
+          ],
           ephemeral: true
         });
 
@@ -49,20 +51,24 @@ export const command: Command = {
         user.id !== guild.ownerId
       )
         return interaction.reply({
-          embeds: [new ErrorEmbed('***superiorMember***')],
+          embeds: [
+            new WarnEmbed(
+              `***You cannot ban ${member} as they are higher than you.***`
+            )
+          ],
           ephemeral: true
         });
 
       try {
         await member.kick(reason).then(() => {
           return interaction.reply({
-            embeds: [new SuccessEmbed(`***${member.user.tag} was kicked***`)]
+            embeds: [new SuccessEmbed(`***${member} was kicked.***`)]
           });
         });
       } catch (e) {
         logger.error(e);
         return interaction.reply({
-          embeds: [new ErrorEmbed(`***kickError***`)],
+          embeds: [new ErrorEmbed(`***Error while kicking ${member}***`)],
           ephemeral: true
         });
       }
