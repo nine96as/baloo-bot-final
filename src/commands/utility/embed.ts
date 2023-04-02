@@ -9,12 +9,11 @@ import {
 } from 'discord.js';
 import { Command } from '#interfaces';
 
-export const command: Command = {
+export const command = {
   data: new SlashCommandBuilder()
     .setName('embed')
     .setDescription('create a basic embed'),
-
-  async execute(interaction: ChatInputCommandInteraction) {
+  execute: async (interaction: ChatInputCommandInteraction) => {
     const embed = new ModalBuilder()
       .setCustomId('embed')
       .setTitle('Embed Builder')
@@ -64,4 +63,4 @@ export const command: Command = {
 
     return interaction.showModal(embed);
   }
-};
+} satisfies Command;
