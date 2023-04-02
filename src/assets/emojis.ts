@@ -10,7 +10,9 @@ export const emojis = {
   translate: '<:translate:1025378106833379420>',
   ping: '🏓',
   dice: '🎲',
-  math: '<:math:1025365970191122514>'
+  math: '<:math:1025365970191122514>',
+  afk: '💤',
+  return: '👋'
 };
 
 /**
@@ -18,6 +20,7 @@ export const emojis = {
  */
 export const loggerEmojis = {
   success: '<:success:1025364274610196582>',
+  warn: '<:warn:1091808629562286151>',
   error: '<:error:1025364273020547092>',
   info: '<:info:1025365189434019933>'
 };
