@@ -2,7 +2,7 @@ import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
 import { Command, SuccessEmbed } from '#interfaces';
 import { prisma } from '#utils';
 
-export const command: Command = {
+export const command = {
   data: new SlashCommandBuilder()
     .setName('afk')
     .setDescription('configure AFK settings')
@@ -20,8 +20,7 @@ export const command: Command = {
     .addSubcommand((subcommand) =>
       subcommand.setName('remove').setDescription('return from being AFK')
     ),
-
-  async execute(interaction: ChatInputCommandInteraction) {
+  execute: async (interaction: ChatInputCommandInteraction) => {
     if (interaction.options.getSubcommand() === 'set') {
       if (interaction.inCachedGuild()) {
         const { options, user, guildId } = interaction;
@@ -47,8 +46,12 @@ export const command: Command = {
       });
 
       return interaction.reply({
-        embeds: [new SuccessEmbed(`***${user}, your AFK has been removed***`)]
+        embeds: [
+          new SuccessEmbed(
+            `***${user}: welcome back, your AFK has been removed.***`
+          )
+        ]
       });
     }
   }
-};
+} satisfies Command;
