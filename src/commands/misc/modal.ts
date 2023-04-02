@@ -13,8 +13,7 @@ export const command: Command = {
   data: new SlashCommandBuilder()
     .setName('modal')
     .setDescription('returns a modal'),
-
-  async execute(interaction: ChatInputCommandInteraction) {
+  execute: async (interaction: ChatInputCommandInteraction) => {
     const favColour = new ModalBuilder()
       .setCustomId('favColour')
       .setTitle('fav colour?')
