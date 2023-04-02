@@ -19,7 +19,7 @@ export const loadEvents = async (client: Bot): Promise<void> => {
 
   for (const content of contents) {
     try {
-      // Extract the button object from the content object.
+      // Extract the event object from the content object.
       const { event }: { event: Event } = content;
 
       event.once
