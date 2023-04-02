@@ -3,10 +3,10 @@ import { Bot } from '#structures';
 import { Event } from '#interfaces';
 import { logger } from '#utils';
 
-export const event: Event = {
+export const event = {
   name: Events.Error,
   once: true,
-  execute(_client: Bot, m: Message) {
+  execute: (_client: Bot, m: Message) => {
     logger.error(m);
   }
-};
+} satisfies Event;
