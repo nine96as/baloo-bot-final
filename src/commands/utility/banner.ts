@@ -1,14 +1,14 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
 import { Command, Embed, ErrorEmbed } from '#interfaces';
 
-export const command: Command = {
+export const command = {
   data: new SlashCommandBuilder()
     .setName('banner')
     .setDescription("🔬 get a user's banner")
     .addSubcommand((subcommand) =>
       subcommand
         .setName('user')
-        .setDescription("a user's banner")
+        .setDescription("🔬 a user's banner")
         .addUserOption((option) =>
           option.setName('target').setDescription('the user')
         )
@@ -16,8 +16,7 @@ export const command: Command = {
     .addSubcommand((subcommand) =>
       subcommand.setName('server').setDescription('🔬 the server banner')
     ),
-
-  async execute(interaction: ChatInputCommandInteraction) {
+  execute: async (interaction: ChatInputCommandInteraction) => {
     if (interaction.options.getSubcommand() === 'user') {
       if (interaction.inCachedGuild()) {
         const { options } = interaction;
@@ -66,4 +65,4 @@ export const command: Command = {
       }
     }
   }
-};
+} satisfies Command;
