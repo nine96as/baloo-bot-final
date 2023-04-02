@@ -9,6 +9,7 @@ export const event = {
   execute: async (_client: Bot, member: GuildMember) => {
     const { guild } = member;
 
+    // Checks if guild has a WelcomeSystem entry
     const data = await prisma.welcomeSystem.findUnique({
       where: { guildId: guild.id }
     });
