@@ -1,8 +1,8 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
 import { Bot } from '#structures';
-import { Command, SuccessEmbed, ErrorEmbed } from '#interfaces';
+import { Command, SuccessEmbed, WarnEmbed } from '#interfaces';
 
-export const command: Command = {
+export const command = {
   data: new SlashCommandBuilder()
     .setName('activities')
     .setDescription('creates an invite for an activity in a voice channel')
@@ -21,8 +21,7 @@ export const command: Command = {
         )
         .setRequired(true)
     ),
-
-  async execute(interaction: ChatInputCommandInteraction, client: Bot) {
+  execute: async (interaction: ChatInputCommandInteraction, client: Bot) => {
     if (interaction.inCachedGuild()) {
       const { options, member } = interaction;
 
@@ -32,7 +31,7 @@ export const command: Command = {
 
       if (!vc) {
         return interaction.reply({
-          embeds: [new ErrorEmbed('***notInVC***')],
+          embeds: [new WarnEmbed('***You are currently not in a VC.***')],
           ephemeral: true
         });
       }
@@ -90,4 +89,4 @@ export const command: Command = {
       }
     }
   }
-};
+} satisfies Command;
