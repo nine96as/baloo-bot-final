@@ -31,6 +31,7 @@ model Guild {
   users          User[]
   roles          Role[]
   WelcomeSystem  WelcomeSystem?
+  LeaveSystem    LeaveSystem?
   AfkSystem      AfkSystem?
   LockdownSystem LockdownSystem?
   createdAt      DateTime        @default(now())
@@ -43,6 +44,7 @@ model Channel {
   guild          Guild           @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
   guildId        String
   WelcomeSystem  WelcomeSystem?
+  LeaveSystem    LeaveSystem?
   LockdownSystem LockdownSystem?
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
@@ -52,7 +54,7 @@ model Channel {
 
 model Role {
   id          Int      @id @unique @default(autoincrement())
-  guild       Guild    @relation(fields: [guildId], references: [guildId])
+  guild       Guild    @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
   guildId     String
   users       User[]
   description String
@@ -65,9 +67,21 @@ model Role {
 
 model WelcomeSystem {
   id        Int      @id @unique @default(autoincrement())
-  guild     Guild    @relation(fields: [guildId], references: [guildId])
+  guild     Guild    @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
   guildId   String   @unique
-  channel   Channel  @relation(fields: [channelId], references: [channelId])
+  channel   Channel  @relation(fields: [channelId], references: [channelId], onDelete: Cascade)
+  channelId String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([guildId])
+}
+
+model LeaveSystem {
+  id        Int      @id @unique @default(autoincrement())
+  guild     Guild    @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
+  guildId   String   @unique
+  channel   Channel  @relation(fields: [channelId], references: [channelId], onDelete: Cascade)
   channelId String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -77,9 +91,9 @@ model WelcomeSystem {
 
 model AfkSystem {
   id        Int      @id @unique @default(autoincrement())
-  guild     Guild    @relation(fields: [guildId], references: [guildId])
+  guild     Guild    @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
   guildId   String   @unique
-  user      User     @relation(fields: [userId], references: [userId])
+  user      User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
   userId    String   @unique
   status    String
   createdAt DateTime @default(now())
@@ -88,9 +102,9 @@ model AfkSystem {
 
 model LockdownSystem {
   id        Int      @id @unique @default(autoincrement())
-  guild     Guild    @relation(fields: [guildId], references: [guildId])
+  guild     Guild    @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
   guildId   String   @unique
-  channel   Channel  @relation(fields: [channelId], references: [channelId])
+  channel   Channel  @relation(fields: [channelId], references: [channelId], onDelete: Cascade)
   channelId String   @unique
   duration  Int?
   createdAt DateTime @default(now())
