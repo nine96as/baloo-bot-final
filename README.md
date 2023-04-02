@@ -12,7 +12,7 @@ A multi-purpose [**Discord**](https://discord.com) bot built with [**discord.js*
 
 ## Features
 
-- A dedicated member welcoming system, moderation system, AFK (Away From Keyboard) system, role menu system
+- A dedicated member welcoming and leaving system, moderation system, AFK (Away From Keyboard) system, role menu system, emote management utility
 - Fully-featured chatbot system which leverages OpenAI's `gpt-3.5-turbo` model
 - Makes use of Discord's new bot-user interactions: slash commands, buttons and select menus, context menus and modals
 
