@@ -31,5 +31,6 @@ export const intents = [
   GatewayIntentBits.Guilds,
   GatewayIntentBits.GuildMembers,
   GatewayIntentBits.GuildMessages,
-  GatewayIntentBits.GuildVoiceStates
+  GatewayIntentBits.GuildVoiceStates,
+  GatewayIntentBits.GuildEmojisAndStickers
 ];
