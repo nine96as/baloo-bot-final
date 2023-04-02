@@ -3,7 +3,7 @@ import { Bot } from '#structures';
 import { logger, prisma } from '#utils';
 import { Events, Guild } from 'discord.js';
 
-export const event: Event = {
+export const event = {
   name: Events.GuildCreate,
   execute: async (_client: Bot, guild: Guild) => {
     if (!guild || !guild.id) return;
@@ -29,4 +29,4 @@ export const event: Event = {
       logger.error(e);
     }
   }
-};
+} satisfies Event;
