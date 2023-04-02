@@ -14,7 +14,7 @@ export const loadSelects = async (client: Bot): Promise<void> => {
   const dirname = fileURLToPath(new URL('../selects', import.meta.url));
   // Get an array of all select menu files in the 'selects' directory and its subdirectories.
   const contents = await getContents<{ select: SelectMenu }>(dirname);
-  // Instantiates an array of all successfully loaded selects.
+  // Instantiates an array of all successfully loaded select menus.
   const selects = [];
 
   for (const content of contents) {
