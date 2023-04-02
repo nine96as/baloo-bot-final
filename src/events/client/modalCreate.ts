@@ -3,9 +3,9 @@ import { Bot } from '#structures';
 import { Event, ErrorEmbed } from '#interfaces';
 import { logger } from '#utils';
 
-export const event: Event = {
+export const event = {
   name: Events.InteractionCreate,
-  async execute(client: Bot, interaction: Interaction) {
+  execute: async (client: Bot, interaction: Interaction) => {
     if (interaction.isModalSubmit()) {
       // Checks if modal exists in modal collection.
       const modal = client.modals.get(interaction.customId);
@@ -23,16 +23,16 @@ export const event: Event = {
         logger.error(e);
         if (interaction.replied || interaction.deferred) {
           await interaction.followUp({
-            embeds: [new ErrorEmbed('***modalExecuteError***')],
+            embeds: [new ErrorEmbed('***Error while executing this modal.***')],
             ephemeral: true
           });
         } else {
           await interaction.reply({
-            embeds: [new ErrorEmbed('***modalExecuteError***')],
+            embeds: [new ErrorEmbed('***Error while executing this modal.***')],
             ephemeral: true
           });
         }
       }
     }
   }
-};
+} satisfies Event;
