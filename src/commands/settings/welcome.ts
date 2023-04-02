@@ -45,9 +45,7 @@ export const command = {
         });
 
         return interaction.reply({
-          embeds: [
-            new SuccessEmbed(`***welcome channel set as <#${channel.id}>***`)
-          ]
+          embeds: [new SuccessEmbed(`***welcome channel set as ${channel}***`)]
         });
       }
     }
