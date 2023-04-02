@@ -1,11 +1,12 @@
 import { Events, GuildMember, TextBasedChannel } from 'discord.js';
 import { Bot } from '#structures';
-import { Event } from '#interfaces';
+import { EmojiEmbed, Event } from '#interfaces';
 import { generateWelcomeBanner, prisma } from '#utils';
+import { emojis } from '#assets';
 
-export const event: Event = {
+export const event = {
   name: Events.GuildMemberAdd,
-  async execute(_client: Bot, member: GuildMember) {
+  execute: async (_client: Bot, member: GuildMember) => {
     const { guild } = member;
 
     const data = await prisma.welcomeSystem.findUnique({
@@ -26,9 +27,14 @@ export const event: Event = {
       const img = await generateWelcomeBanner(member);
 
       channel.send({
-        content: `<@${member.id}> welcome to **${guild.name}**`,
+        embeds: [
+          new EmojiEmbed(
+            emojis.join,
+            `<@${member.id}> welcome to **${guild.name}**`
+          )
+        ],
         files: [img]
       });
     }
   }
-};
+} satisfies Event;
