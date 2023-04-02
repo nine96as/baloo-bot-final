@@ -12,7 +12,7 @@ const sides = [
   { name: 'd20', value: 20 }
 ];
 
-export const command: Command = {
+export const command = {
   data: new SlashCommandBuilder()
     .setName('dice')
     .setDescription('rolls the dice (d6 by default)')
@@ -66,4 +66,4 @@ export const command: Command = {
       });
     }
   }
-};
+} satisfies Command;

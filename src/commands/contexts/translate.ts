@@ -7,7 +7,7 @@ import translate from '@iamtraction/google-translate';
 import { Command, Embed } from '#interfaces';
 import { emojis } from '#assets';
 
-export const command: Command = {
+export const command = {
   data: new ContextMenuCommandBuilder()
     .setName('translate')
     .setType(ApplicationCommandType.Message),
@@ -34,4 +34,4 @@ export const command: Command = {
       ]
     });
   }
-};
+} satisfies Command;

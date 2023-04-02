@@ -8,7 +8,7 @@ import {
 import { Command, SuccessEmbed, ErrorEmbed, WarnEmbed } from '#interfaces';
 import { logger, prisma } from '#utils';
 
-export const command: Command = {
+export const command = {
   data: new SlashCommandBuilder()
     .setName('unlock')
     .setDescription('🚨 unlock a previously locked channel')
@@ -52,4 +52,4 @@ export const command: Command = {
       });
     }
   }
-};
+} satisfies Command;

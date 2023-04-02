@@ -6,7 +6,7 @@ import {
 import { Command, SuccessEmbed, ErrorEmbed, WarnEmbed } from '#interfaces';
 import { logger } from '#utils';
 
-export const command: Command = {
+export const command = {
   data: new SlashCommandBuilder()
     .setName('kick')
     .setDescription('🚨 kick a member')
@@ -74,4 +74,4 @@ export const command: Command = {
       }
     }
   }
-};
+} satisfies Command;

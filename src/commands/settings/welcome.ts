@@ -8,7 +8,7 @@ import {
 import { Command, SuccessEmbed } from '#interfaces';
 import { prisma } from '#utils';
 
-export const command: Command = {
+export const command = {
   data: new SlashCommandBuilder()
     .setName('welcome')
     .setDescription('⚙️ welcome system setup')
@@ -52,4 +52,4 @@ export const command: Command = {
       }
     }
   }
-};
+} satisfies Command;

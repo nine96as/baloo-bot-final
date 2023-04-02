@@ -2,7 +2,7 @@ import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
 import { Command, Embed } from '#interfaces';
 import { emojis } from '#assets';
 
-export const command: Command = {
+export const command = {
   data: new SlashCommandBuilder()
     .setName('ping')
     .setDescription('sends a ping request!'),
@@ -22,4 +22,4 @@ export const command: Command = {
       ]
     });
   }
-};
+} satisfies Command;

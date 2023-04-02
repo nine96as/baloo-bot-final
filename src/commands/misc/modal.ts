@@ -9,7 +9,7 @@ import {
 } from 'discord.js';
 import { Command } from '#interfaces';
 
-export const command: Command = {
+export const command = {
   data: new SlashCommandBuilder()
     .setName('modal')
     .setDescription('returns a modal'),
@@ -29,4 +29,4 @@ export const command: Command = {
 
     return interaction.showModal(favColour);
   }
-};
+} satisfies Command;

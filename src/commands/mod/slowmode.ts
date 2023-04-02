@@ -9,7 +9,7 @@ import ms from 'ms';
 import { Command, SuccessEmbed, ErrorEmbed, WarnEmbed } from '#interfaces';
 import { logger } from '#utils';
 
-export const command: Command = {
+export const command = {
   data: new SlashCommandBuilder()
     .setName('slowmode')
     .setDescription('🚨 configures slowmode for a channel')
@@ -100,4 +100,4 @@ export const command: Command = {
       }
     }
   }
-};
+} satisfies Command;
