@@ -3,7 +3,7 @@ import {
   ChatInputCommandInteraction,
   PermissionFlagsBits
 } from 'discord.js';
-import { Command, SuccessEmbed, ErrorEmbed } from '#interfaces';
+import { Command, SuccessEmbed, ErrorEmbed, WarnEmbed } from '#interfaces';
 import { logger } from '#utils';
 
 export const command: Command = {
@@ -24,40 +24,46 @@ export const command: Command = {
         .setMaxValue(7)
     )
     .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
-
-  async execute(interaction: ChatInputCommandInteraction) {
+  execute: async (interaction: ChatInputCommandInteraction) => {
     if (interaction.inCachedGuild()) {
       const { options, user, guild } = interaction;
-
       const member = options.getMember('target');
       const reason = options.getString('reason') || 'no reason given';
       const cleanDays = Number(options.getInteger('clean-days'));
 
       if (!member)
         return interaction.reply({
-          embeds: [new ErrorEmbed('***invalidMember***')],
+          embeds: [new WarnEmbed('***Invalid member provided.***')],
           ephemeral: true
         });
 
       if (member.user.equals(user))
         return interaction.reply({
-          embeds: [new ErrorEmbed('***cantBanSelf***')],
+          embeds: [new WarnEmbed('***You cannot ban yourself.***')],
           ephemeral: true
         });
 
       if (!member.bannable)
         return interaction.reply({
-          embeds: [new ErrorEmbed('***missingPermissions***')],
+          embeds: [
+            new WarnEmbed(`***${member} is not bannable by the bot.
+            Please ensure that the bot's role is above all member roles.
+            ***`)
+          ],
           ephemeral: true
         });
 
       if (
         interaction.member.roles.highest.position <=
-          member?.roles.highest.position &&
+          member.roles.highest.position &&
         user.id !== guild.ownerId
       )
         return interaction.reply({
-          embeds: [new ErrorEmbed('***superiorMember***')],
+          embeds: [
+            new WarnEmbed(
+              `***You cannot ban ${member} as they are higher than you.***`
+            )
+          ],
           ephemeral: true
         });
 
@@ -69,13 +75,13 @@ export const command: Command = {
           })
           .then(() => {
             return interaction.reply({
-              embeds: [new SuccessEmbed(`***${member.user.tag} was banned***`)]
+              embeds: [new SuccessEmbed(`***${member} was banned.***`)]
             });
           });
       } catch (e) {
         logger.error(e);
         return interaction.reply({
-          embeds: [new ErrorEmbed(`***banError***`)],
+          embeds: [new ErrorEmbed(`***Error while banning ${member}***`)],
           ephemeral: true
         });
       }
