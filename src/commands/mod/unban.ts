@@ -3,7 +3,7 @@ import {
   ChatInputCommandInteraction,
   PermissionFlagsBits
 } from 'discord.js';
-import { Command, SuccessEmbed, ErrorEmbed } from '#interfaces';
+import { Command, SuccessEmbed, ErrorEmbed, WarnEmbed } from '#interfaces';
 import { logger } from '#utils';
 
 export const command: Command = {
@@ -20,8 +20,7 @@ export const command: Command = {
       option.setName('reason').setDescription('reason for punishment')
     )
     .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
-
-  async execute(interaction: ChatInputCommandInteraction) {
+  execute: async (interaction: ChatInputCommandInteraction) => {
     if (interaction.inCachedGuild()) {
       const { options, guild } = interaction;
 
@@ -30,7 +29,7 @@ export const command: Command = {
 
       if (!/\d{18,19}/.test(id)) {
         return interaction.reply({
-          embeds: [new ErrorEmbed('***invalidId***')],
+          embeds: [new WarnEmbed('***Invalid userId provided.***')],
           ephemeral: true
         });
       }
@@ -39,7 +38,7 @@ export const command: Command = {
       const ban = guild.bans.cache.find((ban) => ban.user.id === id);
       if (!ban) {
         return interaction.reply({
-          embeds: [new ErrorEmbed('***notBanned***')],
+          embeds: [new WarnEmbed(`***Target user is not banned.***`)],
           ephemeral: true
         });
       }
@@ -47,12 +46,12 @@ export const command: Command = {
       try {
         guild.bans.remove(id, reason);
         return interaction.reply({
-          embeds: [new SuccessEmbed(`***${ban.user.tag} was unbanned***`)]
+          embeds: [new SuccessEmbed(`***${ban.user} was unbanned.***`)]
         });
       } catch (e) {
         logger.error(e);
         return interaction.reply({
-          embeds: [new ErrorEmbed('***unbanError***')],
+          embeds: [new ErrorEmbed(`***Error while unbanning ${ban.user}***`)],
           ephemeral: true
         });
       }
