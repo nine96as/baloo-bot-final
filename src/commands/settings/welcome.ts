@@ -25,8 +25,7 @@ export const command: Command = {
         )
     )
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels),
-
-  async execute(interaction: ChatInputCommandInteraction) {
+  execute: async (interaction: ChatInputCommandInteraction) => {
     if (interaction.options.getSubcommand() === 'set') {
       if (interaction.inCachedGuild()) {
         const { options } = interaction;
