@@ -10,7 +10,7 @@ import { Bot } from '#structures';
 import { Command, Embed } from '#interfaces';
 import { badgeEmojis } from '#assets';
 
-export const command: Command = {
+export const command = {
   data: new SlashCommandBuilder()
     .setName('info')
     .setDescription('🔬 get info about a user, the server or the bot')
@@ -28,8 +28,7 @@ export const command: Command = {
     .addSubcommand((subcommand) =>
       subcommand.setName('bot').setDescription('🔬 info about the bot')
     ),
-
-  async execute(interaction: ChatInputCommandInteraction, client: Bot) {
+  execute: async (interaction: ChatInputCommandInteraction, client: Bot) => {
     if (interaction.options.getSubcommand() === 'user') {
       if (interaction.inCachedGuild()) {
         const { options, guild } = interaction;
@@ -231,4 +230,4 @@ export const command: Command = {
       });
     }
   }
-};
+} satisfies Command;
