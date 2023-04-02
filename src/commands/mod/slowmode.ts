@@ -6,7 +6,8 @@ import {
   TextChannel
 } from 'discord.js';
 import ms from 'ms';
-import { Command, SuccessEmbed, ErrorEmbed } from '#interfaces';
+import { Command, SuccessEmbed, ErrorEmbed, WarnEmbed } from '#interfaces';
+import { logger } from '#utils';
 
 export const command: Command = {
   data: new SlashCommandBuilder()
@@ -41,8 +42,7 @@ export const command: Command = {
         )
     )
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels),
-
-  async execute(interaction: ChatInputCommandInteraction) {
+  execute: async (interaction: ChatInputCommandInteraction) => {
     if (interaction.options.getSubcommand() === 'set') {
       if (interaction.inCachedGuild()) {
         const { options } = interaction;
@@ -54,22 +54,34 @@ export const command: Command = {
 
         if (durationMS > 21600000) {
           return interaction.reply({
-            embeds: [new ErrorEmbed('***invalidDuration***')],
+            embeds: [
+              new WarnEmbed('***The provided duration was too high.***')
+            ],
             ephemeral: true
           });
         }
 
-        await channel.setRateLimitPerUser(durationMS / 1000).then(() => {
+        try {
+          await channel.setRateLimitPerUser(durationMS / 1000).then(() => {
+            return interaction.reply({
+              embeds: [
+                new SuccessEmbed(
+                  `***slowmode set in ${channel} to \`${ms(durationMS, {
+                    long: true
+                  })}\`***`
+                )
+              ]
+            });
+          });
+        } catch (e) {
+          logger.error(e);
           return interaction.reply({
             embeds: [
-              new SuccessEmbed(
-                `***slowmode set in <#${channel.id}> to \`${ms(durationMS, {
-                  long: true
-                })}\`***`
-              )
-            ]
+              new ErrorEmbed(`***Error while setting slowmode in ${channel}***`)
+            ],
+            ephemeral: true
           });
-        });
+        }
       }
     } else if (interaction.options.getSubcommand() === 'remove') {
       if (interaction.inCachedGuild()) {
@@ -82,9 +94,7 @@ export const command: Command = {
 
         await channel.setRateLimitPerUser(durationMS / 1000).then(() => {
           return interaction.reply({
-            embeds: [
-              new SuccessEmbed(`***slowmode removed in <#${channel.id}>***`)
-            ]
+            embeds: [new SuccessEmbed(`***slowmode removed in ${channel}***`)]
           });
         });
       }
