@@ -7,7 +7,7 @@ import { Command, Embed } from '#interfaces';
 import { emojis } from '#assets';
 import { getRandomInt } from '#utils';
 
-export const command: Command = {
+export const command = {
   data: new SlashCommandBuilder()
     .setName('math')
     .setDescription('🧮 complete arithmetic operations')
@@ -158,10 +158,8 @@ export const command: Command = {
             .setRequired(true)
         )
     ),
-
-  async autocomplete(interaction: AutocompleteInteraction) {
+  autocomplete: async (interaction: AutocompleteInteraction) => {
     const { options } = interaction;
-
     const focusedOption = options.getFocused(true);
     let choices;
 
@@ -175,8 +173,7 @@ export const command: Command = {
 
     await interaction.respond(filtered.map((c) => ({ name: c, value: c })));
   },
-
-  async execute(interaction: ChatInputCommandInteraction) {
+  execute: async (interaction: ChatInputCommandInteraction) => {
     if (interaction.options.getSubcommand() === 'add') {
       const { options } = interaction;
 
@@ -313,4 +310,4 @@ export const command: Command = {
       });
     }
   }
-};
+} satisfies Command;
