@@ -35,6 +35,13 @@ export class SuccessEmbed extends EmojiEmbed {
   }
 }
 
+export class WarnEmbed extends EmojiEmbed {
+  constructor(content: string) {
+    super(loggerEmojis.warn, content);
+    this.setColor('#ffff80');
+  }
+}
+
 export class ErrorEmbed extends EmojiEmbed {
   constructor(content: string) {
     super(loggerEmojis.error, content);
