@@ -1,12 +1,11 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
 import { Command, Embed } from '#interfaces';
 
-export const command: Command = {
+export const command = {
   data: new SlashCommandBuilder()
     .setName('icon')
     .setDescription('🔬 get the server icon'),
-
-  async execute(interaction: ChatInputCommandInteraction) {
+  execute: async (interaction: ChatInputCommandInteraction) => {
     if (interaction.inCachedGuild()) {
       const { guild } = interaction;
 
@@ -23,4 +22,4 @@ export const command: Command = {
       });
     }
   }
-};
+} satisfies Command;
