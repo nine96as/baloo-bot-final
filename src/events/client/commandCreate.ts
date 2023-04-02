@@ -8,9 +8,9 @@ import { Bot } from '#structures';
 import { Event, ErrorEmbed } from '#interfaces';
 import { logger, prisma } from '#utils';
 
-export const event: Event = {
+export const event = {
   name: Events.InteractionCreate,
-  async execute(client: Bot, interaction: Interaction) {
+  execute: async (client: Bot, interaction: Interaction) => {
     if (
       interaction.isChatInputCommand() ||
       interaction.isContextMenuCommand()
@@ -30,19 +30,23 @@ export const event: Event = {
         await prisma.user.upsert({
           where: { userId: user.id },
           create: { userId: user.id, guildId: guildId },
-          update: { userId: user.id }
+          update: { userId: user.id, guildId: guildId }
         });
         await command.execute(interaction as CommandInteraction, client);
       } catch (e) {
         logger.error(e);
         if (interaction.replied || interaction.deferred) {
           await interaction.followUp({
-            embeds: [new ErrorEmbed('***commandExecuteError***')],
+            embeds: [
+              new ErrorEmbed('***Error while executing this command.***')
+            ],
             ephemeral: true
           });
         } else {
           await interaction.reply({
-            embeds: [new ErrorEmbed('***commandExecuteError***')],
+            embeds: [
+              new ErrorEmbed('***Error while executing this command.***')
+            ],
             ephemeral: true
           });
         }
@@ -68,4 +72,4 @@ export const event: Event = {
       }
     }
   }
-};
+} satisfies Event;
