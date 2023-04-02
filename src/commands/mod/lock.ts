@@ -6,8 +6,8 @@ import {
   TextChannel
 } from 'discord.js';
 import ms from 'ms';
-import { Command, SuccessEmbed, ErrorEmbed } from '#interfaces';
-import { prisma } from '#utils';
+import { Command, ErrorEmbed, SuccessEmbed, WarnEmbed } from '#interfaces';
+import { logger, prisma } from '#utils';
 
 export const command: Command = {
   data: new SlashCommandBuilder()
@@ -25,8 +25,7 @@ export const command: Command = {
         .setDescription('duration of lockdown (1m, 1h, 1d)')
     )
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels),
-
-  async execute(interaction: ChatInputCommandInteraction) {
+  execute: async (interaction: ChatInputCommandInteraction) => {
     if (interaction.inCachedGuild()) {
       const { options, guildId } = interaction;
       const duration = options.getString('duration');
@@ -38,14 +37,22 @@ export const command: Command = {
         !channel.permissionsFor(guildId)?.has(PermissionFlagsBits.SendMessages)
       ) {
         return interaction.reply({
-          embeds: [new ErrorEmbed(`***channelAlreadyLocked***`)],
+          embeds: [new WarnEmbed(`***${channel} is already locked.***`)],
           ephemeral: true
         });
       }
 
-      await channel.permissionOverwrites.edit(guildId, {
-        SendMessages: false
-      });
+      try {
+        await channel.permissionOverwrites.edit(guildId, {
+          SendMessages: false
+        });
+      } catch (e) {
+        logger.error(e);
+        return interaction.reply({
+          embeds: [new ErrorEmbed(`***Error while locking ${channel}***`)],
+          ephemeral: true
+        });
+      }
 
       await prisma.lockdownSystem.upsert({
         where: { channelId: channel.id },
@@ -54,7 +61,7 @@ export const command: Command = {
       });
 
       interaction.reply({
-        embeds: [new SuccessEmbed(`***<#${channel.id}> was locked***`)]
+        embeds: [new SuccessEmbed(`***${channel} was locked.***`)]
       });
 
       if (duration) {
@@ -83,7 +90,7 @@ export const command: Command = {
           });
 
           return interaction.reply({
-            embeds: [new SuccessEmbed(`***<#${channel.id}> was unlocked***`)]
+            embeds: [new SuccessEmbed(`***${channel} was unlocked.***`)]
           });
         }, ms(duration));
       }
