@@ -3,10 +3,10 @@ import { Bot } from '#structures';
 import { Event } from '#interfaces';
 import { checkLockdownChannels, logger } from '#utils';
 
-export const event: Event = {
+export const event = {
   name: Events.ClientReady,
   once: true,
-  execute(client: Bot) {
+  execute: (client: Bot) => {
     logger.info(`logged in as ${client.user?.tag}.`);
     client.user?.setActivity(`${client.guilds.cache.size} servers`, {
       type: ActivityType.Watching
@@ -17,4 +17,4 @@ export const event: Event = {
       checkLockdownChannels(client, g);
     });
   }
-};
+} satisfies Event;
