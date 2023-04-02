@@ -9,10 +9,8 @@ export const command: Command = {
   data: new ContextMenuCommandBuilder()
     .setName('getAvatar')
     .setType(ApplicationCommandType.User),
-
-  async execute(interaction: UserContextMenuCommandInteraction) {
+  execute: async (interaction: UserContextMenuCommandInteraction) => {
     const { targetUser } = interaction;
-
     const member = targetUser;
 
     return interaction.reply({
