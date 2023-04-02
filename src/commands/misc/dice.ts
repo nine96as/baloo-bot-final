@@ -36,8 +36,7 @@ export const command: Command = {
         .setMinValue(1)
         .setMaxValue(5)
     ),
-
-  async execute(interaction: ChatInputCommandInteraction) {
+  execute: async (interaction: ChatInputCommandInteraction) => {
     const { options } = interaction;
 
     const side = options.getNumber('sides');
