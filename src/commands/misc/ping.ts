@@ -6,8 +6,7 @@ export const command: Command = {
   data: new SlashCommandBuilder()
     .setName('ping')
     .setDescription('sends a ping request!'),
-
-  async execute(interaction: ChatInputCommandInteraction) {
+  execute: async (interaction: ChatInputCommandInteraction) => {
     const msg = await interaction.reply({
       embeds: [new Embed().setDescription(`${emojis.ping} ***pong!***`)],
       fetchReply: true
