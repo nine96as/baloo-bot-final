@@ -1,15 +1,14 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
 import { Command, Embed } from '#interfaces';
 
-export const command: Command = {
+export const command = {
   data: new SlashCommandBuilder()
     .setName('avatar')
     .setDescription("🔬 get a user's avatar")
     .addUserOption((option) =>
       option.setName('target').setDescription('member to fetch the avatar from')
     ),
-
-  async execute(interaction: ChatInputCommandInteraction) {
+  execute: async (interaction: ChatInputCommandInteraction) => {
     if (interaction.inCachedGuild()) {
       const { options } = interaction;
 
@@ -28,4 +27,4 @@ export const command: Command = {
       });
     }
   }
-};
+} satisfies Command;
