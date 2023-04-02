@@ -3,8 +3,9 @@ import {
   ChatInputCommandInteraction,
   PermissionFlagsBits
 } from 'discord.js';
-import { Command, SuccessEmbed, ErrorEmbed } from '#interfaces';
+import { Command, SuccessEmbed, ErrorEmbed, WarnEmbed } from '#interfaces';
 import { logger } from '#utils';
+import ms from 'ms';
 
 export const command: Command = {
   data: new SlashCommandBuilder()
@@ -35,53 +36,66 @@ export const command: Command = {
       option.setName('reason').setDescription('reason for punishment')
     )
     .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers),
-
-  async execute(interaction: ChatInputCommandInteraction) {
+  execute: async (interaction: ChatInputCommandInteraction) => {
     if (interaction.inCachedGuild()) {
       const { options, user, guild } = interaction;
 
       const member = options.getMember('target');
-      const duration = options.getNumber('duration');
+      const duration = options.getNumber('duration') as number;
       const reason = options.getString('reason') || 'no reason given';
 
       if (!member)
         return interaction.reply({
-          embeds: [new ErrorEmbed('***invalidMember***')],
+          embeds: [new WarnEmbed('***Invalid member provided.***')],
           ephemeral: true
         });
 
       if (member.user.equals(user))
         return interaction.reply({
-          embeds: [new ErrorEmbed('***cantKickSelf***')],
+          embeds: [new WarnEmbed('***You cannot timeout yourself.***')],
           ephemeral: true
         });
 
       if (!member.moderatable)
         return interaction.reply({
-          embeds: [new ErrorEmbed('***missingPermissions***')],
+          embeds: [
+            new WarnEmbed(`***${member} is not moderatable by the bot.
+            Please ensure that the bot's role is above all member roles.
+            ***`)
+          ],
           ephemeral: true
         });
 
       if (
-        interaction.member.roles.highest.position <=
-          member?.roles.highest.position &&
+        member.roles.highest.position >=
+          interaction.member.roles.highest.position &&
         user.id !== guild.ownerId
       )
         return interaction.reply({
-          embeds: [new ErrorEmbed('***superiorMember***')],
+          embeds: [
+            new WarnEmbed(
+              `***You cannot timeout ${member} as they are higher than you.***`
+            )
+          ],
           ephemeral: true
         });
 
       try {
         await member.timeout(duration, reason).then(() => {
           return interaction.reply({
-            embeds: [new SuccessEmbed(`***${member.user.tag} was timed out***`)]
+            embeds: [
+              new SuccessEmbed(
+                `***${member} was timed out for \`${ms(duration, {
+                  long: true
+                })}\`***`
+              )
+            ]
           });
         });
       } catch (e) {
         logger.error(e);
         return interaction.reply({
-          embeds: [new ErrorEmbed('***timeoutError***')],
+          embeds: [new ErrorEmbed(`***Error while timing out ${member}***`)],
           ephemeral: true
         });
       }
