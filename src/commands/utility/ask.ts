@@ -2,7 +2,7 @@ import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
 import { Bot } from '#structures';
 import { Command, Embed, ErrorEmbed } from '#interfaces';
 
-export const command: Command = {
+export const command = {
   data: new SlashCommandBuilder()
     .setName('ask')
     .setDescription('ask anything!')
@@ -18,8 +18,7 @@ export const command: Command = {
         .setName('visible')
         .setDescription('whether the response should be shown or not')
     ),
-
-  async execute(interaction: ChatInputCommandInteraction, client: Bot) {
+  execute: async (interaction: ChatInputCommandInteraction, client: Bot) => {
     if (interaction.inCachedGuild()) {
       const { options } = interaction;
 
@@ -69,4 +68,4 @@ export const command: Command = {
       });
     }
   }
-};
+} satisfies Command;
