@@ -3,16 +3,15 @@ import {
   ContextMenuCommandBuilder,
   MessageContextMenuCommandInteraction
 } from 'discord.js';
+import translate from '@iamtraction/google-translate';
 import { Command, Embed } from '#interfaces';
 import { emojis } from '#assets';
-import translate from '@iamtraction/google-translate';
 
 export const command: Command = {
   data: new ContextMenuCommandBuilder()
     .setName('translate')
     .setType(ApplicationCommandType.Message),
-
-  async execute(interaction: MessageContextMenuCommandInteraction) {
+  execute: async (interaction: MessageContextMenuCommandInteraction) => {
     const { channel, targetId } = interaction;
 
     const query = await channel?.messages.fetch({ message: targetId });
