@@ -3,9 +3,9 @@ import { Bot } from '#structures';
 import { Event, ErrorEmbed } from '#interfaces';
 import { logger } from '#utils';
 
-export const event: Event = {
+export const event = {
   name: Events.InteractionCreate,
-  async execute(client: Bot, interaction: Interaction) {
+  execute: async (client: Bot, interaction: Interaction) => {
     if (interaction.isButton()) {
       // Checks if button exists in buttons collection.
       const button = client.buttons.get(interaction.customId);
@@ -23,16 +23,20 @@ export const event: Event = {
         logger.error(e);
         if (interaction.replied || interaction.deferred) {
           await interaction.followUp({
-            embeds: [new ErrorEmbed('***buttonExecuteError***')],
+            embeds: [
+              new ErrorEmbed('***Error while executing this button.***')
+            ],
             ephemeral: true
           });
         } else {
           await interaction.reply({
-            embeds: [new ErrorEmbed('***buttonExecuteError***')],
+            embeds: [
+              new ErrorEmbed('***Error while executing this button.***')
+            ],
             ephemeral: true
           });
         }
       }
     }
   }
-};
+} satisfies Event;
