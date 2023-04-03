@@ -54,6 +54,12 @@ export const command = {
         });
       }
 
+      await prisma.channel.upsert({
+        where: { channelId: channel.id },
+        create: { channelId: channel.id, guildId: interaction.guildId },
+        update: { channelId: channel.id }
+      });
+
       await prisma.lockdownSystem.upsert({
         where: { channelId: channel.id },
         create: { guildId: guildId, channelId: channel.id },
