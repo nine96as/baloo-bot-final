@@ -1,7 +1,7 @@
 import { Events, GuildMember, TextBasedChannel } from 'discord.js';
 import { Bot } from '#structures';
-import { EmojiEmbed, Event } from '#interfaces';
-import { generateWelcomeBanner, prisma } from '#utils';
+import { EmojiEmbed, Event, InfoEmbed } from '#interfaces';
+import { generateWelcomeBanner, prisma, sendLogMessages } from '#utils';
 import { emojis } from '#assets';
 
 export const event = {
@@ -29,13 +29,15 @@ export const event = {
 
       channel.send({
         embeds: [
-          new EmojiEmbed(
-            emojis.join,
-            `<@${member.id}> welcome to **${guild.name}**`
-          )
+          new EmojiEmbed(emojis.join, `${member} welcome to **${guild.name}**`)
         ],
         files: [img]
       });
     }
+
+    return sendLogMessages(
+      guild,
+      new InfoEmbed(`***member ${member} joined the server.***`)
+    );
   }
 } satisfies Event;
