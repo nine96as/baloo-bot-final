@@ -1,7 +1,7 @@
 import { Events, GuildMember, TextBasedChannel } from 'discord.js';
 import { Bot } from '#structures';
-import { EmojiEmbed, Event } from '#interfaces';
-import { prisma } from '#utils';
+import { EmojiEmbed, Event, InfoEmbed } from '#interfaces';
+import { prisma, sendLogMessages } from '#utils';
 import { emojis } from '#assets';
 
 export const event = {
@@ -35,8 +35,17 @@ export const event = {
       if (!channel) return;
 
       channel.send({
-        embeds: [new EmojiEmbed(emojis.leave, `<@${member.id}> cya!`)]
+        embeds: [
+          new EmojiEmbed(emojis.leave, `${member} cya!`).setFooter({
+            text: `there are now ${guild.memberCount} members.`
+          })
+        ]
       });
     }
+
+    return sendLogMessages(
+      guild,
+      new InfoEmbed(`***member ${member} left the server.***`)
+    );
   }
 } satisfies Event;
