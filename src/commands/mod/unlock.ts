@@ -21,8 +21,10 @@ export const command = {
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels),
   execute: async (interaction: ChatInputCommandInteraction) => {
     if (interaction.inCachedGuild()) {
-      const { guildId } = interaction;
-      const channel = interaction.channel as TextChannel;
+      const { options, guildId } = interaction;
+      const channel =
+        (options.getChannel('channel') as TextChannel) ??
+        (interaction.channel as TextChannel);
 
       if (
         channel.permissionsFor(guildId)?.has(PermissionFlagsBits.SendMessages)
