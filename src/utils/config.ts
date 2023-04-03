@@ -29,8 +29,10 @@ export const config: Record<string, string> = {
  */
 export const intents = [
   GatewayIntentBits.Guilds,
+  GatewayIntentBits.GuildModeration,
   GatewayIntentBits.GuildMembers,
   GatewayIntentBits.GuildMessages,
+  GatewayIntentBits.MessageContent,
   GatewayIntentBits.GuildVoiceStates,
   GatewayIntentBits.GuildEmojisAndStickers
 ];
