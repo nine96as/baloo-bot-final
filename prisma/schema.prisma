@@ -12,7 +12,7 @@ datasource db {
 }
 
 model User {
-  id        Int        @id @unique @default(autoincrement())
+  id        Int        @id @default(autoincrement())
   userId    String     @unique
   guild     Guild      @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
   guildId   String
@@ -25,26 +25,28 @@ model User {
 }
 
 model Guild {
-  id             Int             @id @unique @default(autoincrement())
-  guildId        String          @unique
+  id             Int              @id @default(autoincrement())
+  guildId        String           @unique
   channels       Channel[]
   users          User[]
   roles          Role[]
   WelcomeSystem  WelcomeSystem?
   LeaveSystem    LeaveSystem?
-  AfkSystem      AfkSystem?
-  LockdownSystem LockdownSystem?
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
+  LogSystem      LogSystem?
+  AfkSystem      AfkSystem[]
+  LockdownSystem LockdownSystem[]
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
 }
 
 model Channel {
-  id             Int             @id @unique @default(autoincrement())
+  id             Int             @id @default(autoincrement())
   channelId      String          @unique
   guild          Guild           @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
   guildId        String
   WelcomeSystem  WelcomeSystem?
   LeaveSystem    LeaveSystem?
+  LogSystem      LogSystem?
   LockdownSystem LockdownSystem?
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
@@ -53,7 +55,7 @@ model Channel {
 }
 
 model Role {
-  id          Int      @id @unique @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   guild       Guild    @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
   guildId     String
   users       User[]
@@ -66,7 +68,7 @@ model Role {
 }
 
 model WelcomeSystem {
-  id        Int      @id @unique @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   guild     Guild    @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
   guildId   String   @unique
   channel   Channel  @relation(fields: [channelId], references: [channelId], onDelete: Cascade)
@@ -78,7 +80,19 @@ model WelcomeSystem {
 }
 
 model LeaveSystem {
-  id        Int      @id @unique @default(autoincrement())
+  id        Int      @id @default(autoincrement())
+  guild     Guild    @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
+  guildId   String   @unique
+  channel   Channel  @relation(fields: [channelId], references: [channelId], onDelete: Cascade)
+  channelId String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([guildId])
+}
+
+model LogSystem {
+  id        Int      @id @default(autoincrement())
   guild     Guild    @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
   guildId   String   @unique
   channel   Channel  @relation(fields: [channelId], references: [channelId], onDelete: Cascade)
@@ -90,23 +104,27 @@ model LeaveSystem {
 }
 
 model AfkSystem {
-  id        Int      @id @unique @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   guild     Guild    @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
-  guildId   String   @unique
+  guildId   String
   user      User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
   userId    String   @unique
   status    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([guildId])
 }
 
 model LockdownSystem {
-  id        Int      @id @unique @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   guild     Guild    @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
-  guildId   String   @unique
+  guildId   String
   channel   Channel  @relation(fields: [channelId], references: [channelId], onDelete: Cascade)
   channelId String   @unique
   duration  Int?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([guildId])
 }
