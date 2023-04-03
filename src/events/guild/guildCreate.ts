@@ -22,10 +22,6 @@ export const event = {
           );
         });
     } catch (e) {
-      //   logger.error(
-      //     `Joined ${guild.name} (${guild.id}), errored while creating a record in the database.`,
-      //     { label: 'event' }
-      //   );
       logger.error(e);
     }
   }
