@@ -1,7 +1,7 @@
 import { Message, Events } from 'discord.js';
 import { Bot } from '#structures';
 import { Event, InfoEmbed } from '#interfaces';
-import { sendLogMessages } from '#utils';
+import { sendLogMessage } from '#utils';
 
 export const event = {
   name: Events.MessageDelete,
@@ -12,7 +12,7 @@ export const event = {
 
     if (message.author.bot) return;
 
-    return sendLogMessages(
+    return sendLogMessage(
       guild,
       new InfoEmbed(`***message deleted by ${author} in ${channel}*\n
       content:** \`${content}\``)
