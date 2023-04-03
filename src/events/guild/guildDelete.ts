@@ -16,10 +16,6 @@ export const event = {
         );
       });
     } catch (e) {
-      //   logger.error(
-      //     `joined ${guild.name} (${guild.id}), errored while deleting a record in the database.`,
-      //     { label: 'event' }
-      //   );
       logger.error(e);
     }
   }
