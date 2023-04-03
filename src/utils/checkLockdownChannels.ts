@@ -7,7 +7,7 @@ import { prisma } from '#utils';
  * Checks all indexes from LockdownSystem model, where the lockdown is ended if the
  * duration has passed, otherwise the lockdown is set to end from the remaining time assigned.
  * @param {Bot} client The Discord bot client instance that received the event.
- * @param {Guild} guild The guild to check against
+ * @param {Guild} guild The guild to check against.
  */
 export const checkLockdownChannels = async (client: Bot, guild: Guild) => {
   // Fetches LockdownSystem indexes in database (if any)
