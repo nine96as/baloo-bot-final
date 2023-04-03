@@ -16,20 +16,12 @@ export const command = {
     .addStringOption((option) =>
       option.setName('reason').setDescription('reason for punishment')
     )
-    .addIntegerOption((option) =>
-      option
-        .setName('clean-days')
-        .setDescription('number of days to delete msgs for (0-7)')
-        .setMinValue(0)
-        .setMaxValue(7)
-    )
     .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
   execute: async (interaction: ChatInputCommandInteraction) => {
     if (interaction.inCachedGuild()) {
       const { options, user, guild } = interaction;
       const member = options.getMember('target');
       const reason = options.getString('reason') || 'no reason given';
-      const cleanDays = Number(options.getInteger('clean-days'));
 
       if (!member)
         return interaction.reply({
@@ -68,16 +60,11 @@ export const command = {
         });
 
       try {
-        await member
-          .ban({
-            reason: reason,
-            deleteMessageDays: cleanDays
-          })
-          .then(() => {
-            return interaction.reply({
-              embeds: [new SuccessEmbed(`***${member} was banned.***`)]
-            });
+        await member.ban({ reason: reason }).then(() => {
+          return interaction.reply({
+            embeds: [new SuccessEmbed(`***${member} was banned.***`)]
           });
+        });
       } catch (e) {
         logger.error(e);
         return interaction.reply({
