@@ -1,7 +1,7 @@
 import { Events, GuildBasedChannel } from 'discord.js';
 import { Bot } from '#structures';
 import { Event, InfoEmbed } from '#interfaces';
-import { sendLogMessages } from '#utils';
+import { sendLogMessage } from '#utils';
 
 export const event = {
   name: Events.ChannelUpdate,
@@ -13,7 +13,7 @@ export const event = {
     const { guild } = newChannel;
 
     if (oldChannel.name != newChannel.name) {
-      return sendLogMessages(
+      return sendLogMessage(
         guild,
         new InfoEmbed(
           `***channel*** \`${oldChannel.name}\` ***renamed to*** \`${newChannel.name}\``
