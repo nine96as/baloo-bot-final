@@ -1,49 +1,23 @@
-import { Events, GuildMember, TextBasedChannel } from 'discord.js';
+import { Events, GuildMember } from 'discord.js';
 import { Bot } from '#structures';
 import { EmojiEmbed, Event, InfoEmbed } from '#interfaces';
-import { prisma, sendLogMessages } from '#utils';
+import { sendLeaveMessage, sendLogMessage } from '#utils';
 import { emojis } from '#assets';
 
 export const event = {
   name: Events.GuildMemberRemove,
   execute: async (_client: Bot, member: GuildMember) => {
-    const { guild, id } = member;
+    const { guild } = member;
 
-    // Checks if guild has a LeaveSystem entry
-    const data = await prisma.leaveSystem.findUnique({
-      where: { guildId: guild.id }
-    });
+    sendLeaveMessage(
+      guild,
+      member,
+      new EmojiEmbed(emojis.leave, `${member} cya!`).setFooter({
+        text: `there are now ${guild.memberCount} members.`
+      })
+    );
 
-    if (!data) return;
-
-    // Checks if user is registered in db
-    const user = await prisma.user.findUnique({
-      where: { userId: id }
-    });
-
-    if (user)
-      prisma.user.delete({
-        where: { userId: id }
-      });
-
-    if (data.channelId) {
-      const channel = guild.channels.cache.get(
-        data.channelId
-      ) as TextBasedChannel;
-
-      // If there is no welcome channel, nothing to be done
-      if (!channel) return;
-
-      channel.send({
-        embeds: [
-          new EmojiEmbed(emojis.leave, `${member} cya!`).setFooter({
-            text: `there are now ${guild.memberCount} members.`
-          })
-        ]
-      });
-    }
-
-    return sendLogMessages(
+    return sendLogMessage(
       guild,
       new InfoEmbed(`***member ${member} left the server.***`)
     );
