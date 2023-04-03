@@ -1,7 +1,7 @@
 import { Events, GuildEmoji } from 'discord.js';
 import { Bot } from '#structures';
 import { Event, InfoEmbed } from '#interfaces';
-import { sendLogMessages } from '#utils';
+import { sendLogMessage } from '#utils';
 
 export const event = {
   name: Events.GuildEmojiCreate,
@@ -10,7 +10,7 @@ export const event = {
 
     const creator = await emoji.fetchAuthor();
 
-    return sendLogMessages(
+    return sendLogMessage(
       guild,
       new InfoEmbed(`***emoji ${emoji} created by ${creator}***`)
     );
