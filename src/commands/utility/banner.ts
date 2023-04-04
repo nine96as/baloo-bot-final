@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
-import { Command, Embed, ErrorEmbed } from '#interfaces';
+import { Command, Embed, WarnEmbed } from '#interfaces';
 
 export const command = {
   data: new SlashCommandBuilder()
@@ -38,7 +38,9 @@ export const command = {
               ]
             })
           : interaction.reply({
-              embeds: [new ErrorEmbed('***noBanner***')],
+              embeds: [
+                new WarnEmbed('***This user does not have a banner.***')
+              ],
               ephemeral: true
             });
       }
@@ -59,7 +61,9 @@ export const command = {
               ]
             })
           : interaction.reply({
-              embeds: [new ErrorEmbed('***noBanner***')],
+              embeds: [
+                new WarnEmbed('***The server does not have a banner.***')
+              ],
               ephemeral: true
             });
       }
