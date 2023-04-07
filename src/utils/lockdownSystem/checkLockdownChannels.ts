@@ -2,6 +2,7 @@ import { Bot } from '#structures';
 import { BaseGuildTextChannel, Guild } from 'discord.js';
 import { setTimeout } from 'timers';
 import { prisma } from '#utils';
+import { LockdownSystem } from '@prisma/client';
 
 /**
  * Checks all indexes from LockdownSystem model, where the lockdown is ended if the
@@ -15,9 +16,9 @@ export const checkLockdownChannels = async (client: Bot, guild: Guild) => {
     .findMany({
       where: { guildId: guild.id }
     })
-    .then(async (dataArray) => {
+    .then(async (dataArray: LockdownSystem[]) => {
       // Verifies LockdownSystem indexes by fetching channel
-      dataArray.forEach(async (d) => {
+      dataArray.forEach(async (d: LockdownSystem) => {
         const channel = client.guilds.cache
           .get(d.guildId)
           ?.channels.cache.get(d.channelId) as BaseGuildTextChannel;
