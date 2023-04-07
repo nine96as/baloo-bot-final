@@ -1,14 +1,26 @@
 import { pino } from 'pino';
+import { config } from '#utils';
 
 /**
- * Defines pino-pretty formatting options
+ * Defines pino-pretty and logtail formatting options
  */
 const transport = pino.transport({
-  target: 'pino-pretty',
-  options: {
-    colorize: true,
-    translateTime: 'dd-mm HH:MM:ss'
-  }
+  targets: [
+    {
+      level: 'info',
+      target: 'pino-pretty',
+      options: { colorize: true, translateTime: 'dd-mm HH:MM:ss' }
+    },
+    {
+      level: 'info',
+      target: '@logtail/pino',
+      options: {
+        sourceToken: config.logtailSourceToken,
+        colorize: true,
+        translateTime: 'dd-mm HH:MM:ss'
+      }
+    }
+  ]
 });
 
 /**
