@@ -24,7 +24,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Run ESLint
-        run: pnpm run linthot
+        run: pnpm run lint
   typescript:
     name: Typescript
     runs-on: ubuntu-latest
