@@ -18,7 +18,7 @@
     "db:push": "npx prisma db push",
     "build": "rimraf ./lib/ && tsc",
     "start": "node --enable-source-maps .",
-    "start:dev": "nodemon ./src/index.ts | pino-pretty"
+    "start:dev": "tsx watch ./src/index.ts | pino-pretty"
   },
   "repository": {
     "type": "git",
@@ -47,6 +47,7 @@
     "regenerator-runtime": "^0.13.11",
     "ts-node": "^10.9.1",
     "tsc-alias": "^1.8.5",
+    "tsx": "^3.12.6",
     "typescript": "^5.0.3"
   },
   "dependencies": {
