@@ -1,22 +1,25 @@
 {
   "name": "baloo",
-  "version": "0.9.1",
+  "version": "0.9.5",
   "description": "a discord bot made using discord.js",
   "type": "module",
-  "exports": "./src/index.ts",
+  "main": "lib",
   "imports": {
-    "#handlers": "./src/handlers/index.ts",
-    "#assets": "./src/assets/index.ts",
-    "#utils": "./src/utils/index.ts",
-    "#interfaces": "./src/interfaces/index.ts",
-    "#structures": "./src/structures/index.ts"
+    "#*": "./lib/*/index.js",
+    "#handlers": "./lib/handlers/index.js",
+    "#assets": "./lib/assets/index.js",
+    "#utils": "./lib/utils/index.js",
+    "#interfaces": "./lib/interfaces/index.js",
+    "#structures": "./lib/structures/index.js"
   },
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint --fix .",
+    "test:ts": "tsc --noEmit",
+    "test": "npm run lint && npm run test:ts",
     "db:push": "npx prisma db push",
-    "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
-    "start": "node ./lib/index.js",
+    "build": "rimraf ./lib/ && tsc",
+    "start": "node --enable-source-maps .",
     "start:dev": "nodemon ./src/index.ts | pino-pretty"
   },
   "repository": {
@@ -27,7 +30,7 @@
   "author": "nine96as",
   "license": "GNU General Public License v3.0",
   "engines": {
-    "node": ">=16.16.0"
+    "node": ">=18.0.0"
   },
   "devDependencies": {
     "@swc/core": "^1.3.44",
