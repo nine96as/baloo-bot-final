@@ -3,6 +3,7 @@ import { Command, SuccessEmbed } from '#interfaces';
 import { prisma } from '#utils';
 
 export const command = {
+  folder: 'utility',
   data: new SlashCommandBuilder()
     .setName('afk')
     .setDescription('configure AFK settings')

@@ -6,6 +6,7 @@ import {
 import { Command, Embed } from '#interfaces';
 
 export const command = {
+  folder: 'context',
   data: new ContextMenuCommandBuilder()
     .setName('getAvatar')
     .setType(ApplicationCommandType.User),

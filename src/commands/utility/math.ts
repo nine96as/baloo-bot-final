@@ -8,6 +8,7 @@ import { emojis } from '#assets';
 import { getRandomInt } from '#utils';
 
 export const command = {
+  folder: 'utility',
   data: new SlashCommandBuilder()
     .setName('math')
     .setDescription('🧮 complete arithmetic operations')

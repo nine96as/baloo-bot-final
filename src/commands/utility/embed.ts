@@ -10,6 +10,7 @@ import {
 import { Command } from '#interfaces';
 
 export const command = {
+  folder: 'utility',
   data: new SlashCommandBuilder()
     .setName('embed')
     .setDescription('create a basic embed'),

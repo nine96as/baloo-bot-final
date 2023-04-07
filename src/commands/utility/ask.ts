@@ -3,6 +3,7 @@ import { Bot } from '#structures';
 import { Command, Embed, ErrorEmbed } from '#interfaces';
 
 export const command = {
+  folder: 'utility',
   data: new SlashCommandBuilder()
     .setName('ask')
     .setDescription('ask anything!')

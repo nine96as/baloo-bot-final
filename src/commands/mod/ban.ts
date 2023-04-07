@@ -7,6 +7,7 @@ import { Command, SuccessEmbed, ErrorEmbed, WarnEmbed } from '#interfaces';
 import { logger } from '#utils';
 
 export const command = {
+  folder: 'moderation',
   data: new SlashCommandBuilder()
     .setName('ban')
     .setDescription('🚨 ban a member')

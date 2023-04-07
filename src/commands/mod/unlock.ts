@@ -9,6 +9,7 @@ import { Command, SuccessEmbed, ErrorEmbed, WarnEmbed } from '#interfaces';
 import { logger, prisma } from '#utils';
 
 export const command = {
+  folder: 'moderation',
   data: new SlashCommandBuilder()
     .setName('unlock')
     .setDescription('🚨 unlock a previously locked channel')

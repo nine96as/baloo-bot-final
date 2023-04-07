@@ -11,6 +11,7 @@ import { Command, Embed } from '#interfaces';
 import { badgeEmojis } from '#assets';
 
 export const command = {
+  folder: 'utility',
   data: new SlashCommandBuilder()
     .setName('info')
     .setDescription('🔬 get info about a user, the server or the bot')

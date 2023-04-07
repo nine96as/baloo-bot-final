@@ -8,6 +8,7 @@ import { Command, ErrorEmbed, SuccessEmbed, WarnEmbed } from '#interfaces';
 import { logger } from '#utils';
 
 export const command = {
+  folder: 'utility',
   data: new SlashCommandBuilder()
     .setName('emote')
     .setDescription('configure emotes')

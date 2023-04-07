@@ -8,6 +8,7 @@ import { logger } from '#utils';
 import ms from 'ms';
 
 export const command = {
+  folder: 'moderation',
   data: new SlashCommandBuilder()
     .setName('timeout')
     .setDescription('🚨 timeout a member')

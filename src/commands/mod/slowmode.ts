@@ -10,6 +10,7 @@ import { Command, SuccessEmbed, ErrorEmbed, WarnEmbed } from '#interfaces';
 import { logger } from '#utils';
 
 export const command = {
+  folder: 'moderation',
   data: new SlashCommandBuilder()
     .setName('slowmode')
     .setDescription('🚨 configures slowmode for a channel')
