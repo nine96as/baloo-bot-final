@@ -15,6 +15,7 @@ A multi-purpose [**Discord**](https://discord.com) bot built with [**discord.js*
 - A dedicated member welcoming and leaving system, server logging system, moderation system, AFK (Away From Keyboard) system, emote management utility
 - Fully-featured chatbot system which leverages OpenAI's `gpt-3.5-turbo` model
 - Makes use of Discord's new bot-user interactions: slash commands, buttons and select menus, context menus and modals
+- Provides a centralised logging solution with the use of [**Logtail**](https://betterstack.com/logtail)
 
 ## Installation
 
@@ -41,7 +42,7 @@ A multi-purpose [**Discord**](https://discord.com) bot built with [**discord.js*
 
 ## Configuration
 
-The bot requires a **Discord bot token** to use the Discord API, the bot's `APPLICATION_ID` to be able to deploy commands, an **OpenAI API key** to enable the chatbot functionality, and a `DATABASE_URL` to enable Prisma to interact with a database.
+The bot requires a **Discord bot token** to use the Discord API, the bot's `APPLICATION_ID` to be able to deploy commands, an **OpenAI API key** to enable the chatbot functionality, a `DATABASE_URL` to enable Prisma to interact with a database, and a `sourceToken` to be able to transport logs to Logtail.
 
 1. Fetch the **Discord bot token** by creating a discord bot application, [using this guide](https://discordjs.guide/preparations/setting-up-a-bot-application.html#creating-your-bot).
 
@@ -53,14 +54,17 @@ The bot requires a **Discord bot token** to use the Discord API, the bot's `APPL
 
    > **Warning**: It is imperative that you do not ever share OpenAI API key with anybody, purposely or accidentally. If you accidentally commit your token, [revoke it immediately](https://platform.openai.com/account/api-keys) and generate a new one.
 
-4. Fetch the `DATABASE_URL` [using this guide](https://www.prisma.io/docs/getting-started/setup-prisma/add-to-existing-project/relational-databases/connect-your-database-typescript-planetscale), where [PlanetScale](https://planetscale.com/) is used as the database provider.
+4. Fetch the `DATABASE_URL` [using this guide](https://www.prisma.io/docs/getting-started/setup-prisma/add-to-existing-project/relational-databases/connect-your-database-typescript-planetscale), where [PlanetScale](https://planetscale.com) is used as the database provider.
 
-5. After you've acquired all the required values, create a `.env` file, and fill it in as shown below:
+5. Fetch the `sourceToken` [using this guide](https://betterstack.com/docs/logs/javascript/pino), where [Pino](https://getpino.io) is used as the logging solution.
+
+6. After you've acquired all the required values, create a `.env` file, and fill it in as shown below:
 
    ```env
    token='token'
    clientId='APPLICATION_ID'
    openAIKey='openAIApiKey'
+   logtailSourceToken='sourceToken'
    databaseUrl='DATABASE_URL'
    ```
 
@@ -75,9 +79,10 @@ npm run start #runs js compiled code
 
 ### Additional Scripts
 
-- **[Prettier](https://prettier.io)** and **[ESLint](https://eslint.org)** scripts are available to automate code formatting
+- [**Prettier**](https://prettier.io), [**ESLint**](https://eslint.org) and [**Prisma**](https://www.prisma.io) scripts are available to automate code formatting
 
   ```sh
   npm run format #prettier checks + enforces formatting
   npm run lint #eslint check + auto-fix errors where possible
+  npm run db:push #pushes schema changes to database
   ```
