@@ -3,6 +3,7 @@ import { Command, Embed } from '#interfaces';
 import { emojis } from '#assets';
 
 export const command = {
+  folder: 'miscellaneous',
   data: new SlashCommandBuilder()
     .setName('ping')
     .setDescription('sends a ping request!'),

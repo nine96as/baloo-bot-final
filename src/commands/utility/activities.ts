@@ -3,6 +3,7 @@ import { Bot } from '#structures';
 import { Command, SuccessEmbed, WarnEmbed } from '#interfaces';
 
 export const command = {
+  folder: 'utility',
   data: new SlashCommandBuilder()
     .setName('activities')
     .setDescription('creates an invite for an activity in a voice channel')

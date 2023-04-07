@@ -2,6 +2,7 @@ import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
 import { Command, Embed, WarnEmbed } from '#interfaces';
 
 export const command = {
+  folder: 'utility',
   data: new SlashCommandBuilder()
     .setName('banner')
     .setDescription("🔬 get a user's banner")

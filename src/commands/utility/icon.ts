@@ -2,6 +2,7 @@ import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
 import { Command, Embed } from '#interfaces';
 
 export const command = {
+  folder: 'utility',
   data: new SlashCommandBuilder()
     .setName('icon')
     .setDescription('🔬 get the server icon'),

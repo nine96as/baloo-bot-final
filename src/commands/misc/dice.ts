@@ -13,6 +13,7 @@ const sides = [
 ];
 
 export const command = {
+  folder: 'miscellaneous',
   data: new SlashCommandBuilder()
     .setName('dice')
     .setDescription('rolls the dice (d6 by default)')

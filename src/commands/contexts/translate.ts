@@ -8,6 +8,7 @@ import { Command, Embed } from '#interfaces';
 import { emojis } from '#assets';
 
 export const command = {
+  folder: 'context',
   data: new ContextMenuCommandBuilder()
     .setName('translate')
     .setType(ApplicationCommandType.Message),

@@ -6,6 +6,7 @@ import {
 import { Command, Embed, WarnEmbed } from '#interfaces';
 
 export const command = {
+  folder: 'context',
   data: new ContextMenuCommandBuilder()
     .setName('getBanner')
     .setType(ApplicationCommandType.User),

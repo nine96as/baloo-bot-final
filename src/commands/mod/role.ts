@@ -9,6 +9,7 @@ import { Command, ErrorEmbed, SuccessEmbed, WarnEmbed } from '#interfaces';
 import { getMembers, logger } from '#utils';
 
 export const command = {
+  folder: 'moderation',
   data: new SlashCommandBuilder()
     .setName('role')
     .setDescription('🚨 role management')

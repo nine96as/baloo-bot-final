@@ -10,6 +10,7 @@ import {
 import { Command } from '#interfaces';
 
 export const command = {
+  folder: 'miscellaneous',
   data: new SlashCommandBuilder()
     .setName('modal')
     .setDescription('returns a modal'),

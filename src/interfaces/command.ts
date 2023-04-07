@@ -14,6 +14,11 @@ import {
  */
 export interface Command {
   /**
+   * The parent folder of the command.
+   */
+  folder: string;
+
+  /**
    * The data used to define the command, which could be one of several types depending on the type of command.
    */
   data:

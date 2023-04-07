@@ -1,7 +1,7 @@
 import { ModalSubmitInteraction } from 'discord.js';
 import { Modal, Embed, SuccessEmbed } from '#interfaces';
 
-export const modal: Modal = {
+export const modal = {
   customId: 'embed',
   async execute(interaction: ModalSubmitInteraction) {
     const { fields, channel } = interaction;
@@ -29,4 +29,4 @@ export const modal: Modal = {
       ]
     });
   }
-};
+} satisfies Modal;

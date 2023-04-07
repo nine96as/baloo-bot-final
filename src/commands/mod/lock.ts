@@ -10,6 +10,7 @@ import { Command, ErrorEmbed, SuccessEmbed, WarnEmbed } from '#interfaces';
 import { logger, prisma } from '#utils';
 
 export const command = {
+  folder: 'moderation',
   data: new SlashCommandBuilder()
     .setName('lock')
     .setDescription('🚨 prevent users from talking in a channel')

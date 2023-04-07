@@ -9,6 +9,7 @@ import { Command, SuccessEmbed } from '#interfaces';
 import { prisma } from '#utils';
 
 export const command = {
+  folder: 'settings',
   data: new SlashCommandBuilder()
     .setName('welcome')
     .setDescription('⚙️ welcome system setup')

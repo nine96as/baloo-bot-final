@@ -1,7 +1,7 @@
 import { ModalSubmitInteraction } from 'discord.js';
 import { Modal, Embed } from '#interfaces';
 
-export const modal: Modal = {
+export const modal = {
   customId: 'favColour',
   async execute(interaction: ModalSubmitInteraction) {
     const { fields } = interaction;
@@ -15,4 +15,4 @@ export const modal: Modal = {
       ephemeral: true
     });
   }
-};
+} satisfies Modal;

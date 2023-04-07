@@ -16,6 +16,7 @@ import { Command, ErrorEmbed, SuccessEmbed } from '#interfaces';
 import { logger } from '#utils';
 
 export const command = {
+  folder: 'moderation',
   data: new SlashCommandBuilder()
     .setName('channel')
     .setDescription('🚨 channel management')
