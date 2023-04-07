@@ -19,6 +19,7 @@ export const event = {
       // If select menu exists, tries to carry out "execute" function.
       try {
         await menu.execute(interaction as AnySelectMenuInteraction, client);
+        logger.info(`select menu ${menu.customId} executed.`);
       } catch (e) {
         logger.error(e);
         if (interaction.replied || interaction.deferred) {

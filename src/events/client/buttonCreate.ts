@@ -19,6 +19,7 @@ export const event = {
       // If button exists, tries to carry out "execute" function.
       try {
         await button.execute(interaction as ButtonInteraction, client);
+        logger.info(`button ${button.customId} executed.`);
       } catch (e) {
         logger.error(e);
         if (interaction.replied || interaction.deferred) {
