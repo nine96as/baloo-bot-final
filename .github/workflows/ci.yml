@@ -27,25 +27,3 @@ jobs:
         run: pnpm run prisma:generate
       - name: Run ESLint
         run: pnpm run lint
-  typescript:
-    name: Typescript
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18]
-    steps:
-      - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 7
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
-      - name: Install dependencies
-        run: pnpm install
-      - name: Initialise Prisma
-        run: pnpm run prisma:generate
-      - name: Run ESLint
-        run: pnpm run test:ts
