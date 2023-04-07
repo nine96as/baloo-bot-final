@@ -2,10 +2,10 @@ import 'dotenv/config';
 import { logger } from '#utils';
 import { GatewayIntentBits } from 'discord.js';
 import { env } from 'process';
-const { token, clientId, openAIKey, databaseUrl } = env;
+const { token, clientId, openAIKey, databaseUrl, logtailSourceToken } = env;
 
 // If env variables are missing, will output error
-if (!token || !clientId || !openAIKey || !databaseUrl) {
+if (!token || !clientId || !openAIKey || !databaseUrl || !logtailSourceToken) {
   logger.fatal('missing environment variables.');
   process.exit(9);
 }
@@ -17,6 +17,7 @@ export const config: Record<string, string> = {
   token,
   clientId,
   openAIKey,
+  logtailSourceToken,
   databaseUrl
 };
 
