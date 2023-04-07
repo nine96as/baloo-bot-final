@@ -1,9 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
-  output   = "../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -14,12 +10,12 @@ datasource db {
 
 model User {
   id        Int        @id @default(autoincrement())
+  createdAt DateTime   @default(now())
+  guildId   String
+  updatedAt DateTime   @updatedAt
   userId    String     @unique
   guild     Guild      @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
-  guildId   String
   roles     Role[]
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
   AfkSystem AfkSystem?
 
   @@index([guildId])
@@ -27,7 +23,9 @@ model User {
 
 model Guild {
   id             Int              @id @default(autoincrement())
+  createdAt      DateTime         @default(now())
   guildId        String           @unique
+  updatedAt      DateTime         @updatedAt
   channels       Channel[]
   users          User[]
   roles          Role[]
@@ -36,96 +34,103 @@ model Guild {
   LogSystem      LogSystem?
   AfkSystem      AfkSystem[]
   LockdownSystem LockdownSystem[]
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
 }
 
 model Channel {
   id             Int             @id @default(autoincrement())
-  channelId      String          @unique
-  guild          Guild           @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
   guildId        String
+  channelId      String          @unique
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  guild          Guild           @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
   WelcomeSystem  WelcomeSystem?
   LeaveSystem    LeaveSystem?
   LogSystem      LogSystem?
   LockdownSystem LockdownSystem?
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
 
   @@index([guildId])
 }
 
 model Role {
   id          Int      @id @default(autoincrement())
-  guild       Guild    @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
-  guildId     String
-  users       User[]
   description String
   emoji       String
+  guildId     String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  guild       Guild    @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
+  users       User[]
 
   @@index([guildId])
 }
 
 model WelcomeSystem {
   id        Int      @id @default(autoincrement())
-  guild     Guild    @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
   guildId   String   @unique
-  channel   Channel  @relation(fields: [channelId], references: [channelId], onDelete: Cascade)
   channelId String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  guild     Guild    @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
+  channel   Channel  @relation(fields: [channelId], references: [channelId], onDelete: Cascade)
 
   @@index([guildId])
 }
 
 model LeaveSystem {
   id        Int      @id @default(autoincrement())
-  guild     Guild    @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
   guildId   String   @unique
-  channel   Channel  @relation(fields: [channelId], references: [channelId], onDelete: Cascade)
   channelId String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  guild     Guild    @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
+  channel   Channel  @relation(fields: [channelId], references: [channelId], onDelete: Cascade)
 
   @@index([guildId])
 }
 
 model LogSystem {
   id        Int      @id @default(autoincrement())
-  guild     Guild    @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
   guildId   String   @unique
-  channel   Channel  @relation(fields: [channelId], references: [channelId], onDelete: Cascade)
   channelId String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  guild     Guild    @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
+  channel   Channel  @relation(fields: [channelId], references: [channelId], onDelete: Cascade)
 
   @@index([guildId])
 }
 
 model AfkSystem {
   id        Int      @id @default(autoincrement())
-  guild     Guild    @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
   guildId   String
-  user      User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
   userId    String   @unique
   status    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  guild     Guild    @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@index([guildId])
 }
 
 model LockdownSystem {
   id        Int      @id @default(autoincrement())
-  guild     Guild    @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
   guildId   String
-  channel   Channel  @relation(fields: [channelId], references: [channelId], onDelete: Cascade)
   channelId String   @unique
   duration  Int?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  guild     Guild    @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
+  channel   Channel  @relation(fields: [channelId], references: [channelId], onDelete: Cascade)
 
   @@index([guildId])
+}
+
+model RoleToUser {
+  A Int
+  B Int
+
+  @@unique([A, B], map: "_RoleToUser_AB_unique")
+  @@index([B], map: "_RoleToUser_B_index")
+  @@map("_RoleToUser")
 }
