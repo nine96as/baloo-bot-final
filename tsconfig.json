@@ -26,10 +26,5 @@
     "strictNullChecks": true,
     "skipDefaultLibCheck": true,
     "skipLibCheck": true
-  },
-  "ts-node": {
-    "swc": true,
-    "esm": true,
-    "files": true
   }
 }
