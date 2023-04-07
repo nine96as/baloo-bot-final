@@ -7,7 +7,9 @@ export const event = {
   name: Events.ClientReady,
   once: true,
   execute: (client: Bot) => {
-    logger.info(`logged in as ${client.user?.tag}.`);
+    logger.info(
+      `logged in as ${client.user?.tag}. ready for ${client.guilds.cache.size} guilds.`
+    );
     client.user?.setActivity(`${client.guilds.cache.size} servers`, {
       type: ActivityType.Watching
     });
