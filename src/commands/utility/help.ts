@@ -99,6 +99,8 @@ export const command = {
             (x) => x.directory.toLowerCase() === directory
           );
 
+          if (!category) return;
+
           const categoryEmbed = new Embed()
             .setColor('Random')
             .setAuthor({
