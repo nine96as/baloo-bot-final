@@ -3,7 +3,7 @@ import { Bot } from '#structures';
 import { Command } from '#interfaces';
 import { config, getContents, logger } from '#utils';
 import { fileURLToPath } from 'url';
-import { table } from 'console';
+import { AlignmentEnum, AsciiTable3 } from 'ascii-table3';
 const { clientId, token } = config;
 
 /**
@@ -16,8 +16,11 @@ export const loadCommands = async (client: Bot): Promise<void> => {
   const dirname = fileURLToPath(new URL('../commands', import.meta.url));
   // Get an array of all command files in the 'commands' directory and its subdirectories.
   const contents = await getContents<{ command: Command }>(dirname);
-  // Instantiates an array of all successfully loaded commands.
-  const commands = [];
+  // Instantiates the ascii table renderer.
+  const table = new AsciiTable3('commands')
+    .setHeading('name', 'status')
+    .setAlignCenter(AlignmentEnum.CENTER)
+    .setStyle('compact');
 
   for (const content of contents) {
     // Extract the command object from the content object.
@@ -33,7 +36,7 @@ export const loadCommands = async (client: Bot): Promise<void> => {
       // Add the command object to the client's 'commands' collection, with its name as the key.
       try {
         client.commands.set(command.data.name, command);
-        commands.push({ command: command.data.name, status: '🟩' });
+        table.addRow(command.data.name, '🟩');
       } catch (e) {
         logger.error(
           `error exporting commands, last export: ${
@@ -46,7 +49,9 @@ export const loadCommands = async (client: Bot): Promise<void> => {
 
   await deployCommands(client);
 
-  logger.info(table(commands));
+  logger.info(
+    `\n${table.toString()}\nloaded ${client.commands.size} commands.`
+  );
 };
 
 /**

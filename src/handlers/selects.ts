@@ -2,7 +2,7 @@ import { Bot } from '#structures';
 import { SelectMenu } from '#interfaces';
 import { getContents, logger } from '#utils';
 import { fileURLToPath } from 'url';
-import { table } from 'console';
+import { AsciiTable3, AlignmentEnum } from 'ascii-table3';
 
 /**
  * Loads all select menus from the 'selects' directory and adds them to the client's 'selects' collection.
@@ -14,8 +14,11 @@ export const loadSelects = async (client: Bot): Promise<void> => {
   const dirname = fileURLToPath(new URL('../selects', import.meta.url));
   // Get an array of all select menu files in the 'selects' directory and its subdirectories.
   const contents = await getContents<{ select: SelectMenu }>(dirname);
-  // Instantiates an array of all successfully loaded select menus.
-  const selects = [];
+  // Instantiates the ascii table renderer.
+  const table = new AsciiTable3('select menus')
+    .setHeading('name', 'status')
+    .setAlignCenter(AlignmentEnum.CENTER)
+    .setStyle('compact');
 
   for (const content of contents) {
     // Extract the select menu object from the content object.
@@ -31,7 +34,7 @@ export const loadSelects = async (client: Bot): Promise<void> => {
       // Add the select menu object to the client's 'selects' collection, with its customId as the key.
       try {
         client.selects.set(select.customId, select);
-        selects.push({ select: select.customId, status: '🟩' });
+        table.addRow(select.customId, '🟩');
       } catch (e) {
         `error exporting select menus, last export: ${
           client.selects.last()?.customId
@@ -40,5 +43,7 @@ export const loadSelects = async (client: Bot): Promise<void> => {
     }
   }
 
-  logger.info(table(selects));
+  logger.info(
+    `\n${table.toString()}\nloaded ${client.selects.size} select menus.`
+  );
 };

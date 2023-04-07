@@ -2,7 +2,7 @@ import { Bot } from '#structures';
 import { Event } from '#interfaces';
 import { getContents, logger } from '#utils';
 import { fileURLToPath } from 'url';
-import { table } from 'console';
+import { AsciiTable3, AlignmentEnum } from 'ascii-table3';
 
 /**
  * Loads all events from the 'events' directory and adds them to the client's 'events' collection.
@@ -14,8 +14,11 @@ export const loadEvents = async (client: Bot): Promise<void> => {
   const dirname = fileURLToPath(new URL('../events', import.meta.url));
   // Get an array of all event files in the 'events' directory and its subdirectories.
   const contents = await getContents<{ event: Event }>(dirname);
-  // Instantiates an array of all successfully loaded events.
-  const events = [];
+  // Instantiates the ascii table renderer.
+  const table = new AsciiTable3('events')
+    .setHeading('name', 'status')
+    .setAlignCenter(AlignmentEnum.CENTER)
+    .setStyle('compact');
 
   for (const content of contents) {
     try {
@@ -32,7 +35,7 @@ export const loadEvents = async (client: Bot): Promise<void> => {
 
       // Add the event object to the client's 'events' collection, with its name as the key.
       client.events.set(event.name, event);
-      events.push({ event: event.name, status: '🟩' });
+      table.addRow(event.name, '🟩');
     } catch (e) {
       logger.error(
         `error exporting events, last export: ${client.events.last()?.name}`
@@ -40,5 +43,5 @@ export const loadEvents = async (client: Bot): Promise<void> => {
     }
   }
 
-  logger.info(table(events));
+  logger.info(`\n${table.toString()}\nloaded ${client.events.size} events.`);
 };
