@@ -22,9 +22,9 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
       - name: Install dependencies
-        run: pnpm ci
+        run: pnpm install
       - name: Run ESLint
-        run: pnpm run lint
+        run: pnpm run linthot
   typescript:
     name: Typescript
     runs-on: ubuntu-latest
@@ -42,6 +42,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
       - name: Install dependencies
-        run: pnpm ci
+        run: pnpm install
       - name: Run ESLint
         run: pnpm run test:ts
