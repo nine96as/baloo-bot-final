@@ -19,6 +19,7 @@ export const event = {
       // If modal exists, tries to carry out "execute" function.
       try {
         await modal.execute(interaction as ModalSubmitInteraction, client);
+        logger.info(`modal ${modal.customId} executed.`);
       } catch (e) {
         logger.error(e);
         if (interaction.replied || interaction.deferred) {

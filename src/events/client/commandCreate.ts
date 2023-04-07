@@ -33,6 +33,7 @@ export const event = {
           update: { userId: user.id, guildId: guildId }
         });
         await command.execute(interaction as CommandInteraction, client);
+        logger.info(`command ${command.data.name} executed.`);
       } catch (e) {
         logger.error(e);
         if (interaction.replied || interaction.deferred) {
@@ -66,6 +67,9 @@ export const event = {
         await command.autocomplete(
           interaction as AutocompleteInteraction,
           client
+        );
+        logger.info(
+          `autocomplete interaction for ${command.data.name} executed.`
         );
       } catch (e) {
         logger.error(e);

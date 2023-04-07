@@ -2,7 +2,7 @@ import { Bot } from '#structures';
 import { Button } from '#interfaces';
 import { getContents, logger } from '#utils';
 import { fileURLToPath } from 'url';
-import { table } from 'console';
+import { AsciiTable3, AlignmentEnum } from 'ascii-table3';
 
 /**
  * Loads all buttons from the 'buttons' directory and adds them to the client's 'buttons' collection.
@@ -14,8 +14,11 @@ export const loadButtons = async (client: Bot): Promise<void> => {
   const dirname = fileURLToPath(new URL('../buttons', import.meta.url));
   // Get an array of all button files in the 'buttons' directory and its subdirectories.
   const contents = await getContents<{ button: Button }>(dirname);
-  // Instantiates an array of all successfully loaded buttons.
-  const buttons = [];
+  // Instantiates the ascii table renderer.
+  const table = new AsciiTable3('buttons')
+    .setHeading('name', 'status')
+    .setAlignCenter(AlignmentEnum.CENTER)
+    .setStyle('compact');
 
   for (const content of contents) {
     // Extract the button object from the content object.
@@ -31,7 +34,7 @@ export const loadButtons = async (client: Bot): Promise<void> => {
       // Add the button object to the client's 'buttons' collection, with its customId as the key.
       try {
         client.buttons.set(button.customId, button);
-        buttons.push({ button: button.customId, status: '🟩' });
+        table.addRow(button.customId, '🟩');
       } catch (e) {
         `error exporting buttons, last export: ${
           client.buttons.last()?.customId
@@ -40,5 +43,5 @@ export const loadButtons = async (client: Bot): Promise<void> => {
     }
   }
 
-  logger.info(table(buttons));
+  logger.info(`\n${table.toString()}\nloaded ${client.buttons.size} buttons.`);
 };
