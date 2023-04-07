@@ -23,6 +23,8 @@ jobs:
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install
+      - name: Initialise Prisma
+        run: pnpm run prisma:generate
       - name: Run ESLint
         run: pnpm run lint
   typescript:
@@ -43,5 +45,7 @@ jobs:
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install
+      - name: Initialise Prisma
+        run: pnpm run prisma:generate
       - name: Run ESLint
         run: pnpm run test:ts

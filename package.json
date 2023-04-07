@@ -17,6 +17,7 @@
     "lint": "eslint --fix .",
     "test:ts": "tsc --noEmit",
     "test": "npm run lint && npm run test:ts",
+    "prisma:generate": "npx prisma db pull && prisma generate",
     "db:push": "npx prisma db push",
     "build": "rimraf ./lib/ && tsc",
     "start": "node --enable-source-maps .",
