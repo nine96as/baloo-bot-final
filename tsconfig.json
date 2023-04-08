@@ -8,7 +8,6 @@
     "moduleResolution": "node",
     "baseUrl": "src",
     "paths": {
-      "#*": ["*/index.ts"],
       "#handlers": ["handlers/index.ts"],
       "#assets": ["assets/index.ts"],
       "#utils": ["utils/index.ts"],
