@@ -8,16 +8,18 @@ export const event = {
   execute: async (_client: Bot, guild: Guild) => {
     if (!guild || !guild.id) return;
 
+    const { id, name } = guild;
+
     try {
       await prisma.guild
         .upsert({
-          where: { guildId: guild.id },
-          create: { guildId: guild.id },
-          update: { guildId: guild.id }
+          where: { guildId: id },
+          create: { guildId: id },
+          update: { guildId: id }
         })
         .then(() => {
           logger.info(
-            `joined ${guild.name} (${guild.id}), and successfully created a record in the database.`,
+            `joined guild [${name}] (${id}), and successfully created a reference in the database.`,
             { label: 'event' }
           );
         });
