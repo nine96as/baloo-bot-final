@@ -1,13 +1,21 @@
-import { Message, Events } from 'discord.js';
+import { Message, Events, ChannelType } from 'discord.js';
 import { Bot } from '#structures';
 import { EmojiEmbed, Event } from '#interfaces';
-import { sendAfkReturnMessage, sendAfkMentionMessage } from '#utils';
+import {
+  sendAfkReturnMessage,
+  sendAfkMentionMessage,
+  sendChatbotMessage
+} from '#utils';
 import { emojis } from '#assets';
 
 export const event = {
   name: Events.MessageCreate,
-  execute: async (_client: Bot, message: Message) => {
+  execute: async (client: Bot, message: Message) => {
     if (message.author.bot) return;
+
+    if (message.channel.type === ChannelType.PrivateThread) {
+      sendChatbotMessage(message, client);
+    }
 
     sendAfkReturnMessage(
       message,
