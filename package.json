@@ -1,11 +1,10 @@
 {
-  "name": "baloo",
+  "name": "baloo-bot-final",
   "version": "0.9.5",
-  "description": "a discord bot made using discord.js",
+  "description": "A multi-purpose Discord bot built with discord.js and TypeScript",
   "type": "module",
-  "main": "lib",
+  "main": "lib/index.js",
   "imports": {
-    "#*": "./lib/*/index.js",
     "#handlers": "./lib/handlers/index.js",
     "#assets": "./lib/assets/index.js",
     "#utils": "./lib/utils/index.js",
