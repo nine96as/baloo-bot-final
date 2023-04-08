@@ -9,14 +9,14 @@ datasource db {
 }
 
 model User {
-  id        Int        @id @default(autoincrement())
-  createdAt DateTime   @default(now())
-  guildId   String
-  updatedAt DateTime   @updatedAt
-  userId    String     @unique
-  guild     Guild      @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
-  roles     Role[]
-  AfkSystem AfkSystem?
+  id            Int             @id @default(autoincrement())
+  createdAt     DateTime        @default(now())
+  guildId       String
+  updatedAt     DateTime        @updatedAt
+  userId        String          @unique
+  guild         Guild           @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
+  ChatbotSystem ChatbotSystem[]
+  AfkSystem     AfkSystem?
 
   @@index([guildId])
 }
@@ -27,11 +27,12 @@ model Guild {
   guildId        String           @unique
   updatedAt      DateTime         @updatedAt
   channels       Channel[]
+  threads        Thread[]
   users          User[]
-  roles          Role[]
   WelcomeSystem  WelcomeSystem?
   LeaveSystem    LeaveSystem?
   LogSystem      LogSystem?
+  ChatbotSystem  ChatbotSystem[]
   AfkSystem      AfkSystem[]
   LockdownSystem LockdownSystem[]
 }
@@ -43,25 +44,27 @@ model Channel {
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
   guild          Guild           @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
+  threads        Thread[]
   WelcomeSystem  WelcomeSystem?
   LeaveSystem    LeaveSystem?
   LogSystem      LogSystem?
   LockdownSystem LockdownSystem?
+  ChatbotSystem  ChatbotSystem[]
 
   @@index([guildId])
 }
 
-model Role {
-  id          Int      @id @default(autoincrement())
-  description String
-  emoji       String
-  guildId     String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  guild       Guild    @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
-  users       User[]
+model Thread {
+  id            Int            @id @default(autoincrement())
+  guildId       String
+  channelId     String
+  threadId      String         @unique
+  guild         Guild          @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
+  channel       Channel        @relation(fields: [channelId], references: [channelId], onDelete: Cascade)
+  ChatbotSystem ChatbotSystem?
 
   @@index([guildId])
+  @@index([channelId])
 }
 
 model WelcomeSystem {
@@ -100,6 +103,24 @@ model LogSystem {
   @@index([guildId])
 }
 
+model ChatbotSystem {
+  id        Int      @id @default(autoincrement())
+  guildId   String
+  channelId String
+  threadId  String   @unique
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  guild     Guild    @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
+  channel   Channel  @relation(fields: [channelId], references: [channelId], onDelete: Cascade)
+  thread    Thread   @relation(fields: [threadId], references: [threadId], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  @@index([guildId])
+  @@index([channelId])
+  @@index([userId])
+}
+
 model AfkSystem {
   id        Int      @id @default(autoincrement())
   guildId   String
@@ -124,13 +145,4 @@ model LockdownSystem {
   channel   Channel  @relation(fields: [channelId], references: [channelId], onDelete: Cascade)
 
   @@index([guildId])
-}
-
-model RoleToUser {
-  A Int
-  B Int
-
-  @@unique([A, B], map: "_RoleToUser_AB_unique")
-  @@index([B], map: "_RoleToUser_B_index")
-  @@map("_RoleToUser")
 }
