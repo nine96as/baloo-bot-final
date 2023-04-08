@@ -9,5 +9,6 @@ export * from './welcomeSystem/sendWelcomeMessage.js';
 export * from './leaveSystem/sendLeaveMessage.js';
 export * from './afkSystem/sendAfkReturnMessage.js';
 export * from './afkSystem/sendAfkMentionMessage.js';
+export * from './chatbotSystem/sendChatbotMessage.js';
 export * from './getMembers.js';
 export * from './getRandomInt.js';
