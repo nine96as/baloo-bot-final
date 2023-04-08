@@ -1,12 +1,12 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
 import { Bot } from '#structures';
-import { Command, Embed, ErrorEmbed } from '#interfaces';
+import { Command, Embed, WarnEmbed } from '#interfaces';
 
 export const command = {
   folder: 'utility',
   data: new SlashCommandBuilder()
     .setName('ask')
-    .setDescription('ask anything!')
+    .setDescription('🗨️ ask a question to the bot!')
     .addStringOption((option) =>
       option
         .setName('question')
@@ -29,7 +29,7 @@ export const command = {
 
       if (!question) {
         return interaction.reply({
-          embeds: [new ErrorEmbed('***noQuestionProvided***')],
+          embeds: [new WarnEmbed('***No question was provided.***')],
           ephemeral: true
         });
       }
