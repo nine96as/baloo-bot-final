@@ -8,10 +8,12 @@ export const event = {
   execute: async (_client: Bot, guild: Guild) => {
     if (!guild || !guild.id) return;
 
+    const { id, name } = guild;
+
     try {
-      await prisma.guild.delete({ where: { guildId: guild.id } }).then(() => {
+      await prisma.guild.delete({ where: { guildId: id } }).then(() => {
         logger.info(
-          `left ${guild.name} (${guild.id}), and successfully deleted the records in the database.`,
+          `left guild [${name}] (${id}), and successfully deleted the records in the database.`,
           { label: 'event' }
         );
       });
