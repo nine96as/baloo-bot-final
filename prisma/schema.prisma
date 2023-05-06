@@ -14,7 +14,7 @@ model User {
   guildId       String
   updatedAt     DateTime        @updatedAt
   userId        String          @unique
-  guild         Guild           @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
+  guild         Guild           @relation(fields: [guildId], references: [guildId])
   ChatbotSystem ChatbotSystem[]
   AfkSystem     AfkSystem?
 
@@ -43,7 +43,7 @@ model Channel {
   channelId      String          @unique
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
-  guild          Guild           @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
+  guild          Guild           @relation(fields: [guildId], references: [guildId])
   threads        Thread[]
   WelcomeSystem  WelcomeSystem?
   LeaveSystem    LeaveSystem?
@@ -59,8 +59,8 @@ model Thread {
   guildId       String
   channelId     String
   threadId      String         @unique
-  guild         Guild          @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
-  channel       Channel        @relation(fields: [channelId], references: [channelId], onDelete: Cascade)
+  guild         Guild          @relation(fields: [guildId], references: [guildId])
+  channel       Channel        @relation(fields: [channelId], references: [channelId])
   ChatbotSystem ChatbotSystem?
 
   @@index([guildId])
@@ -73,10 +73,11 @@ model WelcomeSystem {
   channelId String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  guild     Guild    @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
-  channel   Channel  @relation(fields: [channelId], references: [channelId], onDelete: Cascade)
+  guild     Guild    @relation(fields: [guildId], references: [guildId])
+  channel   Channel  @relation(fields: [channelId], references: [channelId])
 
   @@index([guildId])
+  @@index([channelId])
 }
 
 model LeaveSystem {
@@ -85,10 +86,11 @@ model LeaveSystem {
   channelId String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  guild     Guild    @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
-  channel   Channel  @relation(fields: [channelId], references: [channelId], onDelete: Cascade)
+  guild     Guild    @relation(fields: [guildId], references: [guildId])
+  channel   Channel  @relation(fields: [channelId], references: [channelId])
 
   @@index([guildId])
+  @@index([channelId])
 }
 
 model LogSystem {
@@ -97,10 +99,11 @@ model LogSystem {
   channelId String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  guild     Guild    @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
-  channel   Channel  @relation(fields: [channelId], references: [channelId], onDelete: Cascade)
+  guild     Guild    @relation(fields: [guildId], references: [guildId])
+  channel   Channel  @relation(fields: [channelId], references: [channelId])
 
   @@index([guildId])
+  @@index([channelId])
 }
 
 model ChatbotSystem {
@@ -111,13 +114,14 @@ model ChatbotSystem {
   userId    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  guild     Guild    @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
-  channel   Channel  @relation(fields: [channelId], references: [channelId], onDelete: Cascade)
-  thread    Thread   @relation(fields: [threadId], references: [threadId], onDelete: Cascade)
-  user      User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  guild     Guild    @relation(fields: [guildId], references: [guildId])
+  channel   Channel  @relation(fields: [channelId], references: [channelId])
+  thread    Thread   @relation(fields: [threadId], references: [threadId])
+  user      User     @relation(fields: [userId], references: [userId])
 
   @@index([guildId])
   @@index([channelId])
+  @@index([threadId])
   @@index([userId])
 }
 
@@ -128,10 +132,11 @@ model AfkSystem {
   status    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  guild     Guild    @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
-  user      User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  guild     Guild    @relation(fields: [guildId], references: [guildId])
+  user      User     @relation(fields: [userId], references: [userId])
 
   @@index([guildId])
+  @@index([userId])
 }
 
 model LockdownSystem {
@@ -141,8 +146,9 @@ model LockdownSystem {
   duration  Int?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  guild     Guild    @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
-  channel   Channel  @relation(fields: [channelId], references: [channelId], onDelete: Cascade)
+  guild     Guild    @relation(fields: [guildId], references: [guildId])
+  channel   Channel  @relation(fields: [channelId], references: [channelId])
 
   @@index([guildId])
+  @@index([channelId])
 }
