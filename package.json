@@ -46,7 +46,7 @@
   "dependencies": {
     "@iamtraction/google-translate": "^2.0.1",
     "@logtail/pino": "^0.4.0",
-    "@prisma/client": "^4.13.0",
+    "@prisma/client": "^5.10.1",
     "ascii-table3": "^0.8.2",
     "canvas": "^2.11.2",
     "discord-together": "^1.3.31",
